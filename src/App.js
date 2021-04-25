@@ -1,23 +1,16 @@
 import logo from './logo.svg';
 import './App.css';
+import Title from './components/Title'
+import TemplateList from './containers/TemplateList';
 
 function App() {
+  const data = [{'name':'Nom 1', 'xml_id': 'som_polissa.primera'},{'name':'Nom 1', 'xml_id': 'som_polissa.primera'}]
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Title/>
       </header>
+        <TemplateList templateList={data} />
     </div>
   );
 }
