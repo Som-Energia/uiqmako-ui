@@ -3,7 +3,8 @@ import Title from '../components/Title'
 import { createTemplate } from '../services/api'
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, TextField, Typography, Button } from '@material-ui/core';
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
+import TemplateInfo from '../components/TemplateInfo';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -32,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
   singleButton: {
       width: "15%",
       margin: "1%"
+  },
+  resultPaper: {
+
   }
   }));
 function NewTemplateForm() {
@@ -39,34 +43,51 @@ function NewTemplateForm() {
     const [xml_id, setXmlId] = useState('')
     const [isLoading, setIsLoading] = useState(true)
     const [data, setData] = useState([])
+    const [redirect, setRedirect] = useState(false)
 
 
     const inputChange = (event) => {
         setXmlId(event.target.value)
         //TODO: call api
     }
-    const redirectResponse = (response) => {
-      console.log("redireeect")
-      return (<div>Holaa</div>)
-    }
     const handleCreateTemplate = (event) => {
       event.preventDefault();
-      console.log("New Entro??")
       console.log(xml_id)
       createTemplate(xml_id)
         .then((response) => {
           setData(response)
           console.log(response)
           setIsLoading(false)
-          console.log("respostaa")
-
-          redirectResponse(response)
-          return (<div>Holaa</div>)
+          setRedirect(true)
         })
         .catch((error) => {
           console.log(error)
           setIsLoading(false)
         })
+    }
+    if (redirect) {
+      console.log(data)
+      var text = (data?.created ? "Plantilla creada correctament" :
+        (data?.conflict ? "Ja existeix una plantilla algun camp coincident" :
+        "Ja existeix aquesta plantilla"
+        ));
+
+      if(redirect)
+      return (
+        <div>
+          <Typography className={classes.title} variant="h3">{text}</Typography>
+          <TemplateInfo item={data.template}/>
+          <Button
+                    variant="outlined"
+                    to={{ pathname: "/"}}
+                    component={Link}
+                    color="primary"
+                    className={classes.singleButton}
+                  >
+                    Tornar a la llista
+                  </Button>
+        </div>
+      )
     }
     return (
       <div>
