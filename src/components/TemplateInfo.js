@@ -2,7 +2,6 @@ import {React, Component} from 'react'
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import styled from 'styled-components'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -16,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   flexDiv: {
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
 
   },
   name: {
@@ -39,7 +38,6 @@ function TemplateInfo(props) {
       <div className={classes.flexDiv}>
         <Typography variant="subtitle1" className={classes.info}>model: {model}</Typography>
         <Typography variant="subtitle1" className={classes.info}>xml_id: {xml_id}</Typography>
-        <Typography variant="subtitle1" className={classes.info}>id: {id}</Typography>
       </div>
       </Paper>
     </div>

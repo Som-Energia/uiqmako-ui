@@ -15,3 +15,15 @@ export const getTemplateList = async () => {
       return response?.data
     })
   }
+
+export const createTemplate = async (data) => {
+    const url = `http://localhost:8000/templates`
+    var bodyFormData = new FormData()
+    console.log(data)
+    bodyFormData.append('xml_id', data)
+    console.log(bodyFormData.get('xml_id'))
+    console.log("entrooeeeeeeeeee")
+    return axios({ method: 'POST', url, data: bodyFormData }).then((response) => {
+      return response?.data
+    })
+  }
