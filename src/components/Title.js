@@ -1,13 +1,13 @@
-import {React, Component} from 'react'
+import { React, Component } from 'react'
 
 class Title extends Component {
-    render() {
-      return (
-        <div>
-          <h1>UI-QMako</h1>
-        </div>
-      );
-    }
+  render() {
+    return (
+      <div>
+        <img width="40%" src="/logo_trans_tot.png"></img>
+      </div>
+    )
   }
+}
 
 export default Title
