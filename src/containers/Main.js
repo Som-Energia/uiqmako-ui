@@ -1,13 +1,12 @@
 import Title from '../components/Title'
-import TemplateList from './TemplateList';
+import TemplateList from './TemplateList'
 
 function Main() {
-
   return (
     <div>
-        <TemplateList/>
+      <TemplateList />
     </div>
-  );
+  )
 }
 
-export default Main;
+export default Main
