@@ -26,7 +26,6 @@ export const getSingleTemplate = async (template_id) => {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': 'http://localhost:*',
   }
-  console.log('entroo')
   return axios({ method: 'GET', url, headers }).then((response) => {
     return response?.data
   })

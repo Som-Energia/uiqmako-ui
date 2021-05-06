@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import TemplateInfo from './TemplateInfo'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles'
@@ -41,8 +40,6 @@ function TemplateHeaders(props) {
   const { enabledFields, headers } = props
   const [modifiedFields, setFields] = useState(headers)
   const classes = useStyles()
-
-  console.log('mod', modifiedFields)
 
   return (
     <Paper>

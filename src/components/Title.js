@@ -1,13 +1,11 @@
-import { React, Component } from 'react'
+import React from 'react'
 
-class Title extends Component {
-  render() {
-    return (
-      <div>
-        <img width="40%" src="/logo_trans_tot.png"></img>
-      </div>
-    )
-  }
+function Title(props) {
+  return (
+    <div>
+      <img width="40%" src="/logo_trans_tot.png" alt="logo"></img>
+    </div>
+  )
 }
 
 export default Title

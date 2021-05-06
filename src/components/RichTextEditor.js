@@ -1,12 +1,12 @@
 import { React, useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
-import SunEditor, { buttonList } from 'suneditor-react'
-import { getSingleTemplate } from '../services/api'
+import SunEditor from 'suneditor-react'
+import { getSingleTemplate } from 'services/api'
 import 'suneditor/dist/css/suneditor.min.css' // Import Sun Editor's CSS File
 import { Paper } from '@material-ui/core'
 import { TextareaAutosize } from '@material-ui/core'
-import TemplateHeaders from './TemplateHeaders'
+import TemplateHeaders from 'components/TemplateHeaders'
 import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
 import AccordionDetails from '@material-ui/core/AccordionDetails'
@@ -61,7 +61,6 @@ function RichTextEditor(props) {
     let editorsTextsCopy = [...editorsTexts]
     editorsTextsCopy[index][1] = text
     setTexts(editorsTextsCopy)
-    console.log(editorsTexts)
   }
   const handleSave = (text, isChanged) => {}
   return (
@@ -124,11 +123,7 @@ function RichTextEditor(props) {
           </Paper>
         </AccordionDetails>
       </Accordion>
-      <Button
-        color="primary"
-        variant="contained"
-        onClick={(event) => console.log('editortext', editorsTexts)}
-      >
+      <Button color="primary" variant="contained" onClick={(event) => {}}>
         Guardar Canvis
       </Button>
     </Paper>

@@ -1,4 +1,4 @@
-import { React, Component } from 'react'
+import React from 'react'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
@@ -6,7 +6,6 @@ import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    margin: '2rem',
     width: '80%',
     padding: '2rem',
     margin: '0 auto',

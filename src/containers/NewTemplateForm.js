@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import Title from '../components/Title'
-import { createTemplate } from '../services/api'
+import React, { useState } from 'react'
+import { createTemplate } from 'services/api'
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper, TextField, Typography, Button } from '@material-ui/core'
-import { Link, Redirect } from 'react-router-dom'
-import TemplateInfo from '../components/TemplateInfo'
+import { useHistory } from 'react-router-dom'
+import TemplateInfo from 'components/TemplateInfo'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    margin: '2rem',
     width: '80%',
     padding: '2rem',
     margin: '0 auto',
@@ -41,6 +39,7 @@ function NewTemplateForm() {
   const [isLoading, setIsLoading] = useState(true)
   const [data, setData] = useState([])
   const [redirect, setRedirect] = useState(false)
+  const history = useHistory()
 
   const inputChange = (event) => {
     setXmlId(event.target.value)
@@ -74,8 +73,9 @@ function NewTemplateForm() {
           <TemplateInfo item={data.template} />
           <Button
             variant="outlined"
-            to={{ pathname: '/' }}
-            component={Link}
+            onClick={(e) => {
+              history.push('/')
+            }}
             color="primary"
             className={classes.singleButton}
           >
@@ -106,8 +106,9 @@ function NewTemplateForm() {
           <div className={classes.buttons}>
             <Button
               variant="outlined"
-              to={{ pathname: '/' }}
-              component={Link}
+              onClick={(e) => {
+                history.push('/')
+              }}
               color="primary"
               className={classes.singleButton}
             >

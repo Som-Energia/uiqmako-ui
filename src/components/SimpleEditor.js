@@ -2,9 +2,8 @@ import { React, useEffect, useState } from 'react'
 import { TextareaAutosize } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useParams } from 'react-router-dom'
-import { getSingleTemplate } from '../services/api'
-import RichTextEditor from './RichTextEditor'
-import TemplateHeaders from './TemplateHeaders'
+import { getSingleTemplate } from 'services/api'
+import TemplateHeaders from 'components/TemplateHeaders'
 import Accordion from '@material-ui/core/Accordion'
 import Paper from '@material-ui/core/Paper'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
@@ -36,14 +35,11 @@ function SimpleEditor(props) {
         setData(response)
         setIsLoading(false)
         setText(response.template.def_body_text)
-        console.log('eeoo', response)
       })
       .catch((error) => {
         setIsLoading(false)
       })
   }, [id])
-  console.log('headrers', headersData)
-  console.log('simple data', data)
   return (
     <Paper className={classes.container}>
       <Accordion>
@@ -80,11 +76,7 @@ function SimpleEditor(props) {
           />
         </AccordionDetails>
       </Accordion>
-      <Button
-        color="primary"
-        variant="contained"
-        onClick={(event) => console.log('editortext', editorText)}
-      >
+      <Button color="primary" variant="contained" onClick={(event) => {}}>
         Guardar Canvis
       </Button>
     </Paper>

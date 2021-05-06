@@ -1,4 +1,4 @@
-import { React, Component, useEffect, useState } from 'react'
+import { React, useEffect, useState } from 'react'
 import TemplateInfo from 'components/TemplateInfo'
 import { getTemplateList } from 'services/api'
 import Box from '@material-ui/core/Box'
