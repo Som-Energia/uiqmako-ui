@@ -1,9 +1,11 @@
-import React, { Component, Suspense } from 'react'
+import React, { Suspense } from 'react'
 import { ThemeProvider } from '@material-ui/styles'
 import { createMuiTheme } from '@material-ui/core/styles'
-import './App.css'
-import Routes from './routes'
-import Title from './components/Title'
+import 'App.css'
+import Routes from 'routes'
+import Title from 'components/Title'
+import useToken from 'useToken'
+import Login from 'components/LogIn'
 import { blue, indigo } from '@material-ui/core/colors'
 
 const theme = createMuiTheme({
@@ -21,21 +23,23 @@ const theme = createMuiTheme({
   },
 })
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <Title />
-        </header>
+function App(props) {
+  const { token, setToken } = useToken()
+
+  return (
+    <div className="App">
+      <header className="App-header">
+        <Title />
+      </header>
+      {(token && (
         <ThemeProvider theme={theme}>
           <Suspense fallback={<></>}>
             <Routes />
           </Suspense>
         </ThemeProvider>
-      </div>
-    )
-  }
+      )) || <Login setToken={setToken} />}
+    </div>
+  )
 }
 
 export default App
