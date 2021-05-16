@@ -16,13 +16,9 @@ function Routes(props) {
     return <SingleTemplate {...props} />
   }
 
-  const LoadEditSimple = () => {
-    const SimpleEditor = lazy(() => import('./components/SimpleEditor'))
-    return <SimpleEditor {...props} />
-  }
-  const LoadEditComplex = () => {
-    const RichTextEditor = lazy(() => import('components/RichTextEditor'))
-    return <RichTextEditor {...props} />
+  const LoadEditor = () => {
+    const Editor = lazy(() => import('./components/Editor'))
+    return <Editor {...props} />
   }
 
   return (
@@ -31,8 +27,7 @@ function Routes(props) {
         <Route exact path="/" render={loadMainPage} />
         <Route exact path="/newTemplate" render={loadNewTemplateForm} />
         <Route exact path="/templates/:id" render={LoadSingleTemplate} />
-        <Route exact path="/editSimple/:id" render={LoadEditSimple} />
-        <Route exact path="/editComplex/:id" render={LoadEditComplex} />
+        <Route exact path="/edit/:editor/:id" render={LoadEditor} />
       </Switch>
     </Router>
   )

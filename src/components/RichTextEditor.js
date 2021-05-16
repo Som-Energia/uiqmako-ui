@@ -54,132 +54,58 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function RichTextEditor(props) {
-  const [editorsTexts, setTexts] = useState([[]])
+  const [modifiedTexts, setModifiedTexts] = useState([[]])
   const classes = useStyles()
   const { id } = useParams()
-  const [data, setData] = useState([])
-  const [saveEditsResponse, setSaveEditsResponse] = useState([])
+  const { data } = props
   const [isLoading, setIsLoading] = useState(true)
-  const [isHTMLallowed, setIsHTMLallowed] = useState(false)
-  const [disabledEditors, setDisabledEditors] = useState([])
-  const [headersData, setHeadersdData] = useState({})
   const history = useHistory()
 
   useEffect(() => {
-    startEditing(id)
-      .then((response) => {
-        setData(response)
-        setIsLoading(false)
-        setTexts(response.text.by_type)
-        setHeadersdData(Object.assign({}, response.headers, response.meta_data))
-        console.log('abans', response)
-        setDisabledEditors(Array(response.text.by_type.length).fill(false))
-        if (response.allowed_fields.includes('html')) {
-          setIsHTMLallowed(true)
-        }
-      })
-      .catch((error) => {
-        setIsLoading(false)
-      })
-  }, [id])
-  const handleChange = (text, index) => {
-    let editorsTextsCopy = [...editorsTexts]
-    editorsTextsCopy[index][1] = text
-    setTexts(editorsTextsCopy)
-  }
-  const saveChanges = (e) => {
-    saveEditChanges(id, '', editorsTexts, headersData)
-      .then((response) => {
-        setSaveEditsResponse(response?.result)
-        setIsLoading(false)
-        if (response?.result) {
-          history.push('/')
-        }
-        // setTexts(response.text.by_type)
-      })
-      .catch((error) => {
-        setIsLoading(false)
-      })
-  }
-  console.log('abansfora', disabledEditors)
+    setModifiedTexts(data?.text?.by_type)
+  }, [data?.meta_data?.id])
 
-  const updateDisabled = (isCodeView, index) => {
-    let value = false
-    console.log('en a uncio', data)
-    console.log('abans', index, disabledEditors)
-    if (isCodeView && !isHTMLallowed) {
-      value = true
-      console.log('hodsa')
-    }
-    let copy = [...disabledEditors]
-    console.log('copy', copy)
-    copy[index] = value
-    setDisabledEditors(copy)
-    console.log(disabledEditors[index])
+  const handleChange = (text, index) => {
+    let modifiedTextsCopy = [...modifiedTexts]
+    modifiedTextsCopy[index][1] = text
+    props.setEditorText(modifiedTextsCopy)
   }
 
   return (
-    <Paper className={classes.container}>
-      <TemplateHeaders
-        passChildData={setHeadersdData}
-        enabledFields={data?.allowed_fields}
-        headers={headersData}
-      />
-
-      <Accordion defaultExpanded>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>Cos del correu</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div style={{ display: 'inline-block', width: '100%' }}>
-            <div className={classes.editorsList}>
-              {editorsTexts?.length > 0 &&
-                editorsTexts?.map(
-                  (item, index) =>
-                    (item[0] === 'html' && (
-                      <SunEditor
-                        key={index}
-                        className={classes.editorComplex}
-                        id={index}
-                        setContents={item[1]}
-                        toggleCodeView={(isCodeView) =>
-                          updateDisabled(isCodeView, index)
-                        }
-                        disabled={disabledEditors[index]}
-                        onChange={(e) => handleChange(e, index)}
-                        setDefaultStyle="text-align: left; display: inline-block"
-                        //minHeight={'100px'}
-                        height={'auto'}
-                        setOptions={{
-                          mode: 'inline',
-                          buttonList: editorButtons,
-                        }}
-                      />
-                    )) || (
-                      <TextareaAutosize
-                        id={index}
-                        value={(data && item[1]) || 'Text'}
-                        onChange={(e) => handleChange(e.target.value, index)}
-                        className={classes.editorSimple}
-                        disabled={!data?.allowed_fields?.includes('python')}
-                        //rowsMin={10}
-                        rowsMax={10}
-                        width="80%"
-                      />
-                    )
-                )}
-            </div>
-          </div>
-        </AccordionDetails>
-      </Accordion>
-      <Button color="primary" variant="contained" onClick={saveChanges}>
-        Guardar Canvis
-      </Button>
-    </Paper>
+    <div className={classes.editorsList}>
+      {modifiedTexts?.length > 0 &&
+        modifiedTexts?.map(
+          (item, index) =>
+            (item[0] === 'html' && (
+              <SunEditor
+                key={index}
+                className={classes.editorComplex}
+                id={index}
+                setContents={item[1]}
+                onChange={(e) => handleChange(e, index)}
+                setDefaultStyle="text-align: left; display: inline-block"
+                //minHeight={'100px'}
+                height={'auto'}
+                setOptions={{
+                  mode: 'inline',
+                  buttonList: editorButtons,
+                }}
+              />
+            )) || (
+              <TextareaAutosize
+                id={index}
+                key={index}
+                value={(data && item[1]) || 'Text'}
+                onChange={(e) => handleChange(e.target.value, index)}
+                className={classes.editorSimple}
+                disabled={!data?.allowed_fields?.includes('python')}
+                //rowsMin={10}
+                rowsMax={10}
+                width="80%"
+              />
+            )
+        )}
+    </div>
   )
 }
 

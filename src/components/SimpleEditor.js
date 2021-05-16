@@ -24,70 +24,24 @@ const useStyles = makeStyles((theme) => ({
 
 function SimpleEditor(props) {
   const classes = useStyles()
-  const { id } = useParams()
-  const [data, setData] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [editorText, setText] = useState('')
-  const [headersData, setHeadersdData] = useState({})
-  const [saveEditsResponse, setSaveEditsResponse] = useState([])
-  const history = useHistory()
-
+  const { data, setEditorText } = props
+  const [modifiedText, setModifiedText] = useState('')
   useEffect(() => {
-    startEditing(id)
-      .then((response) => {
-        setData(response)
-        setIsLoading(false)
-        setText(response.text.def_body_text)
-        setHeadersdData(Object.assign({}, response.headers, response.meta_data))
-      })
-      .catch((error) => {
-        setIsLoading(false)
-      })
-  }, [id])
-  const saveChanges = (e) => {
-    saveEditChanges(id, editorText, [], headersData)
-      .then((response) => {
-        setSaveEditsResponse(response?.result)
-        setIsLoading(false)
-        if (response?.result) {
-          history.push('/')
-        }
-      })
-      .catch((error) => {
-        setIsLoading(false)
-      })
-  }
-  console.log('allowed', data.allowed_fields)
-  return (
-    <Paper className={classes.container}>
-      <TemplateHeaders
-        passChildData={setHeadersdData}
-        enabledFields={data?.allowed_fields}
-        headers={headersData}
-      />
+    setModifiedText(data?.text?.def_body_text)
+  }, [data?.meta_data?.id])
 
-      <Accordion defaultExpanded>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>Cos del correu</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <TextareaAutosize
-            value={editorText || 'Text'}
-            className={classes.editor}
-            rowsMin={10}
-            disabled={!data?.allowed_fields.includes('python')}
-            onChange={(event) => setText(event.target.value)}
-          />
-        </AccordionDetails>
-      </Accordion>
-      <Button color="primary" variant="contained" onClick={saveChanges}>
-        Guardar Canvis
-      </Button>
-    </Paper>
+  console.log('dis', data?.text?.def_body_text)
+  return (
+    <TextareaAutosize
+      value={modifiedText}
+      className={classes.editor}
+      rowsMin={10}
+      //disabled={props.disabledField}
+      onChange={(event) => {
+        setModifiedText(event.target.value)
+        setEditorText(event.target.value)
+      }}
+    />
   )
 }
 
