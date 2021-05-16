@@ -8,8 +8,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useHistory } from 'react-router-dom'
 import SingleTemplate from './SingleTemplate'
 import Modal from '@material-ui/core/Modal'
-import { Typography } from '@material-ui/core'
-import { Autorenew } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
   newTemplateButtom: {

@@ -2,17 +2,8 @@ import { React, useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import SunEditor from 'suneditor-react'
-import { startEditing, saveEditChanges } from 'services/api'
 import 'suneditor/dist/css/suneditor.min.css' // Import Sun Editor's CSS File
-import { Paper } from '@material-ui/core'
 import { TextareaAutosize } from '@material-ui/core'
-import TemplateHeaders from 'components/TemplateHeaders'
-import Accordion from '@material-ui/core/Accordion'
-import AccordionSummary from '@material-ui/core/AccordionSummary'
-import AccordionDetails from '@material-ui/core/AccordionDetails'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 let editorButtons = [
   ['undo', 'redo'],
@@ -56,10 +47,8 @@ const useStyles = makeStyles((theme) => ({
 function RichTextEditor(props) {
   const [modifiedTexts, setModifiedTexts] = useState([[]])
   const classes = useStyles()
-  const { id } = useParams()
   const { data } = props
   const [isLoading, setIsLoading] = useState(true)
-  const history = useHistory()
 
   useEffect(() => {
     setModifiedTexts(data?.text?.by_type)
@@ -84,7 +73,6 @@ function RichTextEditor(props) {
                 setContents={item[1]}
                 onChange={(e) => handleChange(e, index)}
                 setDefaultStyle="text-align: left; display: inline-block"
-                //minHeight={'100px'}
                 height={'auto'}
                 setOptions={{
                   mode: 'inline',
@@ -99,7 +87,6 @@ function RichTextEditor(props) {
                 onChange={(e) => handleChange(e.target.value, index)}
                 className={classes.editorSimple}
                 disabled={!data?.allowed_fields?.includes('python')}
-                //rowsMin={10}
                 rowsMax={10}
                 width="80%"
               />
