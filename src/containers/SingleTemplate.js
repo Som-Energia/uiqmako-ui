@@ -57,8 +57,7 @@ function SingleTemplate(props) {
           if (response.current_edits && response.current_edits.length !== 0) {
             setOpenDialog(true)
           } else {
-            console.log('*************************')
-            history.push(`/${chosenEditor}/${templateId}`)
+            history.push(`/edit/${chosenEditor}/${templateId}`)
           }
         })
         .catch((error) => {
@@ -88,7 +87,7 @@ function SingleTemplate(props) {
             Cancel·lar
           </Button>
           <Button
-            onClick={(e) => history.push(`/${chosenEditor}/${templateId}`)}
+            onClick={(e) => history.push(`/edit/${chosenEditor}/${templateId}`)}
             color="primary"
             autoFocus
           >
@@ -105,7 +104,7 @@ function SingleTemplate(props) {
         variant="contained"
         id="simple"
         onClick={(e) => {
-          setChosenEditor('editSimple')
+          setChosenEditor('simple')
         }}
       >
         Editor Simple
@@ -114,7 +113,7 @@ function SingleTemplate(props) {
         color="primary"
         variant="contained"
         id="0"
-        onClick={(e) => setChosenEditor('editComplex')}
+        onClick={(e) => setChosenEditor('complex')}
       >
         Editor HTML
       </Button>
