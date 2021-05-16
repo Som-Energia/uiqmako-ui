@@ -1,8 +1,8 @@
-import { React, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TextareaAutosize } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { useParams } from 'react-router-dom'
-import { getSingleTemplate } from 'services/api'
+import { useParams, useHistory } from 'react-router-dom'
+import { startEditing, saveEditChanges } from 'services/api'
 import TemplateHeaders from 'components/TemplateHeaders'
 import Accordion from '@material-ui/core/Accordion'
 import Paper from '@material-ui/core/Paper'
@@ -14,7 +14,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 const useStyles = makeStyles((theme) => ({
   editor: {
-    width: '80%',
+    width: '100%',
   },
   container: {
     margin: '1% 10%',
@@ -29,35 +29,43 @@ function SimpleEditor(props) {
   const [isLoading, setIsLoading] = useState(true)
   const [editorText, setText] = useState('')
   const [headersData, setHeadersdData] = useState({})
+  const [saveEditsResponse, setSaveEditsResponse] = useState([])
+  const history = useHistory()
+
   useEffect(() => {
-    getSingleTemplate(id)
+    startEditing(id)
       .then((response) => {
         setData(response)
         setIsLoading(false)
-        setText(response.template.def_body_text)
+        setText(response.text.def_body_text)
+        setHeadersdData(Object.assign({}, response.headers, response.meta_data))
       })
       .catch((error) => {
         setIsLoading(false)
       })
   }, [id])
+  const saveChanges = (e) => {
+    saveEditChanges(id, editorText, [], headersData)
+      .then((response) => {
+        setSaveEditsResponse(response?.result)
+        setIsLoading(false)
+        if (response?.result) {
+          history.push('/')
+        }
+      })
+      .catch((error) => {
+        setIsLoading(false)
+      })
+  }
+  console.log('allowed', data.allowed_fields)
   return (
     <Paper className={classes.container}>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>Capçaleres</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <TemplateHeaders
-            passChildData={setHeadersdData}
-            enabledFields={[]}
-            headers={data.template}
-          />
-        </AccordionDetails>
-      </Accordion>
+      <TemplateHeaders
+        passChildData={setHeadersdData}
+        enabledFields={data?.allowed_fields}
+        headers={headersData}
+      />
+
       <Accordion defaultExpanded>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -71,12 +79,12 @@ function SimpleEditor(props) {
             value={editorText || 'Text'}
             className={classes.editor}
             rowsMin={10}
-            width="80%"
+            disabled={!data?.allowed_fields.includes('python')}
             onChange={(event) => setText(event.target.value)}
           />
         </AccordionDetails>
       </Accordion>
-      <Button color="primary" variant="contained" onClick={(event) => {}}>
+      <Button color="primary" variant="contained" onClick={saveChanges}>
         Guardar Canvis
       </Button>
     </Paper>

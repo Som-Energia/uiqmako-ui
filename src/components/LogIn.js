@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
+import { doLogin } from 'services/api'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -23,15 +24,27 @@ const useStyles = makeStyles((theme) => ({
 
 function LogIn(props) {
   const classes = useStyles()
-  const [email, setEmail] = useState()
-  const [pasword, setPassword] = useState()
+  const [username, setUsername] = useState()
+  const [password, setPassword] = useState()
+  const [isInvalid, setisInvalid] = useState(false)
+  const [isLoading, setIsLoading] = useState()
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    props.setToken(
-      'tokentoken' //TODO: implement api call
-    )
+    doLogin(username, password)
+      .then((response) => {
+        props.setToken(response)
+        setIsLoading(false)
+      })
+      .catch((error) => {
+        if (error?.response?.status === 401) {
+          setisInvalid(true)
+        }
+        setIsLoading(false)
+        props.setToken('')
+      })
   }
+
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
@@ -42,19 +55,22 @@ function LogIn(props) {
           <TextField
             variant="outlined"
             margin="normal"
+            error={isInvalid}
+            helperText={isInvalid && 'Usuari o contrassenya incorrectes'}
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="username"
+            label="Username"
+            name="username"
             autoFocus
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
           />
           <TextField
             variant="outlined"
             margin="normal"
             required
+            error={isInvalid}
+            helperText={isInvalid && 'Usuari o contrassenya incorrectes'}
             fullWidth
             name="password"
             label="Password"

@@ -1,8 +1,8 @@
 import { React, useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import SunEditor from 'suneditor-react'
-import { getSingleTemplate } from 'services/api'
+import { startEditing, saveEditChanges } from 'services/api'
 import 'suneditor/dist/css/suneditor.min.css' // Import Sun Editor's CSS File
 import { Paper } from '@material-ui/core'
 import { TextareaAutosize } from '@material-ui/core'
@@ -14,44 +14,69 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
-const editorButtons = [
+let editorButtons = [
   ['undo', 'redo'],
-  ['fontSize', 'formatBlock'],
-  ['paragraphStyle', 'blockquote'],
+  [
+    ':p-More Paragraph-default.more_paragraph',
+    'font',
+    'fontSize',
+    'formatBlock',
+    'paragraphStyle',
+    'blockquote',
+  ],
   ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
   ['fontColor', 'hiliteColor'],
   ['outdent', 'indent'],
-  ['align', 'horizontalRule', 'list'],
+  ['align', 'horizontalRule', 'list', 'lineHeight'],
   ['table', 'link', 'image'],
   ['preview', 'codeView'],
 ]
+
 const useStyles = makeStyles((theme) => ({
-  editor: {
-    width: '100%',
+  editorSimple: {
+    width: '99.5%',
+    maxWidth: '99.5%',
+    margin: '1% 0',
+  },
+  editorComplex: {
+    borderColor: 'red',
   },
   container: {
     margin: '1%',
     textAlign: 'center',
   },
+  editorsList: {
+    // margin: '3% 3% 3% 3%',
+    width: '100%',
+    minWidth: '100%',
+    display: 'inline-block',
+  },
 }))
 
 function RichTextEditor(props) {
-  const [editorsTexts, setTexts] = useState([
-    ['html', 'Text'],
-    ['html', ' '],
-  ])
+  const [editorsTexts, setTexts] = useState([[]])
   const classes = useStyles()
   const { id } = useParams()
   const [data, setData] = useState([])
+  const [saveEditsResponse, setSaveEditsResponse] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isHTMLallowed, setIsHTMLallowed] = useState(false)
+  const [disabledEditors, setDisabledEditors] = useState([])
   const [headersData, setHeadersdData] = useState({})
+  const history = useHistory()
 
   useEffect(() => {
-    getSingleTemplate(id)
+    startEditing(id)
       .then((response) => {
         setData(response)
         setIsLoading(false)
-        setTexts(response.body_text_by_type)
+        setTexts(response.text.by_type)
+        setHeadersdData(Object.assign({}, response.headers, response.meta_data))
+        console.log('abans', response)
+        setDisabledEditors(Array(response.text.by_type.length).fill(false))
+        if (response.allowed_fields.includes('html')) {
+          setIsHTMLallowed(true)
+        }
       })
       .catch((error) => {
         setIsLoading(false)
@@ -62,25 +87,45 @@ function RichTextEditor(props) {
     editorsTextsCopy[index][1] = text
     setTexts(editorsTextsCopy)
   }
-  const handleSave = (text, isChanged) => {}
+  const saveChanges = (e) => {
+    saveEditChanges(id, '', editorsTexts, headersData)
+      .then((response) => {
+        setSaveEditsResponse(response?.result)
+        setIsLoading(false)
+        if (response?.result) {
+          history.push('/')
+        }
+        // setTexts(response.text.by_type)
+      })
+      .catch((error) => {
+        setIsLoading(false)
+      })
+  }
+  console.log('abansfora', disabledEditors)
+
+  const updateDisabled = (isCodeView, index) => {
+    let value = false
+    console.log('en a uncio', data)
+    console.log('abans', index, disabledEditors)
+    if (isCodeView && !isHTMLallowed) {
+      value = true
+      console.log('hodsa')
+    }
+    let copy = [...disabledEditors]
+    console.log('copy', copy)
+    copy[index] = value
+    setDisabledEditors(copy)
+    console.log(disabledEditors[index])
+  }
+
   return (
     <Paper className={classes.container}>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>Capçaleres</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <TemplateHeaders
-            passChildData={setHeadersdData}
-            enabledFields={[]}
-            headers={data.template}
-          />
-        </AccordionDetails>
-      </Accordion>
+      <TemplateHeaders
+        passChildData={setHeadersdData}
+        enabledFields={data?.allowed_fields}
+        headers={headersData}
+      />
+
       <Accordion defaultExpanded>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -90,20 +135,27 @@ function RichTextEditor(props) {
           <Typography className={classes.heading}>Cos del correu</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Paper>
-            <ul className="list-template">
-              {editorsTexts.length > 0 &&
+          <div style={{ display: 'inline-block', width: '100%' }}>
+            <div className={classes.editorsList}>
+              {editorsTexts?.length > 0 &&
                 editorsTexts?.map(
                   (item, index) =>
                     (item[0] === 'html' && (
                       <SunEditor
+                        key={index}
+                        className={classes.editorComplex}
                         id={index}
                         setContents={item[1]}
+                        toggleCodeView={(isCodeView) =>
+                          updateDisabled(isCodeView, index)
+                        }
+                        disabled={disabledEditors[index]}
                         onChange={(e) => handleChange(e, index)}
-                        setDefaultStyle="text-align: left;"
-                        height={(item[1].lenght > 20 && '500px') || '200px'}
+                        setDefaultStyle="text-align: left; display: inline-block"
+                        //minHeight={'100px'}
+                        height={'auto'}
                         setOptions={{
-                          callBackSave: handleSave,
+                          mode: 'inline',
                           buttonList: editorButtons,
                         }}
                       />
@@ -112,18 +164,19 @@ function RichTextEditor(props) {
                         id={index}
                         value={(data && item[1]) || 'Text'}
                         onChange={(e) => handleChange(e.target.value, index)}
-                        className={classes.editor}
+                        className={classes.editorSimple}
+                        disabled={!data?.allowed_fields?.includes('python')}
                         //rowsMin={10}
                         rowsMax={10}
                         width="80%"
                       />
                     )
                 )}
-            </ul>
-          </Paper>
+            </div>
+          </div>
         </AccordionDetails>
       </Accordion>
-      <Button color="primary" variant="contained" onClick={(event) => {}}>
+      <Button color="primary" variant="contained" onClick={saveChanges}>
         Guardar Canvis
       </Button>
     </Paper>

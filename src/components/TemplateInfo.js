@@ -31,20 +31,24 @@ function TemplateInfo(props) {
   const { name, xml_id, model, id = '' } = item
   const classes = useStyles()
   const history = useHistory()
-  function handleClick() {
-    history.push(`/templates/${id}`)
+  function handleClick(e) {
+    props.setClicked(e.target.id)
   }
   return (
     <div>
-      <Paper className={classes.paper} onClick={handleClick}>
-        <Typography variant="h3" className={classes.name}>
+      <Paper
+        className={classes.paper}
+        onClick={(e) => props.setClicked(e.target.id)}
+        id={id}
+      >
+        <Typography variant="h3" className={classes.name} id={id}>
           {name}
         </Typography>
         <div className={classes.flexDiv}>
-          <Typography variant="subtitle1" className={classes.info}>
+          <Typography variant="subtitle1" className={classes.info} id={id}>
             model: {model}
           </Typography>
-          <Typography variant="subtitle1" className={classes.info}>
+          <Typography variant="subtitle1" className={classes.info} id={id}>
             xml_id: {xml_id}
           </Typography>
         </div>
