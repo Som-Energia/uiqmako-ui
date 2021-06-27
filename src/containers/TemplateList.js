@@ -47,6 +47,7 @@ function TemplateList(props) {
   const [sigleTemplate, setSingleTemplate] = useState({})
   const classes = useStyles()
   const history = useHistory()
+
   useEffect(() => {
     getTemplateList()
       .then((response) => {
@@ -84,9 +85,7 @@ function TemplateList(props) {
         })
     }
   }, [openId])
-  const handleSearch = (event) => {
-    setSearch(event.target.value)
-  }
+
   const handleClose = () => {
     setOpen(false)
     setOpenId(false)
@@ -96,7 +95,7 @@ function TemplateList(props) {
       <Box className={classes.searchFieldContainer}>
         <TextField
           className={classes.searchField}
-          onChange={handleSearch}
+          onChange={(e) => setSearch(e.target.value)}
           label="Cerca"
           variant="outlined"
         />
@@ -134,4 +133,3 @@ function TemplateList(props) {
 }
 
 export default TemplateList
-//

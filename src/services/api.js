@@ -1,6 +1,5 @@
 import axios from 'axios'
-import TemplateHeaders from 'components/TemplateHeaders'
-import { getToken } from 'useToken'
+import { getToken, removeToken } from 'useToken'
 
 export const getTemplateList = async () => {
   const url = `${process.env.REACT_APP_API_BASE_URL}/templates`
@@ -31,9 +30,27 @@ export const getSingleTemplate = async (template_id, userToken) => {
     'Access-Control-Allow-Origin': 'http://localhost:*',
     Authorization: `Bearer ${token}`,
   }
-  return axios({ method: 'GET', url, headers }).then((response) => {
-    return response?.data
-  })
+  return axios({ method: 'GET', url, headers })
+    .then((response) => {
+      console.log('EEEOO')
+      console.log(response)
+      return response?.data
+    })
+    .catch((error) => {
+      console.log(error)
+
+      if (error.response?.status === 401) {
+        if (error.response.data?.detail === 'Token has expired') {
+          console.log('entroo')
+          removeToken()
+        } else {
+          console.log('else', error.response)
+        }
+        console.log(error)
+        console.log('fiifififi')
+      }
+      console.log('erooooor')
+    })
 }
 
 export const doLogin = async (username, password) => {
@@ -83,6 +100,7 @@ export const checkEdits = async (template_id) => {
     url,
     headers,
   }).then((response) => {
+    console.log(response)
     return response?.data
   })
 }
@@ -115,6 +133,45 @@ export const saveEditChanges = async (
     url,
     headers,
     data: JSON.stringify(edit_content),
+  }).then((response) => {
+    return response?.data
+  })
+}
+
+export const getTemplateCases = async (templateId) => {
+  const token = getToken()
+
+  const url = `${process.env.REACT_APP_API_BASE_URL}/cases/${templateId}`
+  let headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:*',
+    Authorization: `Bearer ${token}`,
+  }
+  return axios({
+    method: 'GET',
+    url,
+    headers,
+  }).then((response) => {
+    return response?.data
+  })
+}
+
+export const getRenderResult = async (editId, caseId) => {
+  const token = getToken()
+  const params = new URLSearchParams({
+    case_id: caseId,
+  }).toString()
+  const url = `${process.env.REACT_APP_API_BASE_URL}/render/${editId}?` + params
+  let headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:*',
+    Authorization: `Bearer ${token}`,
+  }
+
+  return axios({
+    method: 'GET',
+    url,
+    headers,
   }).then((response) => {
     return response?.data
   })

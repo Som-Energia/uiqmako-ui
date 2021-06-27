@@ -1,16 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { TextareaAutosize } from '@material-ui/core'
+import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 import { makeStyles } from '@material-ui/core/styles'
-import { useParams, useHistory } from 'react-router-dom'
-import { startEditing, saveEditChanges } from 'services/api'
-import TemplateHeaders from 'components/TemplateHeaders'
-import Accordion from '@material-ui/core/Accordion'
-import Paper from '@material-ui/core/Paper'
-import AccordionSummary from '@material-ui/core/AccordionSummary'
-import AccordionDetails from '@material-ui/core/AccordionDetails'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 const useStyles = makeStyles((theme) => ({
   editor: {

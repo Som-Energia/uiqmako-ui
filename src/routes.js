@@ -21,6 +21,11 @@ function Routes(props) {
     return <Editor {...props} />
   }
 
+  const LoadRenderResult = () => {
+    const Editor = lazy(() => import('./components/RenderResult'))
+    return <Editor {...props} />
+  }
+
   return (
     <Router>
       <Switch>
@@ -28,6 +33,7 @@ function Routes(props) {
         <Route exact path="/newTemplate" render={loadNewTemplateForm} />
         <Route exact path="/templates/:id" render={LoadSingleTemplate} />
         <Route exact path="/edit/:editor/:id" render={LoadEditor} />
+        <Route exact path="/render/:editId/:caseId" render={LoadRenderResult} />
       </Switch>
     </Router>
   )

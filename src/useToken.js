@@ -5,6 +5,11 @@ export const getToken = () => {
   //const userToken = JSON.parse(tokenString)
   return tokenString
 }
+export const removeToken = () => {
+  console.log(localStorage['token'])
+  localStorage.removeItem('token')
+}
+
 export const useToken = () => {
   const [uToken, setToken] = useState(getToken())
 
