@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { TextareaAutosize } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useParams, useHistory } from 'react-router-dom'
-import { startEditing, saveEditChanges } from 'services/api'
+import { startEditing, saveEditChanges, uploadEdit } from 'services/api'
 import TemplateHeaders from 'components/TemplateHeaders'
 import Accordion from '@material-ui/core/Accordion'
 import Paper from '@material-ui/core/Paper'
@@ -72,6 +72,15 @@ function Editor(props) {
         setIsLoading(false)
       })
   }
+  const uploadChanges = (e) => {
+    uploadEdit(editId)
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        setIsLoading(false)
+      })
+  }
   console.log('selected', selectedCase)
   console.log('allowed', editor)
   return (
@@ -122,6 +131,16 @@ function Editor(props) {
         }}
       >
         Guardar Canvis i veure resultat
+      </Button>
+      <Button
+        color="primary"
+        variant="contained"
+        onClick={(e) => {
+          saveChanges(e)
+          uploadChanges(e)
+        }}
+      >
+        Guardar Canvis i pujar-los a l'ERP
       </Button>
       <CaseList
         data={{}}

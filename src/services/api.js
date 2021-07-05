@@ -176,3 +176,22 @@ export const getRenderResult = async (editId, caseId) => {
     return response?.data
   })
 }
+
+export const uploadEdit = async (editId) => {
+  const token = getToken()
+
+  const url = `${process.env.REACT_APP_API_BASE_URL}/upload/${editId}?`
+  let headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:*',
+    Authorization: `Bearer ${token}`,
+  }
+
+  return axios({
+    method: 'POST',
+    url,
+    headers,
+  }).then((response) => {
+    return response?.data
+  })
+}
