@@ -195,3 +195,26 @@ export const uploadEdit = async (editId) => {
     return response?.data
   })
 }
+
+export const createCase = async (caseName, caseId, templateId) => {
+  const token = getToken()
+  var bodyFormData = new FormData()
+  bodyFormData.append('case_name', caseName)
+  bodyFormData.append('case_id', caseId)
+
+  const url = `${process.env.REACT_APP_API_BASE_URL}/cases/${templateId}`
+  let headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:*',
+    Authorization: `Bearer ${token}`,
+  }
+
+  return axios({
+    method: 'POST',
+    url,
+    headers,
+    data: bodyFormData,
+  }).then((response) => {
+    return response?.data
+  })
+}
