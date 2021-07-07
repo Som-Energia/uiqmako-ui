@@ -3,7 +3,6 @@ import { ThemeProvider } from '@material-ui/styles'
 import { createMuiTheme } from '@material-ui/core/styles'
 import 'App.css'
 import Routes from 'routes'
-import Title from 'components/Title'
 import { useToken } from 'useToken'
 import Login from 'components/LogIn'
 import { blue, indigo } from '@material-ui/core/colors'
@@ -28,9 +27,6 @@ function App(props) {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <Title />
-      </header>
       {(token && (
         <ThemeProvider theme={theme}>
           <Suspense fallback={<></>}>

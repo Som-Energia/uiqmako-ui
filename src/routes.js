@@ -1,5 +1,6 @@
 import React, { lazy } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import Title from 'components/Title'
 
 function Routes(props) {
   const loadMainPage = () => {
@@ -28,6 +29,9 @@ function Routes(props) {
 
   return (
     <Router>
+      <header className="App-header">
+        <Title />
+      </header>
       <Switch>
         <Route exact path="/" render={loadMainPage} />
         <Route exact path="/newTemplate" render={loadNewTemplateForm} />
