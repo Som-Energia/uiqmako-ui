@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import { doLogin } from 'services/api'
 import Title from './Title'
+import Register from 'components/Register'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -28,6 +29,7 @@ function LogIn(props) {
   const [username, setUsername] = useState()
   const [password, setPassword] = useState()
   const [isInvalid, setisInvalid] = useState(false)
+  const [isRegister, setIsRegister] = useState(false)
   const [isLoading, setIsLoading] = useState()
 
   const handleSubmit = (event) => {
@@ -49,49 +51,60 @@ function LogIn(props) {
   return (
     <Container component="main" maxWidth="xs">
       <Title />
-      <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            error={isInvalid}
-            helperText={isInvalid && 'Usuari o contrassenya incorrectes'}
-            required
-            fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            autoFocus
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            error={isInvalid}
-            helperText={isInvalid && 'Usuari o contrassenya incorrectes'}
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
+      {(isRegister && (
+        <Register setToken={props.setToken} setIsRegister={setIsRegister} />
+      )) || (
+        <div className={classes.paper}>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              error={isInvalid}
+              helperText={isInvalid && 'Usuari o contrassenya incorrectes'}
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              autoFocus
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              error={isInvalid}
+              helperText={isInvalid && 'Usuari o contrassenya incorrectes'}
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign In
+            </Button>
+          </form>
+          <Typography
+            component="h2"
+            variant="h5"
+            onClick={(e) => setIsRegister(true)}
           >
-            Sign In
-          </Button>
-        </form>
-      </div>
+            No tens usuari? Registra't
+          </Typography>
+        </div>
+      )}
     </Container>
   )
 }
