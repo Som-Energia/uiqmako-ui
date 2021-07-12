@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import { doLogin } from 'services/api'
+import Title from './Title'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -47,6 +48,7 @@ function LogIn(props) {
 
   return (
     <Container component="main" maxWidth="xs">
+      <Title />
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
           Sign in

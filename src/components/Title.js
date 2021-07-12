@@ -6,7 +6,7 @@ function Title(props) {
 
   return (
     <div>
-      <h1 onClick={(e) => history.push('/')}>UI-QMako</h1>
+      <h1 onClick={(e) => history?.push('/')}>UI-QMako</h1>
     </div>
   )
 }

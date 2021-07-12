@@ -76,6 +76,7 @@ function Editor(props) {
     uploadEdit(editId)
       .then((response) => {
         console.log(response)
+        history.push('/')
       })
       .catch((error) => {
         setIsLoading(false)
