@@ -73,7 +73,7 @@ function TemplateList(props) {
     }
   }, [search, data])
   useEffect(() => {
-    if (openId != false) {
+    if (openId !== false) {
       getSingleTemplate(openId)
         .then((response) => {
           setSingleTemplate(response)

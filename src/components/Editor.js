@@ -14,6 +14,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import SimpleEditor from './SimpleEditor'
 import RichTextEditor from './RichTextEditor'
 import CaseList from './CaseList'
+import SourcesList from './SourcesList'
 
 const useStyles = makeStyles((theme) => ({
   editor: {
@@ -37,7 +38,9 @@ function Editor(props) {
   const [saveEditsResponse, setSaveEditsResponse] = useState([])
   const [open, setOpen] = useState([])
   const [openCaseDialog, setOpenCaseDialog] = useState(false)
+  const [openSourcesList, setOpenSourcesList] = useState(false)
   const [selectedCase, setSelectedCase] = useState(false)
+  const [selectedSource, setSelectedSource] = useState(false)
   const history = useHistory()
 
   useEffect(() => {
@@ -72,16 +75,20 @@ function Editor(props) {
         setIsLoading(false)
       })
   }
-  const uploadChanges = (e) => {
-    uploadEdit(editId)
-      .then((response) => {
-        console.log(response)
-        history.push('/')
-      })
-      .catch((error) => {
-        setIsLoading(false)
-      })
-  }
+  useEffect(() => {
+    if (selectedSource && selectedSource !== undefined) {
+      uploadEdit(editId, selectedSource)
+        .then((response) => {
+          console.log(response)
+          history.push('/')
+        })
+        .catch((error) => {
+          setIsLoading(false)
+          console.log('error')
+        })
+    }
+  }, [selectedSource])
+
   console.log('selected', selectedCase)
   console.log('allowed', editor)
   return (
@@ -138,7 +145,7 @@ function Editor(props) {
         variant="contained"
         onClick={(e) => {
           saveChanges(e)
-          uploadChanges(e)
+          setOpenSourcesList(true)
         }}
       >
         Guardar Canvis i pujar-los a l'ERP
@@ -151,6 +158,15 @@ function Editor(props) {
           setSelectedCase(e)
           setOpenCaseDialog(false)
           console.log('seleeecteeed', selectedCase)
+        }}
+      />
+      <SourcesList
+        data={{}}
+        open={openSourcesList}
+        onClose={(e) => {
+          setSelectedSource(e)
+          setOpenSourcesList(false)
+          console.log('sourceee   seleeecteeed', selectedSource)
         }}
       />
     </Paper>

@@ -41,7 +41,7 @@ function TemplateInfo(props) {
         onClick={(e) => props.setClicked(e.target.id)}
         id={id}
       >
-        <Typography variant="h3" className={classes.name} id={id}>
+        <Typography variant="h4" className={classes.name} id={id}>
           {name}
         </Typography>
         <div className={classes.flexDiv}>

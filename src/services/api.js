@@ -177,10 +177,13 @@ export const getRenderResult = async (editId, caseId) => {
   })
 }
 
-export const uploadEdit = async (editId) => {
+export const uploadEdit = async (editId, source_name) => {
+  console.log(source_name, '-')
   const token = getToken()
-
-  const url = `${process.env.REACT_APP_API_BASE_URL}/upload/${editId}?`
+  const params = new URLSearchParams({
+    source: source_name,
+  }).toString()
+  const url = `${process.env.REACT_APP_API_BASE_URL}/upload/${editId}?` + params
   let headers = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': 'http://localhost:*',
@@ -233,4 +236,22 @@ export const register = async (username, password) => {
       return response?.data?.access_token
     }
   )
+}
+
+export const getSourcesList = async () => {
+  const token = getToken()
+
+  const url = `${process.env.REACT_APP_API_BASE_URL}/sources`
+  let headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:*',
+    Authorization: `Bearer ${token}`,
+  }
+  return axios({
+    method: 'GET',
+    url,
+    headers,
+  }).then((response) => {
+    return response?.data
+  })
 }
