@@ -7,12 +7,9 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogActions from '@material-ui/core/DialogActions'
 import { makeStyles } from '@material-ui/core/styles'
-import { useParams } from 'react-router-dom'
 import { Paper } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
-import TemplateInfo from 'components/TemplateInfo'
 import TemplateHeaders from 'components/TemplateHeaders'
-import RichTextEditor from 'components/RichTextEditor'
 
 const useStyles = makeStyles((theme) => ({
   editor: {
@@ -33,10 +30,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function SingleTemplate(props) {
-  const { id } = useParams()
   const { data, templateId } = props
   const [editResponse, setEditResponse] = useState(true)
-  const [isLoading, setIsLoading] = useState(true)
   const [confirmEdit, setConfirmEdit] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
   const [chosenEditor, setChosenEditor] = useState(false)
@@ -53,16 +48,13 @@ function SingleTemplate(props) {
         .then((response) => {
           console.log('ab', response)
           setEditResponse(response)
-          setIsLoading(false)
           if (response.current_edits && response.current_edits.length !== 0) {
             setOpenDialog(true)
           } else {
             history.push(`/edit/${chosenEditor}/${templateId}`)
           }
         })
-        .catch((error) => {
-          setIsLoading(false)
-        })
+        .catch((error) => {})
     }
   }, [chosenEditor])
 

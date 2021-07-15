@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
 function NewTemplateForm() {
   const classes = useStyles()
   const [xml_id, setXmlId] = useState('')
-  const [isLoading, setIsLoading] = useState(true)
   const [data, setData] = useState([])
   const [redirect, setRedirect] = useState(false)
   const history = useHistory()
@@ -50,12 +49,9 @@ function NewTemplateForm() {
     createTemplate(xml_id)
       .then((response) => {
         setData(response)
-        setIsLoading(false)
         setRedirect(true)
       })
-      .catch((error) => {
-        setIsLoading(false)
-      })
+      .catch((error) => {})
   }
   if (redirect) {
     var text = data?.created

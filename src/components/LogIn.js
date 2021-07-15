@@ -30,20 +30,17 @@ function LogIn(props) {
   const [password, setPassword] = useState()
   const [isInvalid, setisInvalid] = useState(false)
   const [isRegister, setIsRegister] = useState(false)
-  const [isLoading, setIsLoading] = useState()
 
   const handleSubmit = (event) => {
     event.preventDefault()
     doLogin(username, password)
       .then((response) => {
         props.setToken(response)
-        setIsLoading(false)
       })
       .catch((error) => {
         if (error?.response?.status === 401) {
           setisInvalid(true)
         }
-        setIsLoading(false)
         props.setToken('')
       })
   }

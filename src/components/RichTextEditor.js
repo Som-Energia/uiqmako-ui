@@ -1,5 +1,4 @@
 import { React, useState, useEffect } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import SunEditor from 'suneditor-react'
 import 'suneditor/dist/css/suneditor.min.css' // Import Sun Editor's CSS File
@@ -56,7 +55,6 @@ function RichTextEditor(props) {
   const [modifiedTexts, setModifiedTexts] = useState([[]])
   const classes = useStyles()
   const { data } = props
-  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     setModifiedTexts(data?.text?.by_type)

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { TextareaAutosize } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useParams, useHistory } from 'react-router-dom'
 import { startEditing, saveEditChanges, uploadEdit } from 'services/api'
@@ -30,13 +29,11 @@ function Editor(props) {
   const classes = useStyles()
   const { editor, id } = useParams()
   const [data, setData] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
   const [editorText, setText] = useState('')
   const [editId, setEditId] = useState('')
   const [groupEditorText, setGroupEditorText] = useState([])
   const [headersData, setHeadersdData] = useState({})
   const [saveEditsResponse, setSaveEditsResponse] = useState([])
-  const [open, setOpen] = useState([])
   const [openCaseDialog, setOpenCaseDialog] = useState(false)
   const [openSourcesList, setOpenSourcesList] = useState(false)
   const [selectedCase, setSelectedCase] = useState(false)
@@ -47,15 +44,11 @@ function Editor(props) {
     startEditing(id)
       .then((response) => {
         setData(response)
-        setIsLoading(false)
-        console.log('dads', response)
         setEditId(response['edit_id'])
         setText(response.text.def_body_text)
         setHeadersdData(Object.assign({}, response.headers, response.meta_data))
       })
-      .catch((error) => {
-        setIsLoading(false)
-      })
+      .catch((error) => {})
   }, [id])
   useEffect(() => {
     if (selectedCase) {
@@ -66,14 +59,8 @@ function Editor(props) {
     saveEditChanges(id, editorText, groupEditorText, headersData)
       .then((response) => {
         setSaveEditsResponse(response?.result)
-        setIsLoading(false)
-        if (response?.result) {
-          setOpen(true)
-        }
       })
-      .catch((error) => {
-        setIsLoading(false)
-      })
+      .catch((error) => {})
   }
   useEffect(() => {
     if (selectedSource && selectedSource !== undefined) {
@@ -83,7 +70,6 @@ function Editor(props) {
           history.push('/')
         })
         .catch((error) => {
-          setIsLoading(false)
           console.log('error')
         })
     }
