@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Avatar from '@material-ui/core/Avatar'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import AddIcon from '@material-ui/icons/Add'
+import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import ArrowRight from '@material-ui/icons/ArrowRight'
 import Close from '@material-ui/icons/Close'
 import { makeStyles } from '@material-ui/core/styles'
@@ -129,7 +129,7 @@ function CaseList(props) {
         <ListItem autoFocus button onClick={() => console.log('he fet clic')}>
           <ListItemAvatar>
             <Avatar>
-              <AddIcon />
+              <AddRoundedIcon />
             </Avatar>
           </ListItemAvatar>
           {addCaseForm}

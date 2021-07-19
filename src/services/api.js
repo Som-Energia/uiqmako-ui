@@ -255,3 +255,43 @@ export const getSourcesList = async () => {
     return response?.data
   })
 }
+
+export const getUsers = async () => {
+  const token = getToken()
+
+  const url = `${process.env.REACT_APP_API_BASE_URL}/users`
+  let headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:*',
+    Authorization: `Bearer ${token}`,
+  }
+
+  return axios({ method: 'GET', url, headers }).then((response) => {
+    return response?.data
+  })
+}
+
+export const updateUser = async (user_id, username, category, disabled) => {
+  const token = getToken()
+
+  const url = `${process.env.REACT_APP_API_BASE_URL}/users`
+  let headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:*',
+    Authorization: `Bearer ${token}`,
+  }
+
+  return axios({
+    method: 'PUT',
+    url,
+    headers,
+    data: {
+      id: user_id,
+      username: username,
+      category: category,
+      disabled: disabled,
+    },
+  }).then((response) => {
+    return response?.data
+  })
+}

@@ -30,7 +30,7 @@ function App(props) {
       {(token && (
         <ThemeProvider theme={theme}>
           <Suspense fallback={<></>}>
-            <Routes />
+            <Routes setToken={setToken} />
           </Suspense>
         </ThemeProvider>
       )) || <Login setToken={setToken} />}
