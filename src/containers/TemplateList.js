@@ -10,13 +10,6 @@ import SingleTemplate from './SingleTemplate'
 import Modal from '@material-ui/core/Modal'
 
 const useStyles = makeStyles((theme) => ({
-  newTemplateButtom: {
-    borderRadius: '50%',
-    fontSize: '2rem',
-    position: 'fixed',
-    right: '5%',
-    bottom: '5%',
-  },
   modal: {
     width: '80%',
     height: '90%',
@@ -35,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     margin: '1% auto',
     width: '80%',
   },
+  templateList: {},
 }))
 
 function TemplateList(props) {
@@ -101,19 +95,11 @@ function TemplateList(props) {
         />
       </Box>
 
-      <ul className="list-template">
+      <div className={classes.templateList}>
         {filteredData?.map((item, index) => (
           <TemplateInfo key={index} item={item} setClicked={setOpenId} />
         ))}
-      </ul>
-      <Button
-        color="primary"
-        variant="contained"
-        className={classes.newTemplateButtom}
-        onClick={(event) => history.push('/newTemplate')}
-      >
-        +
-      </Button>
+      </div>
       <div>
         <Modal
           open={open}

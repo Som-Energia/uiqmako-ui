@@ -138,6 +138,25 @@ export const saveEditChanges = async (
   })
 }
 
+export const discardEditChanges = async (templateId) => {
+  const token = getToken()
+
+  const url = `${process.env.REACT_APP_API_BASE_URL}/edit/${templateId}`
+
+  let headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:*',
+    Authorization: `Bearer ${token}`,
+  }
+  return axios({
+    method: 'DELETE',
+    url,
+    headers,
+  }).then((response) => {
+    return response?.data
+  })
+}
+
 export const getTemplateCases = async (templateId) => {
   const token = getToken()
 

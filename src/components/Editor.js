@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useParams, useHistory } from 'react-router-dom'
-import { startEditing, saveEditChanges, uploadEdit } from 'services/api'
+import {
+  startEditing,
+  saveEditChanges,
+  uploadEdit,
+  discardEditChanges,
+} from 'services/api'
 import TemplateHeaders from 'components/TemplateHeaders'
 import Accordion from '@material-ui/core/Accordion'
 import Paper from '@material-ui/core/Paper'
@@ -23,6 +28,12 @@ const useStyles = makeStyles((theme) => ({
     margin: '1% 10%',
     textAlign: 'center',
   },
+  buttonGroup: {
+    marginTop: '2%',
+    textAlign: 'justify',
+    display: 'flex',
+    justifyContent: 'space-around',
+  },
 }))
 
 function Editor(props) {
@@ -38,12 +49,15 @@ function Editor(props) {
   const [openSourcesList, setOpenSourcesList] = useState(false)
   const [selectedCase, setSelectedCase] = useState(false)
   const [selectedSource, setSelectedSource] = useState(false)
+  const [isNewEdit, setIsNewEdit] = useState(false)
   const history = useHistory()
 
   useEffect(() => {
     startEditing(id)
       .then((response) => {
         setData(response)
+        setIsNewEdit(response.created)
+        console.log('response', response)
         setEditId(response['edit_id'])
         setText(response.text.def_body_text)
         setHeadersdData(Object.assign({}, response.headers, response.meta_data))
@@ -55,10 +69,19 @@ function Editor(props) {
       history.push(`/render/${editId}/${selectedCase}`)
     }
   }, [selectedCase, editId])
+
   const saveChanges = (e) => {
     saveEditChanges(id, editorText, groupEditorText, headersData)
       .then((response) => {
         setSaveEditsResponse(response?.result)
+        setIsNewEdit(false)
+      })
+      .catch((error) => {})
+  }
+  const discardChanges = (e) => {
+    discardEditChanges(id)
+      .then((response) => {
+        history.push('/')
       })
       .catch((error) => {})
   }
@@ -78,14 +101,16 @@ function Editor(props) {
   console.log('selected', selectedCase)
   console.log('allowed', editor)
   return (
-    <Paper className={classes.container}>
+    <div className={classes.container}>
+      <Typography variant="h3" component="h2">
+        {headersData.name}
+      </Typography>
       <TemplateHeaders
         passChildData={setHeadersdData}
         enabledFields={data?.allowed_fields}
         headers={headersData}
       />
-
-      <Accordion defaultExpanded>
+      <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -106,36 +131,57 @@ function Editor(props) {
           )}
         </AccordionDetails>
       </Accordion>
-      <Button
-        color="primary"
-        variant="contained"
-        onClick={(e) => history.push('/')}
-      >
-        Cancel·lar Canvis
-      </Button>
-      <Button color="primary" variant="contained" onClick={saveChanges}>
-        Guardar Canvis
-      </Button>
-      <Button
-        color="primary"
-        variant="contained"
-        onClick={(e) => {
-          saveChanges(e)
-          setOpenCaseDialog(true)
-        }}
-      >
-        Guardar Canvis i veure resultat
-      </Button>
-      <Button
-        color="primary"
-        variant="contained"
-        onClick={(e) => {
-          saveChanges(e)
-          setOpenSourcesList(true)
-        }}
-      >
-        Guardar Canvis i pujar-los a l'ERP
-      </Button>
+      <div className={classes.buttonGroup}>
+        {!isNewEdit && (
+          <Button
+            color="secundary"
+            variant="outlined"
+            onClick={(e) => discardChanges(e)}
+          >
+            Descartar l'edició
+          </Button>
+        )}
+
+        <Button
+          color="secundary"
+          variant="outlined"
+          onClick={(e) => {
+            console.log('entrooo', isNewEdit)
+            if (isNewEdit) {
+              discardChanges(e)
+            } else {
+              console.log('else')
+              history.push('/')
+            }
+          }}
+        >
+          Sortir Sense Guardar
+        </Button>
+
+        <Button color="primary" variant="contained" onClick={saveChanges}>
+          Guardar Canvis
+        </Button>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={(e) => {
+            saveChanges(e)
+            setOpenCaseDialog(true)
+          }}
+        >
+          Guardar Canvis i veure resultat
+        </Button>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={(e) => {
+            saveChanges(e)
+            setOpenSourcesList(true)
+          }}
+        >
+          Guardar Canvis i pujar-los a l'ERP
+        </Button>
+      </div>
       <CaseList
         data={{}}
         open={openCaseDialog}
@@ -155,7 +201,7 @@ function Editor(props) {
           console.log('sourceee   seleeecteeed', selectedSource)
         }}
       />
-    </Paper>
+    </div>
   )
 }
 

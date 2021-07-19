@@ -8,8 +8,9 @@ const useStyles = makeStyles((theme) => ({
     width: '80%',
     padding: '2rem',
     margin: '0 auto',
-    marginTop: '1.5rem',
-    textAlign: 'center',
+    marginTop: '0.05rem',
+    textAlign: 'left',
+    cursor: 'pointer',
   },
   flexDiv: {
     display: 'flex',
@@ -19,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
   name: {
     paddingBottom: '1rem',
     color: '#282c34',
+    textAlign: 'left',
   },
   info: {
     color: '#7c828e',
@@ -40,12 +42,12 @@ function TemplateInfo(props) {
         <Typography variant="h4" className={classes.name} id={id}>
           {name}
         </Typography>
-        <div className={classes.flexDiv}>
+        <div>
           <Typography variant="subtitle1" className={classes.info} id={id}>
-            model: {model}
+            {model}
           </Typography>
-          <Typography variant="subtitle1" className={classes.info} id={id}>
-            xml_id: {xml_id}
+          <Typography variant="subtitle2" className={classes.info} id={id}>
+            {xml_id}
           </Typography>
         </div>
       </Paper>

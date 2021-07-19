@@ -75,7 +75,13 @@ function SingleTemplate(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={(e) => setOpenDialog(false)} color="primary">
+          <Button
+            onClick={(e) => {
+              setOpenDialog(false)
+              setChosenEditor(false)
+            }}
+            color="primary"
+          >
             Cancel·lar
           </Button>
           <Button
