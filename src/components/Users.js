@@ -5,21 +5,17 @@ import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles'
 import { useHistory } from 'react-router-dom'
 import Paper from '@material-ui/core/Paper'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
 import TableContainer from '@material-ui/core/TableContainer'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import Table from '@material-ui/core/Table'
 import TableRow from '@material-ui/core/TableRow'
-import TableSortLabel from '@material-ui/core/TableSortLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormControl from '@material-ui/core/FormControl'
-import FormLabel from '@material-ui/core/FormLabel'
 import SimpleSnackbar from 'components/SimpleSnackbar'
 
 const useStyles = makeStyles((theme) => ({
@@ -70,8 +66,6 @@ function TemplateList(props) {
   }, [search, data])
 
   useEffect(() => {
-    console.log('entroooo', changedUser)
-    console.log(changedUser && Object.keys(changedUser).length !== 0)
     if (changedUser && Object.keys(changedUser).length !== 0) {
       updateUser(
         changedUser.id,
@@ -85,7 +79,6 @@ function TemplateList(props) {
           setIsLoading(false)
           setReload(!reload)
           setShowAlert(true)
-          console.log('updatantcoses', response)
         })
         .catch((error) => {
           setIsLoading(false)
@@ -136,7 +129,6 @@ function TemplateList(props) {
                           oldValues[index]['category'] = e.target.value
                           return [...oldValues]
                         })
-                        console.log('rooow!', row)
                         setChangedUser(row)
                       }}
                     >

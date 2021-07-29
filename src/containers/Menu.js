@@ -58,7 +58,6 @@ function Menu(props) {
         <ListItem
           button
           onClick={(e) => {
-            console.log('remoooove')
             setToken('')
           }}
         >

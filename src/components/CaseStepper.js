@@ -38,7 +38,6 @@ function CaseStepper(props) {
   useEffect(() => {
     getTemplateCases(template_id)
       .then((response) => {
-        console.log('%%%%%%%%%llista casos', response.cases[0])
         setData(response)
       })
       .catch((error) => {})
@@ -48,7 +47,6 @@ function CaseStepper(props) {
     if (selectedSource && selectedSource !== undefined) {
       uploadEdit(edit_id, selectedSource)
         .then((response) => {
-          console.log(response)
           history.push('/')
         })
         .catch((error) => {

@@ -6,7 +6,6 @@ export const getToken = () => {
   return tokenString
 }
 export const removeToken = () => {
-  console.log(localStorage['token'])
   localStorage.removeItem('token')
 }
 

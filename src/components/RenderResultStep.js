@@ -28,7 +28,6 @@ function RenderResultStep(props) {
         setLoading(false)
       })
       .catch((error) => {
-        console.log('erooooor', error.response)
         let errorMsg =
           'Error en el renderitzat: ' + error?.response?.data?.detail
         setData(errorMsg)

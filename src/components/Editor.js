@@ -48,7 +48,6 @@ function Editor(props) {
       .then((response) => {
         setData(response)
         setIsNewEdit(response.created)
-        console.log('response', response)
         setEditId(response['edit_id'])
         setText(response.text.def_body_text)
         setHeadersdData(Object.assign({}, response.headers, response.meta_data))
@@ -77,8 +76,6 @@ function Editor(props) {
       .catch((error) => {})
   }
 
-  console.log('selected', selectedCase)
-  console.log('allowed', editor)
   return (
     <div className={classes.container}>
       <Typography variant="h3" component="h2">
@@ -125,11 +122,9 @@ function Editor(props) {
           color="secundary"
           variant="outlined"
           onClick={(e) => {
-            console.log('entrooo', isNewEdit)
             if (isNewEdit) {
               discardChanges(e)
             } else {
-              console.log('else')
               history.push('/')
             }
           }}
@@ -159,7 +154,6 @@ function Editor(props) {
         onClose={(e) => {
           setSelectedCase(e)
           setOpenCaseDialog(false)
-          console.log('seleeecteeed', selectedCase)
         }}
       />
     </div>

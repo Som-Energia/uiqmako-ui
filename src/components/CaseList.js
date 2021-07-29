@@ -63,7 +63,6 @@ function CaseList(props) {
         .then((response) => {
           setData(response)
           setHasChanges(false)
-          console.log('%%%%%%%%%Carrego')
         })
         .catch((error) => {})
     }
@@ -122,7 +121,6 @@ function CaseList(props) {
           <ListItem
             button
             onClick={(e) => {
-              console.log('ap', item)
               onClose(item.id)
             }}
             key={item.case_id}

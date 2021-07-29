@@ -65,7 +65,6 @@ function RichTextEditor(props) {
     modifiedTextsCopy[index][1] = text
     props.setEditorText(modifiedTextsCopy)
   }
-
   return (
     <div className={classes.editorsList}>
       {modifiedTexts?.length > 0 &&

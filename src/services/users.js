@@ -65,24 +65,16 @@ export const getSingleTemplate = async (template_id, userToken) => {
   }
   return axios({ method: 'GET', url, headers })
     .then((response) => {
-      console.log('EEEOO')
-      console.log(response)
       return response?.data
     })
     .catch((error) => {
-      console.log(error)
-
       if (error.response?.status === 401) {
         if (error.response.data?.detail === 'Token has expired') {
-          console.log('entroo')
           removeToken()
         } else {
           console.log('else', error.response)
         }
-        console.log(error)
-        console.log('fiifififi')
       }
-      console.log('erooooor')
     })
 }
 
@@ -106,7 +98,6 @@ export const startEditing = async (template_id) => {
 export const checkEdits = async (template_id) => {
   const url = `${process.env.REACT_APP_API_BASE_URL}/checkEdits/${template_id}`
   const token = getToken()
-  console.log('eeeooo')
   let headers = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': 'http://localhost:*',
@@ -128,7 +119,6 @@ export const saveEditChanges = async (
   byType,
   templateHeaders
 ) => {
-  console.log('cridoo?', templateId, text, byType, templateHeaders)
   const token = getToken()
 
   const url = `${process.env.REACT_APP_API_BASE_URL}/edit/${templateId}`
@@ -137,9 +127,7 @@ export const saveEditChanges = async (
     by_type: JSON.stringify(byType),
     headers: JSON.stringify(templateHeaders),
   }
-  console.log('aquii1')
 
-  console.log('aquii')
   let headers = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': 'http://localhost:*',
@@ -214,7 +202,6 @@ export const getRenderResult = async (editId, caseId) => {
 }
 
 export const uploadEdit = async (editId, source_name) => {
-  console.log(source_name, '-')
   const token = getToken()
   const params = new URLSearchParams({
     source: source_name,

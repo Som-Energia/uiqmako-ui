@@ -2,7 +2,6 @@ import { React, useEffect, useState } from 'react'
 import TemplateInfo from 'components/TemplateInfo'
 import { getTemplateList, getSingleTemplate } from 'services/api'
 import Box from '@material-ui/core/Box'
-import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles'
 import { useHistory } from 'react-router-dom'
@@ -41,7 +40,6 @@ function TemplateList(props) {
   const [sigleTemplate, setSingleTemplate] = useState({})
   const classes = useStyles()
   const history = useHistory()
-  console.log('proops', props)
   useEffect(() => {
     getTemplateList()
       .then((response) => {

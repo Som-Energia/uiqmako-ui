@@ -20,7 +20,6 @@ function SimpleEditor(props) {
     setModifiedText(data?.text?.def_body_text)
   }, [data?.meta_data?.id])
 
-  console.log('dis', data?.text?.def_body_text)
   return (
     <TextareaAutosize
       value={modifiedText}
