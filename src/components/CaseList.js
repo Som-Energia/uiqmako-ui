@@ -13,6 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Button from '@material-ui/core/Button'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Dialog from '@material-ui/core/Dialog'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   editor: {
@@ -49,15 +50,16 @@ const useStyles = makeStyles((theme) => ({
 
 function CaseList(props) {
   const classes = useStyles()
-  const { open, onClose, template_id } = props
+  const { open, onClose, templateId, editId } = props
   const [data, setData] = useState('')
   const [hasChanges, setHasChanges] = useState(false)
   const [newId, setNewId] = useState('')
   const [newName, setNewName] = useState('')
+  const history = useHistory()
 
   useEffect(() => {
     if (open) {
-      getTemplateCases(template_id)
+      getTemplateCases(templateId)
         .then((response) => {
           setData(response)
           setHasChanges(false)
@@ -69,11 +71,16 @@ function CaseList(props) {
 
   const handleCreateCase = (event) => {
     event.preventDefault()
-    createCase(newName, newId, template_id)
+    createCase(newName, newId, templateId)
       .then((response) => {
         setHasChanges(true)
+        setNewId('')
+        setNewName('')
       })
-      .catch((error) => {})
+      .catch((error) => {
+        setNewId('')
+        setNewName('')
+      })
   }
   const addCaseForm = (
     <>
@@ -83,6 +90,7 @@ function CaseList(props) {
         label="Nom"
         variant="outlined"
         required={true}
+        value={newName}
         onChange={(e) => setNewName(e.target.value)}
       />
       <TextField
@@ -91,6 +99,7 @@ function CaseList(props) {
         label="Id"
         variant="outlined"
         required={true}
+        value={newId}
         onChange={(e) => setNewId(e.target.value)}
       />
       <div className={classes.buttons}>
@@ -133,6 +142,19 @@ function CaseList(props) {
             </Avatar>
           </ListItemAvatar>
           {addCaseForm}
+        </ListItem>
+        <ListItem autoFocus button onClick={() => console.log('he fet clic')}>
+          <ListItemAvatar></ListItemAvatar>
+          <Button
+            color="primary"
+            variant="contained"
+            disabled={!data.cases || data.cases.length === 0}
+            onClick={(e) => {
+              history.push(`/validation/${templateId}/${editId}`)
+            }}
+          >
+            Revisar-los tots i pujar edició a l'ERP
+          </Button>
         </ListItem>
         <ListItem button onClick={() => onClose('')} key={-1}>
           <ListItemAvatar>

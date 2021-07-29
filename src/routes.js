@@ -27,6 +27,10 @@ function Routes(props) {
     const Editor = lazy(() => import('./components/RenderResult'))
     return <Editor {...props} />
   }
+  const LoadResultStepper = () => {
+    const CaseStepper = lazy(() => import('./components/CaseStepper'))
+    return <CaseStepper {...props} />
+  }
 
   const loadUsers = () => {
     const Users = lazy(() => import('./components/Users'))
@@ -49,6 +53,11 @@ function Routes(props) {
             <Route exact path="/newTemplate" render={loadNewTemplateForm} />
             <Route exact path="/templates/:id" render={LoadSingleTemplate} />
             <Route exact path="/edit/:editor/:id" render={LoadEditor} />
+            <Route
+              exact
+              path="/validation/:template_id/:edit_id"
+              render={LoadResultStepper}
+            />
             <Route
               exact
               path="/render/:editId/:caseId"

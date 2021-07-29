@@ -41,7 +41,7 @@ function TemplateList(props) {
   const [sigleTemplate, setSingleTemplate] = useState({})
   const classes = useStyles()
   const history = useHistory()
-
+  console.log('proops', props)
   useEffect(() => {
     getTemplateList()
       .then((response) => {

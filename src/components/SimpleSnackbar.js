@@ -4,16 +4,17 @@ import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 
 function SimpleSnackbar(props) {
-  const handleClick = () => {
-    props.setOpen(true)
-  }
+  const { alertProps, setAlertProps } = props
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return
     }
 
-    props.setOpen(false)
+    setAlertProps((alertProps) => ({
+      ...alertProps,
+      open: false,
+    }))
   }
 
   return (
@@ -23,10 +24,11 @@ function SimpleSnackbar(props) {
           vertical: 'bottom',
           horizontal: 'right',
         }}
-        open={props.open}
+        className={alertProps?.className}
+        open={alertProps?.open}
         onClose={handleClose}
-        message={props.message}
-        autoHideDuration={3000}
+        message={alertProps?.message}
+        autoHideDuration={30000}
       />
     </div>
   )

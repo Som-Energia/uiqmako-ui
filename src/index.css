@@ -26,3 +26,7 @@ code {
 .menu {
   top: 3000px;
 }
+
+.alert-red {
+  background-color: brown !important;
+}

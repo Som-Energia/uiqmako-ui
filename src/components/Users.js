@@ -20,7 +20,7 @@ import RadioGroup from '@material-ui/core/RadioGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormControl from '@material-ui/core/FormControl'
 import FormLabel from '@material-ui/core/FormLabel'
-import SimpleSnackbar from 'components/Snackbar'
+import SimpleSnackbar from 'components/SimpleSnackbar'
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -61,7 +61,7 @@ function TemplateList(props) {
   useEffect(() => {
     if (search && search !== '') {
       const filtered = data.filter((item) =>
-        item.username.toLowerCase().includes(search.toLowerCase())
+        item?.username?.toLowerCase().includes(search.toLowerCase())
       )
       setFilteredData(filtered)
     } else {

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
-import { useParams } from 'react-router-dom'
 import { getRenderResult } from 'services/api'
 
 const useStyles = makeStyles((theme) => ({
@@ -16,17 +15,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function RenderResult(props) {
+function RenderResultStep(props) {
   const classes = useStyles()
-  const { editId, caseId } = useParams()
+  const { editId, caseId, setLoading, setAlertProps, setError } = props
 
   const [data, setData] = useState('gfdgds')
+
   useEffect(() => {
     getRenderResult(editId, caseId)
       .then((response) => {
         setData(response)
+        setLoading(false)
       })
-      .catch((error) => {})
+      .catch((error) => {
+        console.log('erooooor', error.response)
+        let errorMsg =
+          'Error en el renderitzat: ' + error?.response?.data?.detail
+        setData(errorMsg)
+        setLoading(false)
+        setError(true)
+
+        /* setAlertProps((alertProps) => ({
+          ...alertProps,
+          open: true,
+          message: errorMsg,
+        }))*/
+      })
   }, [editId, caseId])
   return (
     <Paper className={classes.container}>
@@ -38,4 +52,4 @@ function RenderResult(props) {
   )
 }
 
-export default RenderResult
+export default RenderResultStep

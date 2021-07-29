@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useParams, useHistory } from 'react-router-dom'
-import {
-  startEditing,
-  saveEditChanges,
-  uploadEdit,
-  discardEditChanges,
-} from 'services/api'
+import { startEditing, saveEditChanges, discardEditChanges } from 'services/api'
 import TemplateHeaders from 'components/TemplateHeaders'
 import Accordion from '@material-ui/core/Accordion'
-import Paper from '@material-ui/core/Paper'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
 import AccordionDetails from '@material-ui/core/AccordionDetails'
 import Typography from '@material-ui/core/Typography'
@@ -18,7 +12,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import SimpleEditor from './SimpleEditor'
 import RichTextEditor from './RichTextEditor'
 import CaseList from './CaseList'
-import SourcesList from './SourcesList'
 
 const useStyles = makeStyles((theme) => ({
   editor: {
@@ -46,9 +39,7 @@ function Editor(props) {
   const [headersData, setHeadersdData] = useState({})
   const [saveEditsResponse, setSaveEditsResponse] = useState([])
   const [openCaseDialog, setOpenCaseDialog] = useState(false)
-  const [openSourcesList, setOpenSourcesList] = useState(false)
   const [selectedCase, setSelectedCase] = useState(false)
-  const [selectedSource, setSelectedSource] = useState(false)
   const [isNewEdit, setIsNewEdit] = useState(false)
   const history = useHistory()
 
@@ -85,18 +76,6 @@ function Editor(props) {
       })
       .catch((error) => {})
   }
-  useEffect(() => {
-    if (selectedSource && selectedSource !== undefined) {
-      uploadEdit(editId, selectedSource)
-        .then((response) => {
-          console.log(response)
-          history.push('/')
-        })
-        .catch((error) => {
-          console.log('error')
-        })
-    }
-  }, [selectedSource])
 
   console.log('selected', selectedCase)
   console.log('allowed', editor)
@@ -169,36 +148,18 @@ function Editor(props) {
             setOpenCaseDialog(true)
           }}
         >
-          Guardar Canvis i veure resultat
-        </Button>
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={(e) => {
-            saveChanges(e)
-            setOpenSourcesList(true)
-          }}
-        >
-          Guardar Canvis i pujar-los a l'ERP
+          Veure resultat
         </Button>
       </div>
       <CaseList
         data={{}}
         open={openCaseDialog}
-        template_id={id}
+        templateId={id}
+        editId={editId}
         onClose={(e) => {
           setSelectedCase(e)
           setOpenCaseDialog(false)
           console.log('seleeecteeed', selectedCase)
-        }}
-      />
-      <SourcesList
-        data={{}}
-        open={openSourcesList}
-        onClose={(e) => {
-          setSelectedSource(e)
-          setOpenSourcesList(false)
-          console.log('sourceee   seleeecteeed', selectedSource)
         }}
       />
     </div>

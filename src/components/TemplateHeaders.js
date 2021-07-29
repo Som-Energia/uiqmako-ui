@@ -52,7 +52,7 @@ function TemplateHeaders(props) {
     props.passChildData(modifiedFields)
   }, [modifiedFields])
   return (
-    <Accordion>
+    <Accordion defaultExpanded>
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1a-content"
