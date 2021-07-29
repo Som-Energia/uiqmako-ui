@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import { doLogin } from 'services/api'
+import { doLogin } from 'services/users'
 import Title from './Title'
 import Register from 'components/Register'
 

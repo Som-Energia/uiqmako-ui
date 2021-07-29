@@ -53,24 +53,8 @@ export const getSingleTemplate = async (template_id, userToken) => {
     })
 }
 
-export const doLogin = async (username, password) => {
-  const url = `${process.env.REACT_APP_API_BASE_URL}/token`
-  var bodyFormData = new FormData()
-  bodyFormData.append('username', username)
-  bodyFormData.append('password', password)
-  let headers = {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
-  }
-  return axios({ method: 'POST', url, headers, data: bodyFormData }).then(
-    (response) => {
-      return response?.data?.access_token
-    }
-  )
-}
-
 export const startEditing = async (template_id) => {
-  const url = `${process.env.REACT_APP_API_BASE_URL}/edit/${template_id}`
+  const url = `${process.env.REACT_APP_API_BASE_URL}/edits/${template_id}`
   const token = getToken()
   let headers = {
     'Content-Type': 'application/json',
@@ -87,7 +71,7 @@ export const startEditing = async (template_id) => {
 }
 
 export const checkEdits = async (template_id) => {
-  const url = `${process.env.REACT_APP_API_BASE_URL}/checkEdits/${template_id}`
+  const url = `${process.env.REACT_APP_API_BASE_URL}/templates/${template_id}/checkEdits`
   const token = getToken()
   console.log('eeeooo')
   let headers = {
@@ -96,7 +80,7 @@ export const checkEdits = async (template_id) => {
     Authorization: `Bearer ${token}`,
   }
   return axios({
-    method: 'POST',
+    method: 'GET',
     url,
     headers,
   }).then((response) => {
@@ -114,7 +98,7 @@ export const saveEditChanges = async (
   console.log('cridoo?', templateId, text, byType, templateHeaders)
   const token = getToken()
 
-  const url = `${process.env.REACT_APP_API_BASE_URL}/edit/${templateId}`
+  const url = `${process.env.REACT_APP_API_BASE_URL}/edits/${templateId}`
   const edit_content = {
     def_body_text: text,
     by_type: JSON.stringify(byType),
@@ -141,7 +125,7 @@ export const saveEditChanges = async (
 export const discardEditChanges = async (templateId) => {
   const token = getToken()
 
-  const url = `${process.env.REACT_APP_API_BASE_URL}/edit/${templateId}`
+  const url = `${process.env.REACT_APP_API_BASE_URL}/edits/${templateId}`
 
   let headers = {
     'Content-Type': 'application/json',
@@ -160,7 +144,7 @@ export const discardEditChanges = async (templateId) => {
 export const getTemplateCases = async (templateId) => {
   const token = getToken()
 
-  const url = `${process.env.REACT_APP_API_BASE_URL}/cases/${templateId}`
+  const url = `${process.env.REACT_APP_API_BASE_URL}/templates/${templateId}/cases`
   let headers = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': 'http://localhost:*',
@@ -180,7 +164,8 @@ export const getRenderResult = async (editId, caseId) => {
   const params = new URLSearchParams({
     case_id: caseId,
   }).toString()
-  const url = `${process.env.REACT_APP_API_BASE_URL}/render/${editId}?` + params
+  const url =
+    `${process.env.REACT_APP_API_BASE_URL}/edits/${editId}/render?` + params
   let headers = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': 'http://localhost:*',
@@ -202,7 +187,8 @@ export const uploadEdit = async (editId, source_name) => {
   const params = new URLSearchParams({
     source: source_name,
   }).toString()
-  const url = `${process.env.REACT_APP_API_BASE_URL}/upload/${editId}?` + params
+  const url =
+    `${process.env.REACT_APP_API_BASE_URL}/edits/${editId}/upload?` + params
   let headers = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': 'http://localhost:*',
@@ -224,7 +210,7 @@ export const createCase = async (caseName, caseId, templateId) => {
   bodyFormData.append('case_name', caseName)
   bodyFormData.append('case_id', caseId)
 
-  const url = `${process.env.REACT_APP_API_BASE_URL}/cases/${templateId}`
+  const url = `${process.env.REACT_APP_API_BASE_URL}/templates/${templateId}/cases`
   let headers = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': 'http://localhost:*',

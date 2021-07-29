@@ -1,19 +1,20 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { ThemeProvider } from '@material-ui/styles'
 import { createMuiTheme } from '@material-ui/core/styles'
 import 'App.css'
 import Routes from 'routes'
 import { useToken } from 'useToken'
 import Login from 'components/LogIn'
-import { blue, indigo } from '@material-ui/core/colors'
+import { pink, indigo } from '@material-ui/core/colors'
+import SimpleSnackbar from 'components/SimpleSnackbar'
 
 const theme = createMuiTheme({
   palette: {
     secondary: {
-      main: blue[900],
+      main: pink[900],
     },
     primary: {
-      main: indigo[700],
+      main: pink[700],
     },
   },
   typography: {
@@ -24,16 +25,24 @@ const theme = createMuiTheme({
 
 function App(props) {
   const { token, setToken } = useToken()
+  const [alertProps, setAlertProps] = useState({
+    className: 'alert-red',
+    open: false,
+    message: 'Sóc una alerta',
+  })
+
+  //const setOpenAlert = useEffect(() => {}, [])
 
   return (
     <div className="App">
       {(token && (
         <ThemeProvider theme={theme}>
           <Suspense fallback={<></>}>
-            <Routes setToken={setToken} />
+            <Routes setToken={setToken} setAlertProps={setAlertProps} />
           </Suspense>
         </ThemeProvider>
       )) || <Login setToken={setToken} />}
+      <SimpleSnackbar alertProps={alertProps} setAlertProps={setAlertProps} />
     </div>
   )
 }
