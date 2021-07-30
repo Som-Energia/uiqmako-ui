@@ -22,6 +22,12 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
   },
+  progress: {
+    minHeight: '100px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }))
 
 function CaseStepper(props) {
@@ -99,14 +105,19 @@ function CaseStepper(props) {
           data?.cases &&
           data?.cases.length !== 0 && (
             <div>
-              {loading && <CircularProgress />}
-              <RenderResultStep
-                setLoading={setLoading}
-                setError={setError}
-                setAlertProps={props.setAlertProps}
-                editId={edit_id}
-                caseId={data?.cases[activeStep].id}
-              />
+              {loading ? (
+                <div className={classes.progress}>
+                  <CircularProgress />
+                </div>
+              ) : (
+                <RenderResultStep
+                  setLoading={setLoading}
+                  setError={setError}
+                  setAlertProps={props.setAlertProps}
+                  editId={edit_id}
+                  caseId={data?.cases[activeStep].id}
+                />
+              )}
               <div>
                 <Button
                   disabled={activeStep === 0}

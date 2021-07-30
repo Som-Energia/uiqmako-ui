@@ -1,9 +1,13 @@
 import React, { lazy } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import Title from 'components/Title'
+import NavBar from 'components/NavBar'
 import Menu from 'containers/Menu'
 
+import { makeStyles } from '@material-ui/core/styles'
+
 function Routes(props) {
+  const classes = useStyles()
+
   const loadMainPage = () => {
     const MainPage = lazy(() => import('./containers/Main'))
     return <MainPage {...props} />
@@ -38,36 +42,54 @@ function Routes(props) {
   }
 
   return (
-    <Router>
-      <header className="App-header">
-        <Title />
-      </header>
-      <div className="container">
-        <div className="menu">
+    <div className={classes.root}>
+      <Router>
+        <header>
+          <NavBar />
+        </header>
+        <div className="container">
           <Menu setToken={props.setToken} />
+          <div className={classes.main}>
+            <Switch>
+              <Route exact path="/" render={loadMainPage} />
+              <Route exact path="/settings" render={loadUsers} />
+              <Route exact path="/newTemplate" render={loadNewTemplateForm} />
+              <Route exact path="/templates/:id" render={LoadSingleTemplate} />
+              <Route exact path="/edit/:editor/:id" render={LoadEditor} />
+              <Route
+                exact
+                path="/validation/:template_id/:edit_id"
+                render={LoadResultStepper}
+              />
+              <Route
+                exact
+                path="/render/:editId/:caseId"
+                render={LoadRenderResult}
+              />
+            </Switch>
+          </div>
         </div>
-        <div className="main">
-          <Switch>
-            <Route exact path="/" render={loadMainPage} />
-            <Route exact path="/settings" render={loadUsers} />
-            <Route exact path="/newTemplate" render={loadNewTemplateForm} />
-            <Route exact path="/templates/:id" render={LoadSingleTemplate} />
-            <Route exact path="/edit/:editor/:id" render={LoadEditor} />
-            <Route
-              exact
-              path="/validation/:template_id/:edit_id"
-              render={LoadResultStepper}
-            />
-            <Route
-              exact
-              path="/render/:editId/:caseId"
-              render={LoadRenderResult}
-            />
-          </Switch>
-        </div>
-      </div>
-    </Router>
+      </Router>
+    </div>
   )
 }
 
 export default Routes
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: '#f2f2f2',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'between',
+    minHeight: '100vh',
+    position: 'relative',
+  },
+  main: {
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    paddingLeft: '300px',
+  },
+}))

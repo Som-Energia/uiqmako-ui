@@ -28,8 +28,17 @@ const menuItems = [
 
 const useStyles = makeStyles({
   menu: {
-    width: '250',
-    top: '3000px',
+    display: 'flex',
+    position: 'absolute',
+    left: 0,
+    paddingRight: '16px',
+    borderRight: '1px solid rgba(0, 0, 0, 0.12)',
+    height: '100vh',
+    backgroundColor: '#f2f2f2',
+  },
+  menuContent: {
+    position: 'sticky',
+    top: 30,
   },
 })
 
@@ -40,7 +49,7 @@ function Menu(props) {
 
   return (
     <div className={classes.menu}>
-      <List>
+      <List className={classes.menuContent}>
         {menuItems.map((item, index) => (
           <ListItem
             button

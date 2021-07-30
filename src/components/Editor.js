@@ -18,14 +18,18 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   container: {
-    margin: '1% 10%',
-    textAlign: 'center',
+    margin: '2rem 5rem',
   },
   buttonGroup: {
     marginTop: '2%',
     textAlign: 'justify',
     display: 'flex',
     justifyContent: 'space-around',
+  },
+  title: {
+    fontFamily: 'Montserrat',
+    fontSize: '1.8rem',
+    fontWeight: 500,
   },
 }))
 
@@ -78,7 +82,7 @@ function Editor(props) {
 
   return (
     <div className={classes.container}>
-      <Typography variant="h3" component="h2">
+      <Typography variant="h3" component="h2" className={classes.title}>
         {headersData.name}
       </Typography>
       <TemplateHeaders

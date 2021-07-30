@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     margin: '2% auto',
   },
   modalContainer: {
+    backgroundColor: '#fff',
     maxHeight: '90%',
     overflow: 'auto',
   },
@@ -40,6 +41,7 @@ function TemplateList(props) {
   const [sigleTemplate, setSingleTemplate] = useState({})
   const classes = useStyles()
   const history = useHistory()
+
   useEffect(() => {
     getTemplateList()
       .then((response) => {
@@ -68,6 +70,8 @@ function TemplateList(props) {
     if (openId !== false) {
       getSingleTemplate(openId)
         .then((response) => {
+          console.log('hola', response)
+
           setSingleTemplate(response)
           setOpen(true)
           setIsLoading(false)
