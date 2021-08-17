@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 import { getRenderResult } from 'services/api'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const useStyles = makeStyles((theme) => ({
   container: {
     width: '90%',
-    margin: '0 auto',
+    margin: '1rem auto',
     height: '80%',
     padding: '1%',
   },
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 function RenderResultStep(props) {
   const classes = useStyles()
-  const { editId, caseId, setLoading, setAlertProps, setError } = props
+  const { editId, caseId, setLoading, loading, setAlertProps, setError } = props
 
   const [data, setData] = useState('gfdgds')
 
@@ -26,6 +27,7 @@ function RenderResultStep(props) {
       .then((response) => {
         setData(response)
         setLoading(false)
+        console.log('he rebut')
       })
       .catch((error) => {
         let errorMsg =
@@ -42,12 +44,20 @@ function RenderResultStep(props) {
       })
   }, [editId, caseId])
   return (
-    <Paper className={classes.container}>
-      <div
-        className={classes.renderContainer}
-        dangerouslySetInnerHTML={{ __html: data }}
-      />
-    </Paper>
+    <>
+      {loading ? (
+        <div className={classes.progress}>
+          <CircularProgress />
+        </div>
+      ) : (
+        <Paper className={classes.container}>
+          <div
+            className={classes.renderContainer}
+            dangerouslySetInnerHTML={{ __html: data }}
+          />
+        </Paper>
+      )}
+    </>
   )
 }
 

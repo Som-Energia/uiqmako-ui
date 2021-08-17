@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react'
+import { React, useEffect, useState, useRef } from 'react'
 import { checkEdits } from 'services/api'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
@@ -7,12 +7,16 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogActions from '@material-ui/core/DialogActions'
 import Fab from '@material-ui/core/Fab'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, withStyles } from '@material-ui/core/styles'
 import { Paper } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 import TemplateHeaders from 'components/TemplateHeaders'
-
+import MenuList from '@material-ui/core/MenuList'
+import Popper from '@material-ui/core/Popper'
+import Grow from '@material-ui/core/Grow'
+import MenuItem from '@material-ui/core/MenuItem'
 import EditIcon from '@material-ui/icons/Edit'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 
 const useStyles = makeStyles((theme) => ({
   editor: {
@@ -23,19 +27,40 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 auto',
     padding: '2% 10%',
   },
-  paper: {
+  paperAll: {
     overflow: 'auto',
     padding: '2%',
+    backgroundColor: '#f2f2f2',
   },
   preview: {
     padding: '2%',
   },
   editIcon: {
-    position: 'absolute',
-    bottom: '24px',
-    right: '24px',
+    position: 'fixed',
+    bottom: '10%',
+    left: '45%',
+    zIndex: '10',
+  },
+  transparentPaper: {
+    backgroundColor: 'transparent',
+  },
+  menuListItem: {
+    pointerEvents: 'none',
+    '&:hover, &:focus': {
+      backgroundColor: 'transparent',
+    },
+  },
+  fabListItem: {
+    pointerEvents: 'auto',
   },
 }))
+
+const StyledMenu = withStyles({
+  root: {
+    backgroundColor: 'transparent',
+    position: 'relative',
+  },
+})((props) => <MenuList elevation={0} {...props} />)
 
 function SingleTemplate(props) {
   const { data, templateId } = props
@@ -45,7 +70,8 @@ function SingleTemplate(props) {
   const [chosenEditor, setChosenEditor] = useState(false)
 
   const [editExpanded, setEditExpanded] = useState(false)
-
+  const [open, setOpen] = useState(false)
+  const anchorRef = useRef(null)
   const classes = useStyles()
   const history = useHistory()
   const createPreview = () => {
@@ -68,9 +94,27 @@ function SingleTemplate(props) {
         .catch((error) => {})
     }
   }, [chosenEditor])
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen)
+  }
 
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return
+    }
+
+    setOpen(false)
+  }
   const doNothing = (e) => console.log(e)
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = useRef(open)
+  useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus()
+    }
 
+    prevOpen.current = open
+  }, [open])
   const confirmDialog = (
     <>
       <Dialog
@@ -113,9 +157,73 @@ function SingleTemplate(props) {
         aria-label="add"
         className={classes.editIcon}
         onClick={() => setEditExpanded(!editExpanded)}
+        aria-controls={open ? 'menu-list-grow' : undefined}
+        aria-haspopup="true"
+        onClick={handleToggle}
+        ref={anchorRef}
       >
         <EditIcon />
       </Fab>
+      <Popper
+        open={open}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        transition
+        disablePortal
+        style={{
+          zIndex: '100',
+        }}
+      >
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{
+              transformOrigin:
+                placement === 'bottom' ? 'center top' : 'center bottom',
+              zIndex: '100',
+            }}
+          >
+            <Paper elevation={0} className={classes.transparentPaper}>
+              <ClickAwayListener onClickAway={handleClose}>
+                <StyledMenu autoFocusItem={open} id="menu-list-grow">
+                  <MenuItem
+                    className={classes.menuListItem}
+                    children={
+                      <Fab
+                        className={classes.fabListItem}
+                        color="primary"
+                        variant="contained"
+                        id="simple"
+                        onClick={(e) => {
+                          setChosenEditor('simple')
+                        }}
+                      >
+                        Editor Simple
+                      </Fab>
+                    }
+                    onClick={handleClose}
+                  />
+                  <MenuItem
+                    className={classes.menuListItem}
+                    children={
+                      <Fab
+                        className={classes.fabListItem}
+                        color="primary"
+                        variant="contained"
+                        id="0"
+                        onClick={(e) => setChosenEditor('complex')}
+                      >
+                        Editor HTML
+                      </Fab>
+                    }
+                    onClick={handleClose}
+                  />
+                </StyledMenu>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
       {editExpanded && (
         <>
           <Button
@@ -139,7 +247,7 @@ function SingleTemplate(props) {
         </>
       )}
 
-      <Paper className={classes.paper}>
+      <Paper elevation={0} className={classes.paperAll}>
         <TemplateHeaders
           headers={Object.assign({}, data?.headers, data?.meta_data)}
           passChildData={doNothing}

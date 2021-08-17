@@ -12,32 +12,41 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline-block',
     width: '50%',
   },
+  container: {
+    padding: '10px',
+  },
+  heading: {
+    fontFamily: 'Montserrat',
+    fontWeight: '600',
+  },
 }))
 
 const fields = [
   {
     key: 'name',
-    width: '80%',
+    width: '100%',
   },
   {
     key: 'def_subject',
-    width: '80%',
+    width: '100%',
   },
   {
     key: 'def_to',
-    width: '40%',
+    width: '49%',
+    marginRight: '2%',
   },
   {
     key: 'def_bcc',
-    width: '40%',
+    width: '49%',
   },
   {
     key: 'lang',
-    width: '40%',
+    width: '49%',
+    marginRight: '2%',
   },
   {
     key: 'model_int_name',
-    width: '40%',
+    width: '49%',
   },
 ]
 function TemplateHeaders(props) {
@@ -61,7 +70,7 @@ function TemplateHeaders(props) {
         <Typography className={classes.heading}>Capçaleres</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <div>
+        <div className={classes.container}>
           {fields?.map((item, index) => (
             <TextField
               className={classes.textField}
@@ -71,7 +80,7 @@ function TemplateHeaders(props) {
               fullWidth
               margin="dense"
               variant="outlined"
-              style={{ width: item.width }}
+              style={{ width: item.width, marginRight: item.marginRight }}
               onChange={(event) => {
                 setFields((prevModifiedFields) => ({
                   ...prevModifiedFields,

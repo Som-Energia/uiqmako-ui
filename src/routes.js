@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import React, { lazy, useState } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import NavBar from 'components/NavBar'
 import Menu from 'containers/Menu'
@@ -7,14 +7,22 @@ import { makeStyles } from '@material-ui/core/styles'
 
 function Routes(props) {
   const classes = useStyles()
+  const [searchText, setSearchText] = useState('')
+  const [searchVisible, setSearchVisible] = useState(false)
 
   const loadMainPage = () => {
     const MainPage = lazy(() => import('./containers/Main'))
-    return <MainPage {...props} />
+    return (
+      <MainPage
+        {...props}
+        setSearchVisible={setSearchVisible}
+        search={searchText}
+      />
+    )
   }
   const loadNewTemplateForm = () => {
     const NewTemplateForm = lazy(() => import('./containers/NewTemplateForm'))
-    return <NewTemplateForm {...props} />
+    return <NewTemplateForm {...props} setSearchVisible={setSearchVisible} />
   }
 
   const LoadSingleTemplate = () => {
@@ -23,7 +31,7 @@ function Routes(props) {
   }
 
   const LoadEditor = () => {
-    const Editor = lazy(() => import('./components/Editor'))
+    const Editor = lazy(() => import('./containers/Editor'))
     return <Editor {...props} />
   }
 
@@ -38,16 +46,22 @@ function Routes(props) {
 
   const loadUsers = () => {
     const Users = lazy(() => import('./components/Users'))
-    return <Users {...props} />
+    return (
+      <Users
+        {...props}
+        setSearchVisible={setSearchVisible}
+        search={searchText}
+      />
+    )
   }
 
   return (
     <div className={classes.root}>
       <Router>
         <header>
-          <NavBar />
+          <NavBar setSearchText={setSearchText} searchVisible={searchVisible} />
         </header>
-        <div className="container">
+        <div className={classes.container}>
           <Menu setToken={props.setToken} />
           <div className={classes.main}>
             <Switch>
@@ -90,6 +104,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
-    paddingLeft: '300px',
+  },
+  container: {
+    display: 'flex',
   },
 }))

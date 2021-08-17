@@ -28,17 +28,27 @@ const menuItems = [
 
 const useStyles = makeStyles({
   menu: {
-    display: 'flex',
-    position: 'absolute',
-    left: 0,
+    maxWidth: '300px',
     paddingRight: '16px',
     borderRight: '1px solid rgba(0, 0, 0, 0.12)',
-    height: '100vh',
     backgroundColor: '#f2f2f2',
   },
+
   menuContent: {
     position: 'sticky',
-    top: 30,
+    top: '10px',
+    height: '90vh',
+    display: 'flex',
+    flexGrow: '1',
+    flexDirection: 'column',
+  },
+  topItems: {
+    display: 'flex',
+    flexGrow: '1',
+    flexDirection: 'column',
+  },
+  singleItem: {
+    margin: '0.4rem 0',
   },
 })
 
@@ -50,31 +60,36 @@ function Menu(props) {
   return (
     <div className={classes.menu}>
       <List className={classes.menuContent}>
-        {menuItems.map((item, index) => (
+        <div className={classes.topItems}>
+          {menuItems.map((item, index) => (
+            <ListItem
+              button
+              className={classes.singleItem}
+              key={index}
+              disabled={item.disabled}
+              onClick={(e) => history.push(item.path)}
+            >
+              {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
+              <ListItemText
+                primary={item.title}
+                secondary={item.disabled && 'Només per administradors'}
+              />
+            </ListItem>
+          ))}
+        </div>
+        <div className={classes.menuLogOut}>
           <ListItem
             button
-            key={index}
-            disabled={item.disabled}
-            onClick={(e) => history.push(item.path)}
+            onClick={(e) => {
+              setToken('')
+            }}
           >
-            {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
-            <ListItemText
-              primary={item.title}
-              secondary={item.disabled && 'Només per administradors'}
-            />
+            <ListItemIcon>
+              <ExitToAppRoundedIcon />
+            </ListItemIcon>
+            <ListItemText primary="Sortir" />
           </ListItem>
-        ))}
-        <ListItem
-          button
-          onClick={(e) => {
-            setToken('')
-          }}
-        >
-          <ListItemIcon>
-            <ExitToAppRoundedIcon />
-          </ListItemIcon>
-          <ListItemText primary="Sortir" />
-        </ListItem>
+        </div>
       </List>
     </div>
   )

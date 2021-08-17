@@ -17,11 +17,11 @@ const useStyles = makeStyles((theme) => ({
     margin: '2% auto',
   },
   modalContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: '#f2f2f2',
     maxHeight: '90%',
+    minHeight: '90%',
     overflow: 'auto',
   },
-  searchField: {},
   searchFieldContainer: {
     display: 'flex',
     justifyContent: 'flex-end',
@@ -29,13 +29,16 @@ const useStyles = makeStyles((theme) => ({
     width: '80%',
   },
   templateList: {},
+  provaMenu: {
+    backgroundColor: 'none',
+  },
 }))
 
 function TemplateList(props) {
   const [data, setData] = useState([])
   const [filteredData, setFilteredData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const [search, setSearch] = useState('')
+  const { search } = props
   const [openId, setOpenId] = useState(false)
   const [open, setOpen] = useState(false)
   const [sigleTemplate, setSingleTemplate] = useState({})
@@ -88,15 +91,6 @@ function TemplateList(props) {
   }
   return (
     <div>
-      <Box className={classes.searchFieldContainer}>
-        <TextField
-          className={classes.searchField}
-          onChange={(e) => setSearch(e.target.value)}
-          label="Cerca"
-          variant="outlined"
-        />
-      </Box>
-
       <div className={classes.templateList}>
         {filteredData?.map((item, index) => (
           <TemplateInfo key={index} item={item} setClicked={setOpenId} />
@@ -121,3 +115,13 @@ function TemplateList(props) {
 }
 
 export default TemplateList
+
+/*
+      <Box invisible={true} className={classes.searchFieldContainer}>
+        <TextField
+          className={classes.searchField}
+          onChange={(e) => setSearch(e.target.value)}
+          label="Cerca"
+          variant="outlined"
+        />
+      </Box>*/

@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 function TemplateList(props) {
   const [data, setData] = useState([])
   const [filteredData, setFilteredData] = useState([])
-  const [search, setSearch] = useState('')
+  const { search } = props
   const [reload, setReload] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const classes = useStyles()
@@ -41,6 +41,8 @@ function TemplateList(props) {
   const [value, setValue] = useState({})
   const [changedUser, setChangedUser] = useState({})
   const [showAlert, setShowAlert] = useState()
+
+  props.setSearchVisible(true)
 
   useEffect(() => {
     getUsers()
@@ -87,15 +89,7 @@ function TemplateList(props) {
   }, [changedUser])
 
   return (
-    <div>
-      <Box className={classes.searchFieldContainer}>
-        <TextField
-          className={classes.searchField}
-          onChange={(e) => setSearch(e.target.value)}
-          label="Cerca"
-          variant="outlined"
-        />
-      </Box>
+    <div style={{ paddingTop: '2em' }}>
       <TableContainer component={Paper} className={classes.container}>
         <Table
           className={classes.table}

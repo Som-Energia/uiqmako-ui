@@ -2,10 +2,12 @@ import axios from 'axios'
 import { getToken, removeToken } from 'useToken'
 
 export const getTemplateList = async () => {
+  const token = getToken()
   const url = `${process.env.REACT_APP_API_BASE_URL}/templates`
   const headers = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': 'http://localhost:*',
+    Authorization: `Bearer ${token}`,
   }
 
   return axios({ method: 'GET', url, headers }).then((response) => {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { getTemplateCases, uploadEdit } from 'services/api'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import Stepper from '@material-ui/core/Stepper'
 import Step from '@material-ui/core/Step'
 import StepLabel from '@material-ui/core/StepLabel'
@@ -14,6 +13,11 @@ import SourcesList from './SourcesList'
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
+    textAlign: 'center',
+  },
+  stepper: {
+    width: '60%',
+    margin: '1rem 20%',
   },
   backButton: {
     marginRight: theme.spacing(1),
@@ -74,10 +78,16 @@ function CaseStepper(props) {
   const handleReset = () => {
     setActiveStep(0)
   }
+  console.log(activeStep)
+  console.log('if', activeStep === 0)
 
   return (
     <div className={classes.root}>
-      <Stepper activeStep={activeStep} alternativeLabel>
+      <Stepper
+        className={classes.stepper}
+        activeStep={activeStep}
+        alternativeLabel
+      >
         {data?.cases?.map((item, idx) => (
           <Step key={idx}>
             <StepLabel>{item.name}</StepLabel>
@@ -105,22 +115,16 @@ function CaseStepper(props) {
           data?.cases &&
           data?.cases.length !== 0 && (
             <div>
-              {loading ? (
-                <div className={classes.progress}>
-                  <CircularProgress />
-                </div>
-              ) : (
-                <RenderResultStep
-                  setLoading={setLoading}
-                  setError={setError}
-                  setAlertProps={props.setAlertProps}
-                  editId={edit_id}
-                  caseId={data?.cases[activeStep].id}
-                />
-              )}
+              <RenderResultStep
+                setLoading={setLoading}
+                setError={setError}
+                setAlertProps={props.setAlertProps}
+                editId={edit_id}
+                caseId={data?.cases[activeStep].id}
+              />
+
               <div>
                 <Button
-                  disabled={activeStep === 0}
                   onClick={(e) => history.push(`/edit/complex/${template_id}`)}
                   className={classes.backButton}
                   disabled={loading}
@@ -128,10 +132,9 @@ function CaseStepper(props) {
                   Tornar a l'edició
                 </Button>
                 <Button
-                  disabled={activeStep === 0}
+                  disabled={activeStep == 0}
                   onClick={handleBack}
                   className={classes.backButton}
-                  disabled={loading || error}
                 >
                   Anterior
                 </Button>

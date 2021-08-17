@@ -3,11 +3,13 @@ import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import IconButton from '@material-ui/core/IconButton'
+import TextField from '@material-ui/core/TextField'
 import MenuIcon from '@material-ui/icons/Menu'
+import { useState } from 'react'
 
-const NavBar = () => {
+const NavBar = (props) => {
   const classes = useStyles()
+  const { setSearchText, searchVisible } = props
 
   return (
     <AppBar position="static" color="inherit" elevation={0}>
@@ -16,6 +18,15 @@ const NavBar = () => {
           <img src="/cuca.png" alt="cuca" />
           <Typography variant="h1">UI-QMako</Typography>
         </div>
+        {searchVisible && (
+          <TextField
+            className={classes.searchField}
+            onChange={(e) => setSearchText(e.target.value)}
+            label="Cerca"
+            variant="outlined"
+            margin="dense"
+          />
+        )}
       </Toolbar>
     </AppBar>
   )
@@ -48,5 +59,8 @@ const useStyles = makeStyles((theme) => ({
   userProfile: {
     display: 'flex',
     alignItems: 'center',
+  },
+  searchField: {
+    fontSize: '300',
   },
 }))

@@ -7,20 +7,21 @@ import TemplateInfo from 'components/TemplateInfo'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    width: '80%',
     padding: '2rem',
-    margin: '0 auto',
     marginTop: '1.5rem',
     textAlign: 'center',
+    borderRadius: '0',
   },
   input: {
-    paddingBottom: '1rem',
-    width: '80%',
+    width: '100%',
+  },
+  container: {
+    margin: '2rem 5rem',
   },
   title: {
-    fontSize: '3em',
-    color: '#7c828e',
-    marginBottom: '2%',
+    fontFamily: 'Montserrat',
+    fontSize: '1.8rem',
+    fontWeight: 500,
   },
   buttons: {
     display: 'flex',
@@ -33,12 +34,14 @@ const useStyles = makeStyles((theme) => ({
   },
   resultPaper: {},
 }))
-function NewTemplateForm() {
+function NewTemplateForm(props) {
   const classes = useStyles()
   const [xml_id, setXmlId] = useState('')
   const [data, setData] = useState([])
   const [redirect, setRedirect] = useState(false)
   const history = useHistory()
+
+  props.setSearchVisible(false)
 
   const inputChange = (event) => {
     setXmlId(event.target.value)
@@ -81,16 +84,16 @@ function NewTemplateForm() {
       )
   }
   return (
-    <div>
-      <Paper className={classes.paper}>
-        <Typography className={classes.title} variant="h3">
-          Afegir una nova plantilla
-        </Typography>
-        <form
-          className={classes.form_root}
-          autoComplete="off"
-          onSubmit={handleCreateTemplate}
-        >
+    <div className={classes.container}>
+      <Typography className={classes.title} variant="h3">
+        Afegir una nova plantilla
+      </Typography>
+      <form
+        className={classes.form_root}
+        autoComplete="off"
+        onSubmit={handleCreateTemplate}
+      >
+        <Paper className={classes.paper}>
           <TextField
             className={classes.input}
             id="outlined-basic"
@@ -99,28 +102,28 @@ function NewTemplateForm() {
             required={true}
             onChange={inputChange}
           />
-          <div className={classes.buttons}>
-            <Button
-              variant="outlined"
-              onClick={(e) => {
-                history.push('/')
-              }}
-              color="primary"
-              className={classes.singleButton}
-            >
-              Cancel·lar
-            </Button>
-            <Button
-              variant="contained"
-              type="submit"
-              color="primary"
-              className={classes.singleButton}
-            >
-              Afegeix
-            </Button>
-          </div>
-        </form>
-      </Paper>
+        </Paper>
+        <div className={classes.buttons}>
+          <Button
+            variant="outlined"
+            onClick={(e) => {
+              history.push('/')
+            }}
+            color="primary"
+            className={classes.singleButton}
+          >
+            Cancel·lar
+          </Button>
+          <Button
+            variant="contained"
+            type="submit"
+            color="primary"
+            className={classes.singleButton}
+          >
+            Afegeix
+          </Button>
+        </div>
+      </form>
     </div>
   )
 }

@@ -9,9 +9,9 @@ import AccordionDetails from '@material-ui/core/AccordionDetails'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import SimpleEditor from './SimpleEditor'
-import RichTextEditor from './RichTextEditor'
-import CaseList from './CaseList'
+import SimpleEditor from '../components/SimpleEditor'
+import RichTextEditor from '../components/RichTextEditor'
+import CaseList from '../components/CaseList'
 
 const useStyles = makeStyles((theme) => ({
   editor: {
@@ -30,6 +30,10 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Montserrat',
     fontSize: '1.8rem',
     fontWeight: 500,
+  },
+  heading: {
+    fontFamily: 'Montserrat',
+    fontWeight: '600',
   },
 }))
 
