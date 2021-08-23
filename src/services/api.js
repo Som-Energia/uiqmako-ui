@@ -17,11 +17,20 @@ export const getTemplateList = async () => {
 
 export const createTemplate = async (data) => {
   const url = `${process.env.REACT_APP_API_BASE_URL}/templates`
+  const token = getToken()
+  const headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:*',
+    Authorization: `Bearer ${token}`,
+  }
+
   var bodyFormData = new FormData()
   bodyFormData.append('xml_id', data)
-  return axios({ method: 'POST', url, data: bodyFormData }).then((response) => {
-    return response?.data
-  })
+  return axios({ method: 'POST', url, headers, data: bodyFormData }).then(
+    (response) => {
+      return response?.data
+    }
+  )
 }
 
 export const getSingleTemplate = async (template_id, userToken) => {
@@ -173,6 +182,7 @@ export const getRenderResult = async (editId, caseId) => {
 
 export const uploadEdit = async (editId, source_name) => {
   const token = getToken()
+  console.log('entroooo')
   const params = new URLSearchParams({
     source: source_name,
   }).toString()

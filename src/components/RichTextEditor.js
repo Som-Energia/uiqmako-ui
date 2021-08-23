@@ -80,8 +80,8 @@ function RichTextEditor(props) {
                 setDefaultStyle="text-align: left; display: inline-block"
                 height={'auto'}
                 setOptions={{
-                  mode: 'inline',
                   buttonList: editorButtons,
+                  mode: 'inline',
                 }}
               />
             )) || (

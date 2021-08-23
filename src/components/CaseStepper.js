@@ -58,8 +58,10 @@ function CaseStepper(props) {
       uploadEdit(edit_id, selectedSource)
         .then((response) => {
           history.push('/')
+          setSelectedSource('')
         })
         .catch((error) => {
+          setSelectedSource('')
           console.log('error')
         })
     }

@@ -17,7 +17,13 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   submit: {
+    fontSize: '1rem',
+    color: '#fff',
     margin: theme.spacing(3, 0, 2),
+  },
+  linkLogin: {
+    cursor: 'pointer',
+    marginTop: theme.spacing(2),
   },
 }))
 
@@ -42,12 +48,11 @@ function Register(props) {
         })
     }
   }
-
   return (
     <>
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
-          Registre
+          Registrar-se
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
@@ -58,17 +63,25 @@ function Register(props) {
             required
             fullWidth
             id="username"
-            label="Username"
+            label="Usuari"
             name="username"
             autoFocus
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => {
+              setisInvalid(false)
+              setUsername(e.target.value)
+            }}
           />
           <TextField
             variant="outlined"
             margin="normal"
             required
             error={isPasswdInvalid}
-            helperText={isPasswdInvalid && 'Les contrassenyes no coincideixen'}
+            helperText={
+              isPasswdInvalid &&
+              (password.length < 8
+                ? 'La contrassenya ha de tenir mínim 8 caràcters'
+                : 'Les contrassenyes no coincideixen')
+            }
             fullWidth
             name="password"
             label="Contrassenya"
@@ -76,13 +89,17 @@ function Register(props) {
             id="password"
             autoComplete="current-password"
             onChange={(e) => setPassword(e.target.value)}
+            onBlur={(e) => setPasswdInvalid(password.length < 8)}
           />
           <TextField
             variant="outlined"
             margin="normal"
             required
             error={isPasswdInvalid}
-            helperText={isPasswdInvalid && 'Les contrassenyes no coincideixen'}
+            helperText={
+              isPasswdInvalid &&
+              (password.length < 8 ? '' : 'Les contrassenyes no coincideixen')
+            }
             fullWidth
             name="repeatPassword"
             label="Repeteix la contrassenya"
@@ -104,10 +121,11 @@ function Register(props) {
         </form>
         <Typography
           component="h2"
-          variant="h5"
+          variant="h6"
           onClick={(e) => props.setIsRegister(false)}
+          className={classes.linkLogin}
         >
-          Ja tens usuari? Fes Log-In
+          Ja tens usuari? <u>Entra</u>
         </Typography>
       </div>
     </>

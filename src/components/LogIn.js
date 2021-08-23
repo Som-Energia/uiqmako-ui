@@ -10,17 +10,32 @@ import Register from 'components/Register'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+  },
+  container: {
+    marginTop: '50px',
+    backgroundColor: '#fff',
+    padding: '50px',
+  },
+  logoContainer: {
+    marginBottom: theme.spacing(1),
+    textAlign: 'center',
+  },
+  submit: {
+    color: '#fff',
+    fontSize: '1rem',
+    margin: theme.spacing(3, 0, 2),
   },
   form: {
     width: '100%',
     marginTop: theme.spacing(1),
   },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
+  linkRegister: {
+    cursor: 'pointer',
+    marginTop: theme.spacing(2),
   },
 }))
 
@@ -48,13 +63,21 @@ function LogIn(props) {
   return (
     <div>
       <NavBar />
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" className={classes.container}>
+        <div className={classes.logoContainer}>
+          <img
+            src="/cuca.png"
+            layout="fixed"
+            width={150}
+            className={classes.logo}
+          />
+        </div>
         {(isRegister && (
           <Register setToken={props.setToken} setIsRegister={setIsRegister} />
         )) || (
           <div className={classes.paper}>
             <Typography component="h1" variant="h5">
-              Sign in
+              Inicia sessió per continuar
             </Typography>
             <form className={classes.form} noValidate onSubmit={handleSubmit}>
               <TextField
@@ -65,7 +88,7 @@ function LogIn(props) {
                 required
                 fullWidth
                 id="username"
-                label="Username"
+                label="Usuari"
                 name="username"
                 autoFocus
                 onChange={(e) => setUsername(e.target.value)}
@@ -91,15 +114,16 @@ function LogIn(props) {
                 color="primary"
                 className={classes.submit}
               >
-                Sign In
+                ENTRAR
               </Button>
             </form>
             <Typography
               component="h2"
-              variant="h5"
+              variant="h6"
               onClick={(e) => setIsRegister(true)}
+              className={classes.linkRegister}
             >
-              No tens usuari? Registra't
+              No tens usuari? <u>Registra't</u>
             </Typography>
           </div>
         )}

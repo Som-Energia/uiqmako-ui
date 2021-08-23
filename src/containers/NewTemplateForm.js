@@ -23,6 +23,11 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '1.8rem',
     fontWeight: 500,
   },
+  title: {
+    fontFamily: 'Montserrat',
+    fontSize: '1.8rem',
+    fontWeight: 500,
+  },
   buttons: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -30,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
   },
   singleButton: {
     width: '15%',
-    margin: '1%',
+    margin: '0 auto',
+    marginTop: theme.spacing(2),
   },
   resultPaper: {},
 }))
@@ -65,10 +71,12 @@ function NewTemplateForm(props) {
 
     if (redirect)
       return (
-        <div>
-          <Typography className={classes.title} variant="h3">
-            {text}
-          </Typography>
+        <>
+          <div className={classes.container}>
+            <Typography className={classes.title} component="h2" variant="h3">
+              {text}
+            </Typography>
+          </div>
           <TemplateInfo item={data.template} />
           <Button
             variant="outlined"
@@ -80,7 +88,7 @@ function NewTemplateForm(props) {
           >
             Tornar a la llista
           </Button>
-        </div>
+        </>
       )
   }
   return (

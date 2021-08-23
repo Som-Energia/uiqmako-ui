@@ -64,7 +64,8 @@ function TemplateInfo(props) {
             {model}
           </Typography>
           <p className={classes.lastUpdated}>
-            {last_updated.slice(0, 10)} {last_updated.slice(11, 16)}
+            {last_updated &&
+              last_updated.slice(0, 10) + ' ' + last_updated.slice(11, 16)}
           </p>
         </div>
       </Paper>
