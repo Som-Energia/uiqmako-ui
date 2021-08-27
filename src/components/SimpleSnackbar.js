@@ -1,18 +1,17 @@
 import React, { useState } from 'react'
 import Snackbar from '@material-ui/core/Snackbar'
-import IconButton from '@material-ui/core/IconButton'
-import CloseIcon from '@material-ui/icons/Close'
+
+import Alert from '@material-ui/lab/Alert'
+import { useAlert } from 'context/alertDetails'
 
 function SimpleSnackbar(props) {
-  const { alertProps, setAlertProps } = props
-
+  const { alertInfo, setAlertInfo } = useAlert()
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return
     }
-
-    setAlertProps((alertProps) => ({
-      ...alertProps,
+    setAlertInfo((alertInfo) => ({
+      ...alertInfo,
       open: false,
     }))
   }
@@ -24,12 +23,15 @@ function SimpleSnackbar(props) {
           vertical: 'bottom',
           horizontal: 'right',
         }}
-        className={alertProps?.className}
-        open={alertProps?.open}
+        open={alertInfo?.open}
         onClose={handleClose}
-        message={alertProps?.message}
+        message={alertInfo?.message}
         autoHideDuration={30000}
-      />
+      >
+        <Alert onClose={handleClose} severity={alertInfo?.severity}>
+          {alertInfo?.message}
+        </Alert>
+      </Snackbar>
     </div>
   )
 }

@@ -9,6 +9,11 @@ import Typography from '@material-ui/core/Typography'
 import { useParams, useHistory } from 'react-router-dom'
 import RenderResultStep from './RenderResultStep'
 import SourcesList from './SourcesList'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogActions from '@material-ui/core/DialogActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +48,8 @@ function CaseStepper(props) {
   const [error, setError] = useState(false)
   const [openSourcesList, setOpenSourcesList] = useState(false)
   const [selectedSource, setSelectedSource] = useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
+
   const history = useHistory()
 
   useEffect(() => {
@@ -61,6 +68,17 @@ function CaseStepper(props) {
           setSelectedSource('')
         })
         .catch((error) => {
+          console.log('--', error)
+          if (error.response?.status === 409) {
+            if (
+              error.response.data?.detail ===
+              'Edit from an outdated template version'
+            ) {
+              setOpenDialog(true)
+            } else {
+              console.log('else', error.response)
+            }
+          }
           setSelectedSource('')
           console.log('error')
         })
@@ -82,6 +100,42 @@ function CaseStepper(props) {
   }
   console.log(activeStep)
   console.log('if', activeStep === 0)
+
+  const conflictDialog = (
+    <>
+      <Dialog
+        open={openDialog}
+        onClose={(e) => setOpenDialog(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Alerta</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Error en pujar els canvis: l'edició parteix d'una versió vella de la
+            plantilla
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={(e) => {
+              setOpenDialog(false)
+            }}
+            color="primary"
+          >
+            Tancar
+          </Button>
+          <Button
+            onClick={(e) => history.push(`/edit/complex/${template_id}`)}
+            color="primary"
+            autoFocus
+          >
+            Tornar a l'editor
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  )
 
   return (
     <div className={classes.root}>
@@ -161,6 +215,7 @@ function CaseStepper(props) {
           setOpenSourcesList(false)
         }}
       />
+      {conflictDialog}
     </div>
   )
 }

@@ -17,6 +17,7 @@ import Grow from '@material-ui/core/Grow'
 import MenuItem from '@material-ui/core/MenuItem'
 import EditIcon from '@material-ui/icons/Edit'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+import { useAuth } from 'context/currentUser'
 
 const useStyles = makeStyles((theme) => ({
   editor: {
@@ -74,9 +75,11 @@ function SingleTemplate(props) {
   const anchorRef = useRef(null)
   const classes = useStyles()
   const history = useHistory()
+  const { currentUser } = useAuth()
+  console.log('singlee', currentUser)
   const createPreview = () => {
     return {
-      __html: data?.text?.def_body_text || 'TEXT',
+      __html: data?.text?.def_body_text || '',
     }
   }
   useEffect(() => {
@@ -193,6 +196,9 @@ function SingleTemplate(props) {
                         className={classes.fabListItem}
                         color="primary"
                         variant="contained"
+                        disabled={
+                          !currentUser?.allowed_fields?.includes('python')
+                        }
                         id="simple"
                         onClick={(e) => {
                           setChosenEditor('simple')

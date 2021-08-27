@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { removeToken } from 'useToken.js'
 import AddRoundedIcon from '@material-ui/icons/AddRounded'
@@ -10,6 +10,11 @@ import HomeRoundedIcon from '@material-ui/icons/HomeRounded'
 import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded'
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded'
 import { useHistory } from 'react-router-dom'
+import {
+  CurrentUserProvider,
+  useAuth,
+  CurrentUserContext,
+} from 'context/currentUser'
 
 const menuItems = [
   { title: 'Home', path: '/', icon: <HomeRoundedIcon /> },
@@ -21,7 +26,7 @@ const menuItems = [
   {
     title: 'Administració de Permisos',
     path: '/settings',
-    disabled: false,
+    adminOnly: true,
     icon: <SettingsRoundedIcon />,
   },
 ]
@@ -56,7 +61,9 @@ function Menu(props) {
   const classes = useStyles()
   const history = useHistory()
   const { setToken } = props
-
+  const { currentUser, setCurrentUser } = useAuth()
+  console.log('menuyuuuuuu', currentUser)
+  console.log('us', currentUser?.category === 'admin')
   return (
     <div className={classes.menu}>
       <List className={classes.menuContent}>
@@ -66,7 +73,7 @@ function Menu(props) {
               button
               className={classes.singleItem}
               key={index}
-              disabled={item.disabled}
+              disabled={item.adminOnly && currentUser?.category !== 'admin'}
               onClick={(e) => history.push(item.path)}
             >
               {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
@@ -82,6 +89,7 @@ function Menu(props) {
             button
             onClick={(e) => {
               setToken('')
+              setCurrentUser(false)
             }}
           >
             <ListItemIcon>

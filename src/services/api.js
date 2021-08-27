@@ -299,3 +299,17 @@ export const updateUser = async (user_id, username, category, disabled) => {
     return response?.data
   })
 }
+
+export const currentUser = async () => {
+  const token = getToken()
+
+  const url = `${process.env.REACT_APP_API_BASE_URL}/users/me`
+  let headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:*',
+    Authorization: `Bearer ${token}`,
+  }
+  return axios({ method: 'GET', url, headers }).then((response) => {
+    return response?.data
+  })
+}

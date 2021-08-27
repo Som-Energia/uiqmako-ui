@@ -3,6 +3,7 @@ import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 import { getRenderResult } from 'services/api'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { useAlert } from 'context/alertDetails'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 function RenderResultStep(props) {
   const classes = useStyles()
   const { editId, caseId, setLoading, loading, setAlertProps, setError } = props
-
+  const { setAlertInfo } = useAlert()
   const [data, setData] = useState('gfdgds')
 
   useEffect(() => {
@@ -36,11 +37,11 @@ function RenderResultStep(props) {
         setLoading(false)
         setError(true)
 
-        /* setAlertProps((alertProps) => ({
-          ...alertProps,
+        setAlertInfo({
           open: true,
           message: errorMsg,
-        }))*/
+          severity: 'error',
+        })
       })
   }, [editId, caseId])
   return (

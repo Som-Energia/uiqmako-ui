@@ -3,7 +3,8 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
-import { register } from 'services/api'
+import { register, currentUser } from 'services/api'
+import { useAuth } from 'context/currentUser'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,6 +35,7 @@ function Register(props) {
   const [repeatPassword, setRepeatPassword] = useState()
   const [isInvalid, setisInvalid] = useState(false)
   const [isPasswdInvalid, setPasswdInvalid] = useState(false)
+  const { setCurrentUser } = useAuth()
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -41,6 +43,12 @@ function Register(props) {
       register(username, password)
         .then((response) => {
           props.setToken(response)
+          currentUser()
+            .then((response) => {
+              setCurrentUser(response)
+              console.log('cosaeffect', response)
+            })
+            .catch((error) => {})
         })
         .catch((error) => {
           setisInvalid(true)

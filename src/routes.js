@@ -1,8 +1,13 @@
-import React, { lazy, useState } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import React, { lazy, useState, useEffect } from 'react'
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom'
 import NavBar from 'components/NavBar'
 import Menu from 'containers/Menu'
-
+import { CurrentUserProvider, useAuth } from 'context/currentUser'
 import { makeStyles } from '@material-ui/core/styles'
 
 function Routes(props) {
@@ -66,7 +71,9 @@ function Routes(props) {
           <div className={classes.main}>
             <Switch>
               <Route exact path="/" render={loadMainPage} />
-              <Route exact path="/settings" render={loadUsers} />
+              <ProtectedRoute exact path="/settings">
+                <Route render={loadUsers} />
+              </ProtectedRoute>
               <Route exact path="/newTemplate" render={loadNewTemplateForm} />
               <Route exact path="/templates/:id" render={LoadSingleTemplate} />
               <Route exact path="/edit/:editor/:id" render={LoadEditor} />
@@ -109,3 +116,24 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
 }))
+
+const ProtectedRoute = ({ children, ...rest }) => {
+  const { currentUser } = useAuth()
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        currentUser ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/',
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
+  )
+}
