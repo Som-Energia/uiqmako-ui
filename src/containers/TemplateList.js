@@ -1,8 +1,6 @@
 import { React, useEffect, useState } from 'react'
 import TemplateInfo from 'components/TemplateInfo'
 import { getTemplateList, getSingleTemplate } from 'services/api'
-import Box from '@material-ui/core/Box'
-import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles'
 import { useHistory } from 'react-router-dom'
 import SingleTemplate from './SingleTemplate'
@@ -73,8 +71,6 @@ function TemplateList(props) {
     if (openId !== false) {
       getSingleTemplate(openId)
         .then((response) => {
-          console.log('hola', response)
-
           setSingleTemplate(response)
           setOpen(true)
           setIsLoading(false)
@@ -115,13 +111,3 @@ function TemplateList(props) {
 }
 
 export default TemplateList
-
-/*
-      <Box invisible={true} className={classes.searchFieldContainer}>
-        <TextField
-          className={classes.searchField}
-          onChange={(e) => setSearch(e.target.value)}
-          label="Cerca"
-          variant="outlined"
-        />
-      </Box>*/

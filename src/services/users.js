@@ -6,7 +6,6 @@ export const doLogin = async (username, password) => {
   var bodyFormData = new FormData()
   bodyFormData.append('username', username)
   bodyFormData.append('password', password)
-  console.log(bodyFormData.keys().next())
   let headers = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': 'http://localhost:*',
@@ -71,8 +70,6 @@ export const getSingleTemplate = async (template_id, userToken) => {
       if (error.response?.status === 401) {
         if (error.response.data?.detail === 'Token has expired') {
           removeToken()
-        } else {
-          console.log('else', error.response)
         }
       }
     })
@@ -108,7 +105,6 @@ export const checkEdits = async (template_id) => {
     url,
     headers,
   }).then((response) => {
-    console.log(response)
     return response?.data
   })
 }

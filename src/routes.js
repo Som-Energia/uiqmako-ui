@@ -1,4 +1,4 @@
-import React, { lazy, useState, useEffect } from 'react'
+import React, { lazy, useState } from 'react'
 import {
   BrowserRouter as Router,
   Route,
@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 import NavBar from 'components/NavBar'
 import Menu from 'containers/Menu'
-import { CurrentUserProvider, useAuth } from 'context/currentUser'
+import { useAuth } from 'context/currentUser'
 import { makeStyles } from '@material-ui/core/styles'
 
 function Routes(props) {

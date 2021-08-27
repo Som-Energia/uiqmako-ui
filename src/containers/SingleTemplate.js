@@ -76,7 +76,6 @@ function SingleTemplate(props) {
   const classes = useStyles()
   const history = useHistory()
   const { currentUser } = useAuth()
-  console.log('singlee', currentUser)
   const createPreview = () => {
     return {
       __html: data?.text?.def_body_text || '',
@@ -86,7 +85,6 @@ function SingleTemplate(props) {
     if (chosenEditor !== false) {
       checkEdits(templateId, confirmEdit)
         .then((response) => {
-          console.log('ab', response)
           setEditResponse(response)
           if (response.current_edits && response.current_edits.length !== 0) {
             setOpenDialog(true)
@@ -108,7 +106,7 @@ function SingleTemplate(props) {
 
     setOpen(false)
   }
-  const doNothing = (e) => console.log(e)
+  const doNothing = (e) => {}
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = useRef(open)
   useEffect(() => {

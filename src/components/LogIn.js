@@ -56,10 +56,8 @@ function LogIn(props) {
         currentUser()
           .then((response) => {
             setCurrentUser(response)
-            console.log('cosaeffect', response)
           })
           .catch((error) => {})
-        //} else setUser({})
       })
       .catch((error) => {
         if (error?.response?.status === 401) {

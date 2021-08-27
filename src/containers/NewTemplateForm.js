@@ -23,11 +23,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '1.8rem',
     fontWeight: 500,
   },
-  title: {
-    fontFamily: 'Montserrat',
-    fontSize: '1.8rem',
-    fontWeight: 500,
-  },
   buttons: {
     display: 'flex',
     flexWrap: 'wrap',

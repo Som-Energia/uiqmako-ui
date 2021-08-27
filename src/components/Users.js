@@ -1,9 +1,6 @@
-import { React, useEffect, useState, useRef } from 'react'
+import { React, useEffect, useState } from 'react'
 import { getUsers, updateUser } from 'services/api'
-import Box from '@material-ui/core/Box'
-import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles'
-import { useHistory } from 'react-router-dom'
 import Paper from '@material-ui/core/Paper'
 import TableContainer from '@material-ui/core/TableContainer'
 import TableBody from '@material-ui/core/TableBody'
@@ -38,7 +35,6 @@ function TemplateList(props) {
   const [reload, setReload] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const classes = useStyles()
-  const history = useHistory()
   const [value, setValue] = useState({})
   const [changedUser, setChangedUser] = useState({})
   const [showAlert, setShowAlert] = useState()
@@ -77,8 +73,6 @@ function TemplateList(props) {
         changedUser.disabled
       )
         .then((response) => {
-          //setData(response)
-          //setValue(response)
           setIsLoading(false)
           setReload(!reload)
           setShowAlert(true)

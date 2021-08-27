@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import TextField from '@material-ui/core/TextField'
-import Avatar from '@material-ui/core/Avatar'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import AddRoundedIcon from '@material-ui/icons/AddRounded'
-import ArrowRight from '@material-ui/icons/ArrowRight'
 import Close from '@material-ui/icons/Close'
 import { makeStyles } from '@material-ui/core/styles'
 import { getTemplateCases, createCase } from 'services/api'
@@ -26,10 +24,6 @@ const useStyles = makeStyles((theme) => ({
   avatarBackground: {
     backgroundColor: 'transparent',
     color: 'black',
-  },
-  primaryColorAvatar: {
-    backgroundColor: theme.palette.primary,
-    color: theme.palette.primary,
   },
   buttons: {
     display: 'flex',
@@ -178,13 +172,12 @@ function CaseList(props) {
             style={{ pointerEvents: 'none' }}
             autoFocus
             button
-            onClick={() => console.log('he fet clic')}
+            onClick={() => {}}
           >
             {addCaseForm}
             <ListItemAvatar onClick={(e) => handleCreateCase(e)}>
               <AddRoundedIcon
                 style={{ pointerEvents: 'auto' }}
-                className={classes.primaryColorAvatar}
                 fontSize="large"
                 className={classes.icon}
               />
@@ -202,10 +195,8 @@ function CaseList(props) {
             <ListItemAvatar>
               <CheckRoundedIcon
                 style={{ pointerEvents: 'auto' }}
-                className={classes.primaryColorAvatar}
                 fontSize="large"
                 className={classes.icon}
-                fontSize="large"
               />
             </ListItemAvatar>
             Revisar-los tots i pujar edició a l'ERP

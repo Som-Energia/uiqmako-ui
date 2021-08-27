@@ -1,6 +1,5 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { removeToken } from 'useToken.js'
 import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -10,11 +9,7 @@ import HomeRoundedIcon from '@material-ui/icons/HomeRounded'
 import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded'
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded'
 import { useHistory } from 'react-router-dom'
-import {
-  CurrentUserProvider,
-  useAuth,
-  CurrentUserContext,
-} from 'context/currentUser'
+import { useAuth } from 'context/currentUser'
 
 const menuItems = [
   { title: 'Home', path: '/', icon: <HomeRoundedIcon /> },
@@ -62,8 +57,6 @@ function Menu(props) {
   const history = useHistory()
   const { setToken } = props
   const { currentUser, setCurrentUser } = useAuth()
-  console.log('menuyuuuuuu', currentUser)
-  console.log('us', currentUser?.category === 'admin')
   return (
     <div className={classes.menu}>
       <List className={classes.menuContent}>

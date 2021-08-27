@@ -38,7 +38,6 @@ function SourcesList(props) {
           <ListItem
             button
             onClick={(e) => {
-              console.log('ap', item)
               onClose(item.name)
             }}
             key={index}

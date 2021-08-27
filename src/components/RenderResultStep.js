@@ -28,7 +28,6 @@ function RenderResultStep(props) {
       .then((response) => {
         setData(response)
         setLoading(false)
-        console.log('he rebut')
       })
       .catch((error) => {
         let errorMsg =
