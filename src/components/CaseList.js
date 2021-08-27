@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import TextField from '@material-ui/core/TextField'
-import Avatar from '@material-ui/core/Avatar'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import AddRoundedIcon from '@material-ui/icons/AddRounded'
-import ArrowRight from '@material-ui/icons/ArrowRight'
 import Close from '@material-ui/icons/Close'
 import { makeStyles } from '@material-ui/core/styles'
 import { getTemplateCases, createCase } from 'services/api'
@@ -178,7 +176,7 @@ function CaseList(props) {
             style={{ pointerEvents: 'none' }}
             autoFocus
             button
-            onClick={() => console.log('he fet clic')}
+            onClick={() => {}}
           >
             {addCaseForm}
             <ListItemAvatar onClick={(e) => handleCreateCase(e)}>

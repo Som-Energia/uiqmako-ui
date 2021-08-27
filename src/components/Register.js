@@ -46,7 +46,6 @@ function Register(props) {
           currentUser()
             .then((response) => {
               setCurrentUser(response)
-              console.log('cosaeffect', response)
             })
             .catch((error) => {})
         })

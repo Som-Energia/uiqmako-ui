@@ -43,15 +43,12 @@ export const getSingleTemplate = async (template_id, userToken) => {
   }
   return axios({ method: 'GET', url, headers })
     .then((response) => {
-      console.log(response)
       return response?.data
     })
     .catch((error) => {
       if (error.response?.status === 401) {
         if (error.response.data?.detail === 'Token has expired') {
           removeToken()
-        } else {
-          console.log('else', error.response)
         }
       }
     })
@@ -182,7 +179,6 @@ export const getRenderResult = async (editId, caseId) => {
 
 export const uploadEdit = async (editId, source_name) => {
   const token = getToken()
-  console.log('entroooo')
   const params = new URLSearchParams({
     source: source_name,
   }).toString()

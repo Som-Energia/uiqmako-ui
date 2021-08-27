@@ -68,7 +68,6 @@ function CaseStepper(props) {
           setSelectedSource('')
         })
         .catch((error) => {
-          console.log('--', error)
           if (error.response?.status === 409) {
             if (
               error.response.data?.detail ===
@@ -76,11 +75,9 @@ function CaseStepper(props) {
             ) {
               setOpenDialog(true)
             } else {
-              console.log('else', error.response)
             }
           }
           setSelectedSource('')
-          console.log('error')
         })
     }
   }, [selectedSource])
@@ -98,8 +95,6 @@ function CaseStepper(props) {
   const handleReset = () => {
     setActiveStep(0)
   }
-  console.log(activeStep)
-  console.log('if', activeStep === 0)
 
   const conflictDialog = (
     <>
