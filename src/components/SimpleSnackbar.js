@@ -19,10 +19,9 @@ function SimpleSnackbar(props) {
     <div>
       <Snackbar
         anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
+          vertical: 'bottom',
+          horizontal: 'right',
         }}
-        style={{ margin: '10px' }}
         open={alertInfo?.open}
         onClose={handleClose}
         message={alertInfo?.message}
@@ -30,7 +29,7 @@ function SimpleSnackbar(props) {
       >
         <Alert
           onClose={handleClose}
-          style={{ padding: '20px', fontWeight: '500', fontSize: '1.1em' }}
+          style={{ padding: '10px', fontWeight: '500' }}
           severity={alertInfo?.severity}
         >
           {alertInfo?.message}
