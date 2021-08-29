@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Paper, TextField, Typography, Button } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 import TemplateInfo from 'components/TemplateInfo'
+import { useAlert } from 'context/alertDetails'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -41,12 +42,12 @@ function NewTemplateForm(props) {
   const [data, setData] = useState([])
   const [redirect, setRedirect] = useState(false)
   const history = useHistory()
+  const { setAlertInfo } = useAlert()
 
   props.setSearchVisible(false)
 
   const inputChange = (event) => {
     setXmlId(event.target.value)
-    //TODO: call api
   }
   const handleCreateTemplate = (event) => {
     event.preventDefault()
@@ -55,7 +56,15 @@ function NewTemplateForm(props) {
         setData(response)
         setRedirect(true)
       })
-      .catch((error) => {})
+      .catch((error) => {
+        if (error.response?.status === 404) {
+          setAlertInfo({
+            open: true,
+            message: "No s'ha trobat l'XML ID",
+            severity: 'error',
+          })
+        }
+      })
   }
   if (redirect) {
     var text = data?.created

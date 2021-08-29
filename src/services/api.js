@@ -41,17 +41,9 @@ export const getSingleTemplate = async (template_id, userToken) => {
     'Access-Control-Allow-Origin': 'http://localhost:*',
     Authorization: `Bearer ${token}`,
   }
-  return axios({ method: 'GET', url, headers })
-    .then((response) => {
-      return response?.data
-    })
-    .catch((error) => {
-      if (error.response?.status === 401) {
-        if (error.response.data?.detail === 'Token has expired') {
-          removeToken()
-        }
-      }
-    })
+  return axios({ method: 'GET', url, headers }).then((response) => {
+    return response?.data
+  })
 }
 
 export const startEditing = async (template_id) => {
@@ -308,4 +300,20 @@ export const currentUser = async () => {
   return axios({ method: 'GET', url, headers }).then((response) => {
     return response?.data
   })
+}
+
+export const doLogin = async (username, password) => {
+  const url = `${process.env.REACT_APP_API_BASE_URL}/token`
+  var bodyFormData = new FormData()
+  bodyFormData.append('username', username)
+  bodyFormData.append('password', password)
+  let headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:*',
+  }
+  return axios({ method: 'POST', url, headers, data: bodyFormData }).then(
+    (response) => {
+      return response?.data?.access_token
+    }
+  )
 }

@@ -7,16 +7,16 @@ import SimpleSnackbar from 'components/SimpleSnackbar'
 import { currentUser } from 'services/api'
 import theme from 'styles/theme'
 import { CurrentUserProvider } from 'context/currentUser'
-import { AlertInfoProvider } from 'context/alertDetails'
+import { AlertInfoProvider, useAlert } from 'context/alertDetails'
 
 function App(props) {
-  const { token, setToken } = useToken()
-
   const alertProps = {
-    open: true,
+    open: false,
     message: '',
     severity: 'info',
   }
+  const { token, setToken } = useToken()
+  const [initAlert, setInitAlert] = useState(alertProps)
   const [user, setUser] = useState(false)
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function App(props) {
   useEffect(() => {
     const timeout = setInterval(() => {
       const date = localStorage.getItem('tokenDate')
-      if (date < Date.now()) {
+      if (date > Date.now()) {
         setToken('')
       } else {
       }
@@ -42,7 +42,7 @@ function App(props) {
     <div className="App">
       <ThemeProvider theme={theme}>
         <CurrentUserProvider user={user}>
-          <AlertInfoProvider alertProps={{ alertProps }}>
+          <AlertInfoProvider alertProps={{ ...initAlert }}>
             {(token && (
               <Suspense fallback={<></>}>
                 <Routes setToken={setToken} user={user} />

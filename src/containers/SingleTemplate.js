@@ -18,6 +18,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import EditIcon from '@material-ui/icons/Edit'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import { useAuth } from 'context/currentUser'
+import { useAlert } from 'context/alertDetails'
 
 const useStyles = makeStyles((theme) => ({
   editor: {
@@ -76,6 +77,8 @@ function SingleTemplate(props) {
   const classes = useStyles()
   const history = useHistory()
   const { currentUser } = useAuth()
+  const { setAlertInfo } = useAlert()
+
   const createPreview = () => {
     return {
       __html: data?.text?.def_body_text || '',

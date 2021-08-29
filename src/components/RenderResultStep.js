@@ -21,7 +21,7 @@ function RenderResultStep(props) {
   const classes = useStyles()
   const { editId, caseId, setLoading, loading, setAlertProps, setError } = props
   const { setAlertInfo } = useAlert()
-  const [data, setData] = useState('gfdgds')
+  const [data, setData] = useState('')
 
   useEffect(() => {
     getRenderResult(editId, caseId)

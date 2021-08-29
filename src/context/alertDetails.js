@@ -3,8 +3,7 @@ import React, { createContext, useContext, useState } from 'react'
 export const AlertContext = createContext(null)
 
 export const AlertInfoProvider = ({ alertProps, children }) => {
-  const [alertInfo, setAlertInfo] = useState({ ...alertProps })
-
+  const [alertInfo, setAlertInfo] = useState(alertProps)
   return (
     <AlertContext.Provider value={{ alertInfo, setAlertInfo }}>
       {children}

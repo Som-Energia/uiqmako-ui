@@ -15,20 +15,24 @@ function SimpleSnackbar(props) {
       open: false,
     }))
   }
-  console.log(alertInfo)
   return (
     <div>
       <Snackbar
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
+          vertical: 'top',
+          horizontal: 'center',
         }}
+        style={{ margin: '10px' }}
         open={alertInfo?.open}
         onClose={handleClose}
         message={alertInfo?.message}
-        autoHideDuration={30000}
+        autoHideDuration={3000}
       >
-        <Alert onClose={handleClose} severity={alertInfo?.severity}>
+        <Alert
+          onClose={handleClose}
+          style={{ padding: '20px', fontWeight: '500', fontSize: '1.1em' }}
+          severity={alertInfo?.severity}
+        >
           {alertInfo?.message}
         </Alert>
       </Snackbar>

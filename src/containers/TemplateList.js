@@ -2,9 +2,9 @@ import { React, useEffect, useState } from 'react'
 import TemplateInfo from 'components/TemplateInfo'
 import { getTemplateList, getSingleTemplate } from 'services/api'
 import { makeStyles } from '@material-ui/core/styles'
-import { useHistory } from 'react-router-dom'
 import SingleTemplate from './SingleTemplate'
 import Modal from '@material-ui/core/Modal'
+import { useAlert } from 'context/alertDetails'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -41,8 +41,7 @@ function TemplateList(props) {
   const [open, setOpen] = useState(false)
   const [sigleTemplate, setSingleTemplate] = useState({})
   const classes = useStyles()
-  const history = useHistory()
-
+  const { setAlertInfo } = useAlert()
   useEffect(() => {
     getTemplateList()
       .then((response) => {
@@ -77,6 +76,12 @@ function TemplateList(props) {
         })
         .catch((error) => {
           setIsLoading(false)
+          setOpenId(!openId)
+          setAlertInfo({
+            open: true,
+            message: "Error de connexió amb l'ERP",
+            severity: 'error',
+          })
         })
     }
   }, [openId])
