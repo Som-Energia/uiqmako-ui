@@ -34,6 +34,7 @@ function Register(props) {
   const [password, setPassword] = useState()
   const [repeatPassword, setRepeatPassword] = useState()
   const [isInvalid, setisInvalid] = useState(false)
+  const [msgError, setmsgError] = useState('')
   const [isPasswdInvalid, setPasswdInvalid] = useState(false)
   const { setCurrentUser } = useAuth()
 
@@ -50,6 +51,17 @@ function Register(props) {
             .catch((error) => {})
         })
         .catch((error) => {
+          switch (error?.message) {
+            case 'Network Error':
+              setmsgError("No s'ha pogut connectar amb el servidor")
+              break
+            case 'Request failed with status code 409':
+              setmsgError("L'usuari ja existeix")
+              break
+            default:
+              console.log(error?.message)
+              setmsgError('Error desconegut')
+          }
           setisInvalid(true)
           props.setToken('')
         })
@@ -66,7 +78,7 @@ function Register(props) {
             variant="outlined"
             margin="normal"
             error={isInvalid}
-            helperText={isInvalid && "Aquest nom d'usuari ja existeix"}
+            helperText={isInvalid && msgError}
             required
             fullWidth
             id="username"
