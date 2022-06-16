@@ -78,13 +78,7 @@ function Menu(props) {
           ))}
         </div>
         <div className={classes.menuLogOut}>
-          <ListItem
-            button
-            onClick={(e) => {
-              setToken('')
-              setCurrentUser(false)
-            }}
-          >
+          <ListItem>
             <ListItemIcon>
               <AccountCircleRoundedIcon />
             </ListItemIcon>
