@@ -5,6 +5,9 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import { register, currentUser } from 'services/api'
 import { useAuth } from 'context/currentUser'
+import SimpleSnackbar from 'components/SimpleSnackbar'
+import Snackbar from '@material-ui/core/Snackbar'
+import Alert from '@material-ui/lab/Alert'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,6 +40,7 @@ function Register(props) {
   const [msgError, setmsgError] = useState('')
   const [isPasswdInvalid, setPasswdInvalid] = useState(false)
   const { setCurrentUser } = useAuth()
+  const [showAlert, setShowAlert] = useState()
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -51,6 +55,7 @@ function Register(props) {
             .catch((error) => {})
         })
         .catch((error) => {
+          setShowAlert(true)
           switch (error?.message) {
             case 'Network Error':
               setmsgError("No s'ha pogut connectar amb el servidor")
@@ -146,6 +151,9 @@ function Register(props) {
         >
           Ja tens usuari? <u>Entra</u>
         </Typography>
+        <Snackbar open={showAlert} autoHideDuration={60}>
+          <Alert severity="error">{msgError}</Alert>
+        </Snackbar>
       </div>
     </>
   )

@@ -22,7 +22,7 @@ function SimpleSnackbar(props) {
           vertical: 'bottom',
           horizontal: 'right',
         }}
-        open={alertInfo?.open}
+        open={console.log(alertInfo?.open) && alertInfo?.open}
         onClose={handleClose}
         message={alertInfo?.message}
         autoHideDuration={3000}
