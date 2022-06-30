@@ -156,9 +156,7 @@ function Editor(props) {
           <Button
             color="secundary"
             variant="contained"
-            disabled={
-              !currentUser?.allowed_fields?.includes('python')
-            }
+            disabled={!currentUser?.allowed_fields?.includes('python')}
             onClick={(e) => {
               history.push(`/edit/simple/${id}`)
             }}
