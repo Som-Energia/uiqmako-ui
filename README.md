@@ -37,3 +37,34 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### How to deploy
+
+Create a `deploy-xxx.conf` file (where xxx is your deployment enviroment name) with the following enviornment vars:
+
+```bash
+DEPLOYMENT_HOST=myhost.mydomain.coop
+DEPLOYMENT_PORT=22 # SSH port
+DEPLOYMENT_USER=myuser
+DEPLOYMENT_PATH=/home/myuser/uiqmako-ui
+BUILD_ENVIRONMENT= # empty for prodution, pre for preproduction
+```
+
+Then run:
+
+```
+./scripts/deploy.sh xxx
+```
+
+### Deploy in pre-production
+
+This is specific for Som Energia deployment
+
+- Deployment configurations are available at the private repository git@gitlab.somenergia.coop:IT/deployment-configurations.git
+- Checkout deployment-configurations repository at the same level than this repository
+- `cd uiqmako-ui`
+- `ln -s ../deployment-configurations/uiqmako-ui/deploy-pre.conf`
+- `scripts/deploy.sh pre`
+
+
+
