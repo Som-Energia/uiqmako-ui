@@ -16,7 +16,7 @@ step() {
 SCRIPTPATH=$(dirname $0)
 function usage () {
     echo "Usage: $0 environment" 1>&2
-    exit 1
+    exit -1
 }
 
 function log_message () {
@@ -29,27 +29,21 @@ environment="$1"
 environment_file="deploy-$environment.conf"
 
 [ "$1" == "" ]  && {
-    die "You should provide an environment as command line"
+    usage
 }
 
 [ -f "$environment_file" ] || {
-    die "Environment $environment_file does not exist, read the README for more info"
+    die "Environment '$environment' not available since '$environment_file' does not exist. Read the README for more info"
 }
 
 source "$environment_file"
 echo configuration loaded
+export REACT_APP_API_BASE_URL # Required to make it visible to the build script
 
 deploy_server=$DEPLOYMENT_HOST
 deploy_path=$DEPLOYMENT_PATH
 port="$DEPLOYMENT_PORT"
 user="$DEPLOYMENT_USER"
-build="$BUILD_ENVIRONMENT"
-if [ "$build" != "" ]
-then
-    build_subcomand=build:$build
-else
-    build_subcomand=build
-fi
 
 today=$(date +"%Y-%m-%d_%H%M%S")
 dest_dir="$deploy_path/build_$today"
@@ -58,7 +52,7 @@ alias_dir="build_$today"
 
 function build () {
     log_message "INFO" "Building project"
-    npm run $build_subcomand
+    npm run build
 
     if [ $? != 0 ]
     then

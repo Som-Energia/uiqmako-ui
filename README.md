@@ -47,7 +47,7 @@ DEPLOYMENT_HOST=myhost.mydomain.coop
 DEPLOYMENT_PORT=22 # SSH port
 DEPLOYMENT_USER=myuser
 DEPLOYMENT_PATH=/home/myuser/uiqmako-ui
-BUILD_ENVIRONMENT= # empty for prodution, pre for preproduction
+REACT_APP_API_BASE_URL=https://uiqmako.mydomain.coop/api
 ```
 
 Then run:
@@ -56,15 +56,26 @@ Then run:
 ./scripts/deploy.sh xxx
 ```
 
-### Deploy in pre-production
+### Som Energia specific deployment
 
-This is specific for Som Energia deployment
+Som Energia specific deployment configuration files
+are maintained in the private repository
+`git@gitlab.somenergia.coop:IT/deployment-configurations.git`
+within the `uiqmako-ui` directory.
 
-- Deployment configurations are available at the private repository git@gitlab.somenergia.coop:IT/deployment-configurations.git
-- Checkout deployment-configurations repository at the same level than this repository
-- `cd uiqmako-ui`
-- `ln -s ../deployment-configurations/uiqmako-ui/deploy-pre.conf`
-- `scripts/deploy.sh pre`
+The recommended setup is to checkout that repository
+and softlink (not copy) each configuration you use
+into the root of this repository.
+This way you will get configurations updates from your peers
+via git updates.
 
+```bash
+# from the directory containing this repository
+git clone git@gitlab.somenergia.coop:IT/deployment-configurations.git
+cd uiqmako-ui
+# to deploy into preproduction enviroment
+ln -s ../deployment-configurations/uiqmako-ui/deploy-pre.conf
+scripts/deploy.sh pre
+```
 
 
