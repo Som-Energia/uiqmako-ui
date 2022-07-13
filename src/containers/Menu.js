@@ -10,9 +10,15 @@ import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded'
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded'
 import { useHistory } from 'react-router-dom'
 import { useAuth } from 'context/currentUser'
+import BorderColorRoundedIcon from '@material-ui/icons/BorderColorRounded'
 
 const menuItems = [
   { title: 'Home', path: '/', icon: <HomeRoundedIcon /> },
+  {
+    title: 'Les meves edicions en curs',
+    path: '/myEdits',
+    icon: <BorderColorRoundedIcon />,
+  },
   {
     title: 'Afegir una nova plantilla',
     path: '/newTemplate',
