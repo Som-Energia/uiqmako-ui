@@ -180,17 +180,19 @@ function CaseList(props) {
           <ListItem
             style={{ pointerEvents: 'none', marginTop: '1rem' }}
             autoFocus
-            button
             onClick={() => {}}
           >
             {addCaseForm}
-            <ListItemAvatar onClick={(e) => handleCreateCase(e)}>
+            <IconButton
+              style={{ pointerEvents: 'auto' }}
+              onClick={(e) => handleCreateCase(e)}
+            >
               <AddRoundedIcon
                 style={{ pointerEvents: 'auto' }}
                 fontSize="large"
                 className={classes.icon}
               />
-            </ListItemAvatar>
+            </IconButton>
           </ListItem>
           <ListItem
             autoFocus
