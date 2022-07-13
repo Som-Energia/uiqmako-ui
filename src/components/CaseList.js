@@ -5,6 +5,7 @@ import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import Close from '@material-ui/icons/Close'
 import { makeStyles } from '@material-ui/core/styles'
 import { getTemplateCases, createCase } from 'services/api'
+import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -12,6 +13,7 @@ import CheckRoundedIcon from '@material-ui/icons/CheckRounded'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Dialog from '@material-ui/core/Dialog'
 import { useHistory } from 'react-router-dom'
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
 
 const useStyles = makeStyles((theme) => ({
   editor: {
@@ -51,6 +53,11 @@ const useStyles = makeStyles((theme) => ({
   },
   caseList: {
     marginLeft: '25px',
+    marginRight: '25px',
+  },
+  caseItem: {
+    backgroundColor: theme?.palette?.background?.default,
+    marginBottom: '4px',
   },
   reviewAll: {
     fontFamily: 'Montserrat',
@@ -159,6 +166,7 @@ function CaseList(props) {
         <List className={classes.caseList}>
           {data?.cases?.map((item, index) => (
             <ListItem
+              className={classes.caseItem}
               button
               onClick={(e) => {
                 onClose(item.id)
@@ -166,10 +174,11 @@ function CaseList(props) {
               key={item.case_id}
             >
               <ListItemText primary={item.name} />
+              <ArrowForwardIosIcon className={classes.icon} />
             </ListItem>
           ))}
           <ListItem
-            style={{ pointerEvents: 'none' }}
+            style={{ pointerEvents: 'none', marginTop: '1rem' }}
             autoFocus
             button
             onClick={() => {}}
