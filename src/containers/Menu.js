@@ -82,7 +82,7 @@ function Menu(props) {
             <ListItemIcon>
               <AccountCircleRoundedIcon />
             </ListItemIcon>
-            <ListItemText primary={currentUser.username} />
+            <ListItemText primary={currentUser?.username} />
           </ListItem>
         </div>
         <div className={classes.menuLogOut}>
