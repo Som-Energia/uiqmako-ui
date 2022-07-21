@@ -98,7 +98,7 @@ function Editor(props) {
         enabledFields={data?.allowed_fields}
         headers={headersData}
       />
-      <Accordion>
+      <Accordion defaultExpanded>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"

@@ -81,7 +81,7 @@ function RichTextEditor(props) {
                 height={'auto'}
                 setOptions={{
                   buttonList: editorButtons,
-                  mode: 'inline',
+                  mode: 'classic',
                 }}
               />
             )) || (
