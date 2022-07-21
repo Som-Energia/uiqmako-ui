@@ -60,7 +60,7 @@ function NewTemplateForm(props) {
         if (error.response?.status === 404) {
           setAlertInfo({
             open: true,
-            message: "No s'ha trobat l'XML ID",
+            message: "No s'ha trobat l'ID Semàntic",
             severity: 'error',
           })
         }
@@ -81,7 +81,7 @@ function NewTemplateForm(props) {
               {text}
             </Typography>
           </div>
-          <TemplateInfo item={data.template} />
+          <TemplateInfo item={data.template} setClicked={(e) => undefined} />
           <Button
             variant="outlined"
             onClick={(e) => {
