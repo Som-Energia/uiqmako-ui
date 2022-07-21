@@ -10,7 +10,7 @@ import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded'
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded'
 import { useHistory } from 'react-router-dom'
 import { useAuth } from 'context/currentUser'
-
+import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded'
 const menuItems = [
   { title: 'Home', path: '/', icon: <HomeRoundedIcon /> },
   {
@@ -76,6 +76,14 @@ function Menu(props) {
               />
             </ListItem>
           ))}
+        </div>
+        <div className={classes.menuLogOut}>
+          <ListItem>
+            <ListItemIcon>
+              <AccountCircleRoundedIcon />
+            </ListItemIcon>
+            <ListItemText primary={currentUser?.username} />
+          </ListItem>
         </div>
         <div className={classes.menuLogOut}>
           <ListItem
