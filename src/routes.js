@@ -32,7 +32,9 @@ function Routes(props) {
 
   const loadMyEdits = () => {
     const TemplateList = lazy(() => import('./containers/TemplateList'))
-    return <TemplateList {...props} setSearchVisible={setSearchVisible} />
+    return (
+      <TemplateList {...props} myEdits setSearchVisible={setSearchVisible} />
+    )
   }
 
   const LoadSingleTemplate = () => {
