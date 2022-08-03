@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import TextField from '@material-ui/core/TextField'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import AddRoundedIcon from '@material-ui/icons/AddRounded'
-import Close from '@material-ui/icons/Close'
+import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
-import { getTemplateCases, createCase } from 'services/api'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
+import TextField from '@material-ui/core/TextField'
+import AddRoundedIcon from '@material-ui/icons/AddRounded'
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
 import CheckRoundedIcon from '@material-ui/icons/CheckRounded'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import Dialog from '@material-ui/core/Dialog'
-import { useHistory } from 'react-router-dom'
+import Close from '@material-ui/icons/Close'
+import { getTemplateCases, createCase } from 'services/api'
 
 const useStyles = makeStyles((theme) => ({
   editor: {
@@ -51,6 +53,11 @@ const useStyles = makeStyles((theme) => ({
   },
   caseList: {
     marginLeft: '25px',
+    marginRight: '25px',
+  },
+  caseItem: {
+    backgroundColor: theme?.palette?.background?.default,
+    marginBottom: '4px',
   },
   reviewAll: {
     fontFamily: 'Montserrat',
@@ -103,6 +110,14 @@ function CaseList(props) {
         })
     }
   }
+
+  const catchReturn = (e) => {
+    if (e.key === 'Enter') {
+      handleCreateCase(e)
+      e.preventDefault()
+    }
+  }
+
   const addCaseForm = (
     <>
       <TextField
@@ -118,6 +133,7 @@ function CaseList(props) {
           setNewName(e.target.value)
           setInputNameError(false)
         }}
+        onKeyPress={(e) => catchReturn(e)}
       />
       <TextField
         className={classes.input}
@@ -132,6 +148,7 @@ function CaseList(props) {
           setNewId(e.target.value)
           setInputIdError(false)
         }}
+        onKeyPress={(e) => catchReturn(e)}
       />
     </>
   )
@@ -159,6 +176,7 @@ function CaseList(props) {
         <List className={classes.caseList}>
           {data?.cases?.map((item, index) => (
             <ListItem
+              className={classes.caseItem}
               button
               onClick={(e) => {
                 onClose(item.id)
@@ -166,22 +184,25 @@ function CaseList(props) {
               key={item.case_id}
             >
               <ListItemText primary={item.name} />
+              <ArrowForwardIosIcon className={classes.icon} />
             </ListItem>
           ))}
           <ListItem
-            style={{ pointerEvents: 'none' }}
+            style={{ pointerEvents: 'none', marginTop: '1rem' }}
             autoFocus
-            button
             onClick={() => {}}
           >
             {addCaseForm}
-            <ListItemAvatar onClick={(e) => handleCreateCase(e)}>
+            <IconButton
+              style={{ pointerEvents: 'auto' }}
+              onClick={(e) => handleCreateCase(e)}
+            >
               <AddRoundedIcon
                 style={{ pointerEvents: 'auto' }}
                 fontSize="large"
                 className={classes.icon}
               />
-            </ListItemAvatar>
+            </IconButton>
           </ListItem>
           <ListItem
             autoFocus

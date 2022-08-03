@@ -13,6 +13,8 @@ import SimpleEditor from '../components/SimpleEditor'
 import RichTextEditor from '../components/RichTextEditor'
 import CaseList from '../components/CaseList'
 
+import { useAuth } from 'context/currentUser'
+
 const useStyles = makeStyles((theme) => ({
   editor: {
     width: '100%',
@@ -50,6 +52,8 @@ function Editor(props) {
   const [selectedCase, setSelectedCase] = useState(false)
   const [isNewEdit, setIsNewEdit] = useState(false)
   const history = useHistory()
+
+  const { currentUser } = useAuth()
 
   useEffect(() => {
     startEditing(id)
@@ -94,7 +98,7 @@ function Editor(props) {
         enabledFields={data?.allowed_fields}
         headers={headersData}
       />
-      <Accordion>
+      <Accordion defaultExpanded>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -139,6 +143,27 @@ function Editor(props) {
         >
           Sortir Sense Guardar
         </Button>
+
+        {editor === 'simple' ? (
+          <Button
+            color="secundary"
+            variant="contained"
+            onClick={(e) => history.push(`/edit/complex/${id}`)}
+          >
+            Editor HTML
+          </Button>
+        ) : (
+          <Button
+            color="secundary"
+            variant="contained"
+            disabled={!currentUser?.allowed_fields?.includes('python')}
+            onClick={(e) => {
+              history.push(`/edit/simple/${id}`)
+            }}
+          >
+            Editor Simple
+          </Button>
+        )}
 
         <Button color="primary" variant="contained" onClick={saveChanges}>
           Guardar Canvis
