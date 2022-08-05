@@ -1,13 +1,18 @@
+import { CollectionsBookmarkOutlined } from '@material-ui/icons'
 import axios from 'axios'
 import { getToken, removeToken } from 'useToken'
 
-export const getTemplateList = async () => {
+export const getTemplateList = async (user_id) => {
   const token = getToken()
-  const url = `${process.env.REACT_APP_API_BASE_URL}/templates`
+  let url = `${process.env.REACT_APP_API_BASE_URL}/templates`
   const headers = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': 'http://localhost:*',
     Authorization: `Bearer ${token}`,
+  }
+
+  if (user_id !== undefined) {
+    url = `${process.env.REACT_APP_API_BASE_URL}/users/${user_id}/edits`
   }
 
   return axios({ method: 'GET', url, headers }).then((response) => {

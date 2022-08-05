@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import SingleTemplate from './SingleTemplate'
 import Modal from '@material-ui/core/Modal'
 import { useAlert } from 'context/alertDetails'
+import { useAuth } from 'context/currentUser'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -36,14 +37,17 @@ function TemplateList(props) {
   const [data, setData] = useState([])
   const [filteredData, setFilteredData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const { search } = props
+  const { search, myEdits } = props
   const [openId, setOpenId] = useState(false)
   const [open, setOpen] = useState(false)
   const [sigleTemplate, setSingleTemplate] = useState({})
   const classes = useStyles()
   const { setAlertInfo } = useAlert()
+  const { currentUser, setCurrentUser } = useAuth()
+  console.log('els meeeeus', myEdits && currentUser.id)
+
   useEffect(() => {
-    getTemplateList()
+    getTemplateList(myEdits && currentUser.id)
       .then((response) => {
         setData(response)
         setIsLoading(false)
@@ -51,7 +55,7 @@ function TemplateList(props) {
       .catch((error) => {
         setIsLoading(false)
       })
-  }, [])
+  }, [myEdits, currentUser])
 
   useEffect(() => {
     if (search && search !== '') {
@@ -91,7 +95,7 @@ function TemplateList(props) {
     setOpenId(false)
   }
   return (
-    <div>
+    <div style={{ paddingTop: '2em' }}>
       <div className={classes.templateList}>
         {filteredData?.map((item, index) => (
           <TemplateInfo key={index} item={item} setClicked={setOpenId} />
