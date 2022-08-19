@@ -82,6 +82,7 @@ function RichTextEditor(props) {
                 setOptions={{
                   buttonList: editorButtons,
                   mode: 'classic',
+                  defaultTag: 'html_block',
                 }}
               />
             )) || (
