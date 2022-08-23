@@ -1,4 +1,5 @@
 import React, { Suspense, useEffect, useState } from 'react'
+import './i18n/i18n'
 import { ThemeProvider } from '@material-ui/styles'
 import Routes from 'routes'
 import { useToken } from 'useToken'

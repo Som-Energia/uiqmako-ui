@@ -6,6 +6,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Typography from '@material-ui/core/Typography'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -23,33 +24,40 @@ const useStyles = makeStyles((theme) => ({
 
 const fields = [
   {
+    label: 'TEMPLATE_HEADERS_LABEL_NAME',
     key: 'name',
     width: '100%',
   },
   {
+    label: 'TEMPLATE_HEADERS_LABEL_SUBJECT',
     key: 'def_subject',
     width: '100%',
   },
   {
+    label: 'TEMPLATE_HEADERS_LABEL_RECIPIENT',
     key: 'def_to',
     width: '49%',
     marginRight: '2%',
   },
   {
+    label: 'TEMPLATE_HEADERS_LABEL_BCC',
     key: 'def_bcc',
     width: '49%',
   },
   {
+    label: 'TEMPLATE_HEADERS_LABEL_LANGUAGE_SOURCE',
     key: 'lang',
     width: '49%',
     marginRight: '2%',
   },
   {
+    label: 'TEMPLATE_HEADERS_LABEL_MODEL_INTERNAL_NAME',
     key: 'model_int_name',
     width: '49%',
   },
 ]
 function TemplateHeaders(props) {
+  const { t } = useTranslation()
   const { enabledFields, headers } = props
   const [modifiedFields, setFields] = useState({})
   const classes = useStyles()
@@ -74,7 +82,7 @@ function TemplateHeaders(props) {
           {fields?.map((item, index) => (
             <TextField
               className={classes.textField}
-              label={item.key}
+              label={t(item.label)}
               id={item.key}
               key={item.key}
               fullWidth

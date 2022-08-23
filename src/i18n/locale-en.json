@@ -1,0 +1,13 @@
+{
+  "TEMPLATE_HEADERS_LABEL_NAME": "Tempate name",
+  "TEMPLATE_HEADERS_LABEL_SUBJECT": "Subject (Reference)",
+  "TEMPLATE_HEADERS_LABEL_SUBJECT_TRANSLATION": "Subject (${language})",
+  "TEMPLATE_HEADERS_LABEL_SUBJECT_CATALAN": "Subject (catalan)",
+  "TEMPLATE_HEADERS_LABEL_SUBJECT_SPANISH": "Subject (spanish)",
+  "TEMPLATE_HEADERS_LABEL_RECIPIENT": "Recipient (TO)",
+  "TEMPLATE_HEADERS_LABEL_BCC": "Background Carbon Copy (BCC)",
+  "TEMPLATE_HEADERS_LABEL_LANGUAGE_SOURCE": "Language Source",
+  "TEMPLATE_HEADERS_LABEL_MODEL_INTERNAL_NAME": "Model internal name",
+  "END": "End"
+}
+
