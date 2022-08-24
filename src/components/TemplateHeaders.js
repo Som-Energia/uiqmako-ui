@@ -34,6 +34,18 @@ const fields = [
     width: '100%',
   },
   {
+    label: 'TEMPLATE_HEADERS_LABEL_SUBJECT_SPANISH',
+    key: 'def_subject_es_ES',
+    marginLeft: '4%',
+    width: '96%',
+  },
+  {
+    label: 'TEMPLATE_HEADERS_LABEL_SUBJECT_CATALAN',
+    key: 'def_subject_ca_ES',
+    marginLeft: '4%',
+    width: '96%',
+  },
+  {
     label: 'TEMPLATE_HEADERS_LABEL_RECIPIENT',
     key: 'def_to',
     width: '49%',
@@ -88,7 +100,11 @@ function TemplateHeaders(props) {
               fullWidth
               margin="dense"
               variant="outlined"
-              style={{ width: item.width, marginRight: item.marginRight }}
+              style={{
+                width: item.width,
+                marginRight: item.marginRight,
+                marginLeft: item.marginLeft,
+              }}
               onChange={(event) => {
                 setFields((prevModifiedFields) => ({
                   ...prevModifiedFields,
