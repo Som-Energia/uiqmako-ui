@@ -8,17 +8,17 @@ import LOCALE_EU from './locale-eu.json'
 
 const resources = {
   ca: {
-    translation: { ...LOCALE_CA }
+    translation: { ...LOCALE_CA },
   },
   es: {
-    translation: { ...LOCALE_ES }
+    translation: { ...LOCALE_ES },
   },
   gl: {
-    translation: { ...LOCALE_GL }
+    translation: { ...LOCALE_GL },
   },
   eu: {
-    translation: { ...LOCALE_EU }
-  }
+    translation: { ...LOCALE_EU },
+  },
 }
 
 i18n
@@ -29,8 +29,8 @@ i18n
     lng: 'es',
     keySeparator: false, // we do not use keys in form messages.welcome
     interpolation: {
-      escapeValue: false // react already safes from xss
-    }
+      escapeValue: false, // react already safes from xss
+    },
   })
 
 export default i18n
