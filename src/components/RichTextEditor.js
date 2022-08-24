@@ -3,6 +3,17 @@ import { makeStyles } from '@material-ui/core/styles'
 import SunEditor from 'suneditor-react'
 import 'suneditor/dist/css/suneditor.min.css' // Import Sun Editor's CSS File
 import { TextareaAutosize } from '@material-ui/core'
+// import 'tinymce/tinymce'
+// import 'tinymce/icons/default'
+// import 'tinymce/themes/silver'
+// // import 'tinymce/plugins/paste';
+// import 'tinymce/plugins/link'
+// import 'tinymce/plugins/image'
+// import 'tinymce/plugins/table'
+// import 'tinymce/skins/ui/oxide/skin.min.css'
+// import 'tinymce/skins/ui/oxide/content.min.css'
+// import 'tinymce/skins/content/default/content.min.css'
+import { Editor } from '@tinymce/tinymce-react'
 
 let editorButtons = [
   ['undo', 'redo'],
@@ -71,17 +82,18 @@ function RichTextEditor(props) {
         modifiedTexts?.map(
           (item, index) =>
             (item[0] === 'html' && (
-              <SunEditor
-                key={index}
-                className={classes.editorComplex}
-                id={index}
-                setContents={item[1]}
-                onChange={(e) => handleChange(e, index)}
-                setDefaultStyle="text-align: left; display: inline-block"
-                height={'auto'}
-                setOptions={{
-                  buttonList: editorButtons,
-                  mode: 'classic',
+              <Editor
+                initialValue="<p>This is the initial content of the editor</p>"
+                init={{
+                  skin: false,
+                  content_css: false,
+                  height: 500,
+                  menubar: false,
+                  plugins: ['link image', 'table paste'],
+                  toolbar:
+                    'undo redo | formatselect | bold italic backcolor | \
+                    alignleft aligncenter alignright alignjustify | \
+                    bullist numlist outdent indent | removeformat | help',
                 }}
               />
             )) || (
