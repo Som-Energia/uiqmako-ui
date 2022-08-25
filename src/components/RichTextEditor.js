@@ -55,16 +55,18 @@ function RichTextEditor(props) {
   const [modifiedTexts, setModifiedTexts] = useState([[]])
   const classes = useStyles()
   const { data } = props
-  const editorRef = useRef(null)
+  const editorRef = useRef({})
 
   useEffect(() => {
     setModifiedTexts(data?.text?.by_type)
   }, [data?.meta_data?.id])
+
   const handleChange = (text, index) => {
     let modifiedTextsCopy = [...modifiedTexts]
-    modifiedTextsCopy[index][1] = editorRef.current.getContent()
+    modifiedTextsCopy[index][1] = editorRef.current[index].getContent()
     props.setEditorText(modifiedTextsCopy)
   }
+
   return (
     <div className={classes.editorsList}>
       {modifiedTexts?.length > 0 &&
@@ -72,12 +74,14 @@ function RichTextEditor(props) {
           (item, index) =>
             (item[0] === 'html' && (
               <Editor
+                id={index}
+                key={index}
                 tinymceScriptSrc={
                   process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'
                 }
-                onInit={(evt, editor) => (editorRef.current = editor)}
-                initialValue={item[1]}
-                onChange={(e) => handleChange(e, index)}
+                onInit={(evt, editor) => (editorRef.current[index] = editor)}
+                value={item[1]}
+                onEditorChange={(e) => handleChange(e, index)}
                 init={{
                   menubar: false,
                   plugins: [
@@ -98,12 +102,14 @@ function RichTextEditor(props) {
                     'preview',
                     'help',
                     'wordcount',
+                    'code',
                   ],
                   toolbar:
                     'undo redo | blocks | ' +
-                    'bold italic forecolor | alignleft aligncenter ' +
+                    'bold italic backcolor forecolor | alignleft aligncenter ' +
                     'alignright alignjustify | bullist numlist outdent indent | ' +
-                    'removeformat | help',
+                    'removeformat | help |' +
+                    'image code',
                   content_style:
                     'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
                 }}
