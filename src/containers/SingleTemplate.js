@@ -51,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
     '&:hover, &:focus': {
       backgroundColor: 'transparent',
     },
+    justifyContent: 'center',
   },
   fabListItem: {
     pointerEvents: 'auto',
@@ -196,7 +197,7 @@ function SingleTemplate(props) {
                       <Fab
                         className={classes.fabListItem}
                         color="primary"
-                        variant="contained"
+                        variant="extended"
                         disabled={
                           !currentUser?.allowed_fields?.includes('python')
                         }
@@ -216,7 +217,7 @@ function SingleTemplate(props) {
                       <Fab
                         className={classes.fabListItem}
                         color="primary"
-                        variant="contained"
+                        variant="extended"
                         id="0"
                         onClick={(e) => setChosenEditor('complex')}
                       >
