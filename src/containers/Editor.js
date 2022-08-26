@@ -148,7 +148,10 @@ function Editor(props) {
           <Button
             color="secundary"
             variant="contained"
-            onClick={(e) => history.push(`/edit/complex/${id}`)}
+            onClick={(e) => {
+              saveChanges(e)
+              history.push(`/edit/complex/${id}`)
+            }}
           >
             Editor HTML
           </Button>
