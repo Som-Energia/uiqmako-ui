@@ -158,6 +158,7 @@ function Editor(props) {
             variant="contained"
             disabled={!currentUser?.allowed_fields?.includes('python')}
             onClick={(e) => {
+              saveChanges(e)
               history.push(`/edit/simple/${id}`)
             }}
           >
