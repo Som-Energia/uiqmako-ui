@@ -6,7 +6,9 @@ UI-QMako allows for a user friendly editing of Mako Templates.
 
 ## Getting Started
 
-First, run the development server:
+Before running the server for the first time you should run the [npm postinstall script](#npm-postinstall) to set up TinyMCE editor.
+
+Then, run the development server:
 
 ```bash
 npm start
@@ -19,6 +21,10 @@ You can start editing the page by modifying `App.js`. The page auto-updates as y
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `npm postinstall`
+
+To set up TinyMCE editor you should run this script after the installation.
 
 ### `npm start`
 
