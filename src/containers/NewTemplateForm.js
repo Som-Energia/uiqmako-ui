@@ -85,7 +85,11 @@ function NewTemplateForm(props) {
       .then((response) => setAvailableTemplates(response.templates))
       .catch((error) => {
         console.log('Error retrieving the templates')
-        setAlertInfo('Failed to download ERP templates')
+        setAlertInfo({
+          open: true,
+          severity: 'error',
+          message: "No s'ha pogut baixar la llista de plantilles",
+        })
         setAvailableTemplates([])
       })
   }, [erp])
@@ -110,8 +114,8 @@ function NewTemplateForm(props) {
         if (error.response?.status === 404) {
           setAlertInfo({
             open: true,
-            message: "No s'ha trobat l'XML ID",
             severity: 'error',
+            message: "No s'ha trobat l'XML ID",
           })
         }
       })
