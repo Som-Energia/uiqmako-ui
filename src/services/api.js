@@ -322,3 +322,17 @@ export const doLogin = async (username, password) => {
     }
   )
 }
+export const importableTemplates = async (erp) => {
+  const url = `${process.env.REACT_APP_API_BASE_URL}/templates/importable/${
+    erp || 'PROD'
+  }`
+  const token = getToken()
+  const headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:*',
+    Authorization: `Bearer ${token}`,
+  }
+  return axios({ url, headers }).then((response) => {
+    return response?.data
+  })
+}
