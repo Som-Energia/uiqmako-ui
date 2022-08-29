@@ -230,40 +230,40 @@ function NewTemplateForm(props) {
             <Typography className={classes.loadingTemplates} component="h3">
               Carregant llistat de plantilles de l'ERP {erp}...
             </Typography>
+          ) : availableTemplates.length === 0 ? (
+            <Typography className={classes.loadingTemplates} component="h3">
+              No hi ha plantilles disponibles
+            </Typography>
           ) : (
             <List>
-              {availableTemplates &&
-                availableTemplates
-                  .filter((item) => {
-                    const niceFilter = filter.trim().toLowerCase()
-                    return (
-                      !niceFilter ||
-                      item.name.toLowerCase().includes(niceFilter) ||
-                      item.xml_id.toLowerCase().includes(niceFilter)
-                    )
-                  })
-                  .map((item, i) => (
-                    <ListItem key={i} button selected={xml_id === item.xml_id}>
-                      <ListItemText
-                        primary={item.name}
-                        secondary={item.xml_id}
-                      />
-                      <ListItemSecondaryAction>
-                        <IconButton
-                          disabled={xml_id !== undefined}
-                          aria-label="Import Template"
-                          color="primary"
-                          onClick={(ev) => handleDownloadIcon(ev, item.xml_id)}
-                        >
-                          {xml_id !== item.xml_id ? (
-                            <GetAppIcon />
-                          ) : (
-                            <AutorenewIcon className={classes.spin} />
-                          )}
-                        </IconButton>
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  ))}
+              {availableTemplates
+                .filter((item) => {
+                  const niceFilter = filter.trim().toLowerCase()
+                  return (
+                    !niceFilter ||
+                    item.name.toLowerCase().includes(niceFilter) ||
+                    item.xml_id.toLowerCase().includes(niceFilter)
+                  )
+                })
+                .map((item, i) => (
+                  <ListItem key={i} button selected={xml_id === item.xml_id}>
+                    <ListItemText primary={item.name} secondary={item.xml_id} />
+                    <ListItemSecondaryAction>
+                      <IconButton
+                        disabled={xml_id !== undefined}
+                        aria-label="Import Template"
+                        color="primary"
+                        onClick={(ev) => handleDownloadIcon(ev, item.xml_id)}
+                      >
+                        {xml_id !== item.xml_id ? (
+                          <GetAppIcon />
+                        ) : (
+                          <AutorenewIcon className={classes.spin} />
+                        )}
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                ))}
             </List>
           )}
         </Paper>
