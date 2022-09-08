@@ -148,7 +148,10 @@ function Editor(props) {
           <Button
             color="secundary"
             variant="contained"
-            onClick={(e) => history.push(`/edit/complex/${id}`)}
+            onClick={(e) => {
+              saveChanges(e)
+              history.push(`/edit/complex/${id}`)
+            }}
           >
             Editor HTML
           </Button>
@@ -158,6 +161,7 @@ function Editor(props) {
             variant="contained"
             disabled={!currentUser?.allowed_fields?.includes('python')}
             onClick={(e) => {
+              saveChanges(e)
               history.push(`/edit/simple/${id}`)
             }}
           >
