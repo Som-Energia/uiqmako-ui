@@ -22,7 +22,7 @@ You can start editing the page by modifying `App.js`. The page auto-updates as y
 
 In the project directory, you can run:
 
-### `npm postinstall`
+### `npm run postinstall`
 
 To set up TinyMCE editor you should run this script after the installation.
 
