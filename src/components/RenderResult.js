@@ -37,12 +37,13 @@ function RenderResult(props) {
       })
       .catch((error) => {})
   }, [editId, caseId])
+
   return (
     <>
       <Paper className={classes.container}>
         <div
           className={classes.renderContainer}
-          dangerouslySetInnerHTML={{ __html: data }}
+          dangerouslySetInnerHTML={{ __html: data.body }}
         />
       </Paper>
       <Button
