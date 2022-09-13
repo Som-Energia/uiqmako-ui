@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
+import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles'
 import { useParams, useHistory } from 'react-router-dom'
 import { getRenderResult } from 'services/api'
@@ -37,12 +38,35 @@ function RenderResult(props) {
       })
       .catch((error) => {})
   }, [editId, caseId])
+
   return (
     <>
       <Paper className={classes.container}>
+        {Object.entries(data)?.map(
+          ([key, value]) =>
+            key != 'body' && (
+              <TextField
+                fullWidth
+                margin="dense"
+                variant="outlined"
+                style={{
+                  width: '100%',
+                  marginRight: '5px',
+                  marginLeft: '5px',
+                  display: 'inline-block',
+                }}
+                key={key}
+                label={key}
+                value={value}
+                disabled={true}
+              />
+            )
+        )}
+      </Paper>
+      <Paper className={classes.container}>
         <div
           className={classes.renderContainer}
-          dangerouslySetInnerHTML={{ __html: data }}
+          dangerouslySetInnerHTML={{ __html: data.body }}
         />
       </Paper>
       <Button
