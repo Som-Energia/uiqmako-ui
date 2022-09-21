@@ -130,9 +130,11 @@ function SingleTemplate(props) {
       >
         <DialogTitle id="alert-dialog-title">Alerta</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {`Actualment hi ha ${editResponse?.current_edits?.length} edicions en curs`}
-          </DialogContentText>
+          {editResponse?.current_edits && (
+            <DialogContentText id="alert-dialog-description">
+              {`Ja n'hi ha una edició en curs de l'usuari ${editResponse?.current_edits[0]?.user?.username}`}
+            </DialogContentText>
+          )}
         </DialogContent>
         <DialogActions>
           <Button
@@ -143,13 +145,6 @@ function SingleTemplate(props) {
             color="primary"
           >
             Cancel·lar
-          </Button>
-          <Button
-            onClick={(e) => history.push(`/edit/${chosenEditor}/${templateId}`)}
-            color="primary"
-            autoFocus
-          >
-            Editar
           </Button>
         </DialogActions>
       </Dialog>
