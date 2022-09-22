@@ -44,7 +44,6 @@ function TemplateList(props) {
   const classes = useStyles()
   const { setAlertInfo } = useAlert()
   const { currentUser, setCurrentUser } = useAuth()
-  console.log('els meeeeus', myEdits && currentUser.id)
 
   useEffect(() => {
     getTemplateList(myEdits && currentUser.id)
