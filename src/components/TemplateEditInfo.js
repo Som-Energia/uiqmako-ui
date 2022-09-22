@@ -43,7 +43,9 @@ const useStyles = makeStyles((theme) => ({
 
 function TemplateEditInfo(props) {
   const { item, setClicked } = props
-  const { name, xml_id, model, id = '', last_updated, username } = item
+  const { user, template, date_start } = item
+  const { username } = user
+  const { id, model, name, xml_id } = template
   const classes = useStyles()
 
   return (
@@ -64,8 +66,8 @@ function TemplateEditInfo(props) {
             {model}
           </Typography>
           <p className={classes.lastUpdated}>
-            {last_updated &&
-              last_updated.slice(0, 10) + ' ' + last_updated.slice(11, 16)}
+            {date_start &&
+              date_start.slice(0, 10) + ' ' + date_start.slice(11, 16)}
           </p>
           <p>{username}</p>
         </div>
