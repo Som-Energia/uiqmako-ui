@@ -177,12 +177,12 @@ function SingleTemplate(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          Transferència completada
+          {successTransfer ? 'Transferència completada' : 'Error'}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             {successTransfer
-              ? "S'ha transferit l'edició al teu usuàri"
+              ? "S'ha transferit l'edició al teu usuari"
               : "No s'ha pogut transferir l'edició"}
           </DialogContentText>
         </DialogContent>
