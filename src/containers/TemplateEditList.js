@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from 'react'
-import TemplateInfo from 'components/TemplateInfo'
-import { getTemplateList, getSingleTemplate } from 'services/api'
+import TemplateEditInfo from 'components/TemplateEditInfo'
+import { getTemplatesEditsList, getSingleTemplate } from 'services/api'
 import { makeStyles } from '@material-ui/core/styles'
 import SingleTemplate from './SingleTemplate'
 import Modal from '@material-ui/core/Modal'
@@ -27,13 +27,13 @@ const useStyles = makeStyles((theme) => ({
     margin: '1% auto',
     width: '80%',
   },
-  templateList: {},
+  templateEditList: {},
   provaMenu: {
     backgroundColor: 'none',
   },
 }))
 
-function TemplateList(props) {
+function TemplateEditList(props) {
   const [data, setData] = useState([])
   const [filteredData, setFilteredData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -46,7 +46,7 @@ function TemplateList(props) {
   const { currentUser, setCurrentUser } = useAuth()
 
   useEffect(() => {
-    getTemplateList(myEdits && currentUser.id)
+    getTemplatesEditsList()
       .then((response) => {
         setData(response)
         setIsLoading(false)
@@ -54,7 +54,7 @@ function TemplateList(props) {
       .catch((error) => {
         setIsLoading(false)
       })
-  }, [myEdits, currentUser])
+  }, [])
 
   useEffect(() => {
     if (search && search !== '') {
@@ -95,9 +95,9 @@ function TemplateList(props) {
   }
   return (
     <div style={{ paddingTop: '2em' }}>
-      <div className={classes.templateList}>
+      <div className={classes.templateEditList}>
         {filteredData?.map((item, index) => (
-          <TemplateInfo key={index} item={item} setClicked={setOpenId} />
+          <TemplateEditInfo key={index} item={item} setClicked={setOpenId} />
         ))}
       </div>
       <div>
@@ -118,4 +118,4 @@ function TemplateList(props) {
   )
 }
 
-export default TemplateList
+export default TemplateEditList

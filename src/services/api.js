@@ -20,6 +20,20 @@ export const getTemplateList = async (user_id) => {
   })
 }
 
+export const getTemplatesEditsList = async (user_id) => {
+  const token = getToken()
+  let url = `${process.env.REACT_APP_API_BASE_URL}/edits`
+  const headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:*',
+    Authorization: `Bearer ${token}`,
+  }
+
+  return axios({ method: 'GET', url, headers }).then((response) => {
+    return response?.data
+  })
+}
+
 export const createTemplate = async (data) => {
   const url = `${process.env.REACT_APP_API_BASE_URL}/templates`
   const token = getToken()

@@ -16,8 +16,8 @@ import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded'
 const menuItems = [
   { title: 'Home', path: '/', icon: <HomeRoundedIcon /> },
   {
-    title: 'Les meves edicions en curs',
-    path: '/myEdits',
+    title: 'Edicions en curs',
+    path: '/edits',
     icon: <BorderColorRoundedIcon />,
   },
   {

@@ -30,11 +30,9 @@ function Routes(props) {
     return <NewTemplateForm {...props} setSearchVisible={setSearchVisible} />
   }
 
-  const loadMyEdits = () => {
-    const TemplateList = lazy(() => import('./containers/TemplateList'))
-    return (
-      <TemplateList {...props} myEdits setSearchVisible={setSearchVisible} />
-    )
+  const loadEdits = () => {
+    const TemplateEditList = lazy(() => import('./containers/TemplateEditList'))
+    return <TemplateEditList {...props} setSearchVisible={setSearchVisible} />
   }
 
   const LoadSingleTemplate = () => {
@@ -81,7 +79,7 @@ function Routes(props) {
               <ProtectedRoute exact path="/settings">
                 <Route render={loadUsers} />
               </ProtectedRoute>
-              <Route exact path="/myEdits" render={loadMyEdits} />
+              <Route exact path="/edits" render={loadEdits} />
               <Route exact path="/newTemplate" render={loadNewTemplateForm} />
               <Route exact path="/templates/:id" render={LoadSingleTemplate} />
               <Route exact path="/edit/:editor/:id" render={LoadEditor} />
