@@ -1,5 +1,5 @@
 import { React, useEffect, useState, useRef } from 'react'
-import { checkEdits } from 'services/api'
+import { checkEdits, transferUserEdit } from 'services/api'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -70,15 +70,15 @@ function SingleTemplate(props) {
   const [editResponse, setEditResponse] = useState(true)
   const [confirmEdit, setConfirmEdit] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
+  const [successTransfer, setSuccessTransfer] = useState(false)
+  const [openTransferDialog, setOpenTransferDialog] = useState(false)
   const [chosenEditor, setChosenEditor] = useState(false)
-
   const [editExpanded, setEditExpanded] = useState(false)
   const [open, setOpen] = useState(false)
   const anchorRef = useRef(null)
   const classes = useStyles()
   const history = useHistory()
   const { currentUser } = useAuth()
-  const { setAlertInfo } = useAlert()
 
   const createPreview = () => {
     return {
@@ -111,6 +111,21 @@ function SingleTemplate(props) {
     setOpen(false)
   }
   const doNothing = (e) => {}
+
+  const transferEdit = (e) => {
+    transferUserEdit(templateId, currentUser.id)
+      .then((response) => {
+        if (response.result && response.result === currentUser.id) {
+          setSuccessTransfer(true)
+        } else {
+          setSuccessTransfer(false)
+        }
+        setOpenDialog(false)
+        setOpenTransferDialog(true)
+      })
+      .catch((error) => {})
+  }
+
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = useRef(open)
   useEffect(() => {
@@ -137,6 +152,9 @@ function SingleTemplate(props) {
           )}
         </DialogContent>
         <DialogActions>
+          <Button onClick={(e) => transferEdit()} color="primary">
+            Transferir
+          </Button>
           <Button
             onClick={(e) => {
               setOpenDialog(false)
@@ -145,6 +163,38 @@ function SingleTemplate(props) {
             color="primary"
           >
             Cancel·lar
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  )
+  const responseDialog = (
+    <>
+      <Dialog
+        open={openTransferDialog}
+        onClose={(e) => setOpenTransferDialog(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          Transferència completada
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {successTransfer
+              ? "S'ha transferit l'edició al teu usuàri"
+              : "No s'ha pogut transferir l'edició"}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={(e) => {
+              setOpenTransferDialog(false)
+              setChosenEditor(false)
+            }}
+            color="primary"
+          >
+            Acceptar
           </Button>
         </DialogActions>
       </Dialog>
@@ -261,6 +311,7 @@ function SingleTemplate(props) {
         />
       </Paper>
       {confirmDialog}
+      {responseDialog}
     </>
   )
 }
