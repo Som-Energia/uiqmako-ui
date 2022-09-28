@@ -1,4 +1,4 @@
-import React from 'react'
+import { React } from 'react'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
@@ -52,10 +52,10 @@ function TemplateEditInfo(props) {
     <>
       <Paper
         className={classes.paper}
-        onClick={(e) => setClicked(id)}
         elevation={1}
         id={id}
         mb={4}
+        onClick={(e) => setClicked(id)}
       >
         <Typography variant="h4" className={classes.name}>
           <MailOutlineRoundedIcon fontSize="large" className={classes.icon} />

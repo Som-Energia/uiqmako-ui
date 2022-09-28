@@ -129,6 +129,29 @@ export const saveEditChanges = async (
   })
 }
 
+export const transferUserEdit = async (templateId, new_user_id) => {
+  const token = getToken()
+
+  const url = `${process.env.REACT_APP_API_BASE_URL}/edits/${templateId}/transfer`
+  const edit_content = {
+    user_id: new_user_id,
+  }
+
+  let headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:*',
+    Authorization: `Bearer ${token}`,
+  }
+  return axios({
+    method: 'PUT',
+    url,
+    headers,
+    data: JSON.stringify(edit_content),
+  }).then((response) => {
+    return response?.data
+  })
+}
+
 export const discardEditChanges = async (templateId) => {
   const token = getToken()
 
