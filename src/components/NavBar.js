@@ -13,7 +13,11 @@ const NavBar = (props) => {
     <AppBar position="static" color="inherit" elevation={0}>
       <Toolbar>
         <div className={classes.logo}>
-          <img src="/cuca.png" alt="cuca" />
+          {process.env.REACT_APP_API_BASE_URL.includes('test') ? (
+            <img src="/cuca_testing.png" alt="cuca" />
+          ) : (
+            <img src="/cuca.png" alt="cuca" />
+          )}
           <Typography variant="h1">UI-QMako</Typography>
         </div>
         {searchVisible && (
