@@ -69,6 +69,16 @@ function TemplateList(props) {
       setFilteredData(data)
     }
   }, [search, data])
+
+  useEffect(() => {
+    if (search && search !== '') {
+      const filtered = data.filter((item) =>
+        item.model.toLowerCase().includes(search.toLowerCase())
+      )
+      setFilteredData(filtered)
+    }
+  }, [search, data])
+
   useEffect(() => {
     if (openId !== false) {
       getSingleTemplate(openId)

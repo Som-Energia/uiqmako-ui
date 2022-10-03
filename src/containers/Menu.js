@@ -23,16 +23,19 @@ const menuItems = [
     icon: <HomeRoundedIcon />,
     subitems: [
       {
+        path: '/templatesByModel',
         model: 'giscedata.switching',
         quantity: 100,
         nodeId: 1,
       },
       {
+        path: '/templatesByModel',
         model: 'giscedata.factura',
         quantity: 1234,
         nodeId: 2,
       },
       {
+        path: '/templatesByModel',
         model: 'som.enviament_massiu',
         quantity: 10,
         nodeId: 3,
@@ -118,7 +121,12 @@ function Menu(props) {
                 onClick={(e) => history.push(item.path)}
               >
                 {item.subitems.map((subitem, subindex) => (
-                  <TreeItem nodeId={subindex} label={subitem.model} />
+                  <TreeItem
+                    button
+                    nodeId={subindex}
+                    label={subitem.model}
+                    onClick={(e) => history.push(subitem.path)}
+                  />
                 ))}
               </TreeItem>
             </TreeView>
