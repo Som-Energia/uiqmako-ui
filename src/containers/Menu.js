@@ -12,24 +12,51 @@ import { useHistory } from 'react-router-dom'
 import { useAuth } from 'context/currentUser'
 import BorderColorRoundedIcon from '@material-ui/icons/BorderColorRounded'
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded'
+import TreeView from '@material-ui/lab/TreeView'
+import TreeItem from '@material-ui/lab/TreeItem'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 const menuItems = [
-  { title: 'Home', path: '/', icon: <HomeRoundedIcon /> },
+  {
+    title: 'Home',
+    path: '/',
+    icon: <HomeRoundedIcon />,
+    subitems: [
+      {
+        model: 'giscedata.switching',
+        quantity: 100,
+        nodeId: 1,
+      },
+      {
+        model: 'giscedata.factura',
+        quantity: 1234,
+        nodeId: 2,
+      },
+      {
+        model: 'som.enviament_massiu',
+        quantity: 10,
+        nodeId: 3,
+      },
+    ],
+  },
   {
     title: 'Edicions en curs',
     path: '/edits',
     icon: <BorderColorRoundedIcon />,
+    subitems: [],
   },
   {
     title: 'Afegir una nova plantilla',
     path: '/newTemplate',
     icon: <AddRoundedIcon />,
+    subitems: [],
   },
   {
     title: 'Administració de Permisos',
     path: '/settings',
     adminOnly: true,
     icon: <SettingsRoundedIcon />,
+    subitems: [],
   },
 ]
 
@@ -68,6 +95,34 @@ function Menu(props) {
     <div className={classes.menu}>
       <List className={classes.menuContent}>
         <div className={classes.topItems}>
+          {menuItems.map((item, index) => (
+            <TreeView
+              aria-label="file system navigator"
+              defaultCollapseIcon={<ExpandMoreIcon />}
+              sx={{
+                height: 240,
+                flexGrow: 1,
+                maxWidth: 400,
+                overflowY: 'auto',
+              }}
+            >
+              <TreeItem
+                button
+                className={classes.singleItem}
+                label={item.title}
+                icon={item.icon}
+                key={index}
+                nodeId={index}
+                disabled={item.adminOnly && currentUser?.category !== 'admin'}
+                //secondary={item.disabled && 'Només per administradors'}
+                onClick={(e) => history.push(item.path)}
+              >
+                {item.subitems.map((subitem, subindex) => (
+                  <TreeItem nodeId={subindex} label={subitem.model} />
+                ))}
+              </TreeItem>
+            </TreeView>
+          ))}
           {menuItems.map((item, index) => (
             <ListItem
               button
