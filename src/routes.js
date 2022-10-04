@@ -31,7 +31,7 @@ function Routes(props) {
       <TemplateList
         {...props}
         setSearchVisible={setSearchVisible}
-        search={searchText}
+        searchModel="giscedata.switching"
       />
     )
   }

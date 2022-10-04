@@ -37,7 +37,7 @@ function TemplateList(props) {
   const [data, setData] = useState([])
   const [filteredData, setFilteredData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const { search, myEdits } = props
+  const { search, searchModel, myEdits } = props
   const [openId, setOpenId] = useState(false)
   const [open, setOpen] = useState(false)
   const [sigleTemplate, setSingleTemplate] = useState({})
@@ -71,13 +71,13 @@ function TemplateList(props) {
   }, [search, data])
 
   useEffect(() => {
-    if (search && search !== '') {
+    if (searchModel && searchModel !== '') {
       const filtered = data.filter((item) =>
-        item.model.toLowerCase().includes(search.toLowerCase())
+        item.model.toLowerCase().includes(searchModel.toLowerCase())
       )
       setFilteredData(filtered)
     }
-  }, [search, data])
+  }, [searchModel, data])
 
   useEffect(() => {
     if (openId !== false) {

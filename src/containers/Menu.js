@@ -30,7 +30,7 @@ const menuItems = [
       },
       {
         path: '/templatesByModel',
-        model: 'giscedata.factura',
+        model: 'giscedata.facturacio.factura',
         quantity: 1234,
         nodeId: 2,
       },
@@ -110,22 +110,45 @@ function Menu(props) {
               }}
             >
               <TreeItem
-                button
-                className={classes.singleItem}
-                label={item.title}
-                icon={item.icon}
-                key={index}
+                label={
+                  <ListItem
+                    button
+                    className={classes.singleItem}
+                    key={index}
+                    disabled={
+                      item.adminOnly && currentUser?.category !== 'admin'
+                    }
+                    onClick={(e) => history.push(item.path)}
+                  >
+                    {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
+                    <ListItemText
+                      primary={item.title}
+                      secondary={item.disabled && 'Només per administradors'}
+                    />
+                  </ListItem>
+                }
                 nodeId={index}
-                disabled={item.adminOnly && currentUser?.category !== 'admin'}
-                //secondary={item.disabled && 'Només per administradors'}
-                onClick={(e) => history.push(item.path)}
               >
                 {item.subitems.map((subitem, subindex) => (
                   <TreeItem
-                    button
                     nodeId={subindex}
-                    label={subitem.model}
-                    onClick={(e) => history.push(subitem.path)}
+                    label={
+                      <ListItem
+                        button
+                        key={index}
+                        disabled={
+                          item.adminOnly && currentUser?.category !== 'admin'
+                        }
+                        onClick={(e) => history.push(subitem.path)}
+                      >
+                        <ListItemText
+                          primary={subitem.model}
+                          secondary={
+                            item.disabled && 'Només per administradors'
+                          }
+                        />
+                      </ListItem>
+                    }
                   />
                 ))}
               </TreeItem>
