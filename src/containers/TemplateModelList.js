@@ -26,17 +26,8 @@ function TemplateModelList() {
     for (let i = 0; i < data.length; i++) {
       dict[data[i].model] = data[i].model in dict ? dict[data[i].model] + 1 : 1
     }
-    let modelAndQuantity = []
-    let count = 0
-    for (var key in dict) {
-      if (dict.hasOwnProperty(key)) {
-        modelAndQuantity.push({ id: count, model: key, quantity: dict[key] })
-        count += 1
-      }
-    }
-    console.log(modelAndQuantity)
+
     setTemplateModelData(dict)
-    console.log(dict)
   }, [data])
 
   return (

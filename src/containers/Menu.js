@@ -112,21 +112,6 @@ function Menu(props) {
               </TreeItem>
             </TreeView>
           ))}
-          {menuItems.map((item, index) => (
-            <ListItem
-              button
-              className={classes.singleItem}
-              key={index}
-              disabled={item.adminOnly && currentUser?.category !== 'admin'}
-              onClick={(e) => history.push(item.path)}
-            >
-              {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
-              <ListItemText
-                primary={item.title}
-                secondary={item.disabled && 'Només per administradors'}
-              />
-            </ListItem>
-          ))}
         </div>
         <div className={classes.menuLogOut}>
           <ListItem>
