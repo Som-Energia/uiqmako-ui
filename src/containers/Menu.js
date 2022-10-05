@@ -15,51 +15,30 @@ import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded'
 import TreeView from '@material-ui/lab/TreeView'
 import TreeItem from '@material-ui/lab/TreeItem'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import TemplateModelList from './TemplateModelList'
 
 const menuItems = [
   {
     title: 'Home',
     path: '/',
     icon: <HomeRoundedIcon />,
-    subitems: [
-      {
-        path: '/templatesByModel',
-        model: 'giscedata.switching',
-        quantity: 100,
-        nodeId: 1,
-      },
-      {
-        path: '/templatesByModel',
-        model: 'giscedata.facturacio.factura',
-        quantity: 1234,
-        nodeId: 2,
-      },
-      {
-        path: '/templatesByModel',
-        model: 'som.enviament_massiu',
-        quantity: 10,
-        nodeId: 3,
-      },
-    ],
+    subitems: <TemplateModelList />,
   },
   {
     title: 'Edicions en curs',
     path: '/edits',
     icon: <BorderColorRoundedIcon />,
-    subitems: [],
   },
   {
     title: 'Afegir una nova plantilla',
     path: '/newTemplate',
     icon: <AddRoundedIcon />,
-    subitems: [],
   },
   {
     title: 'Administració de Permisos',
     path: '/settings',
     adminOnly: true,
     icon: <SettingsRoundedIcon />,
-    subitems: [],
   },
 ]
 
@@ -129,28 +108,7 @@ function Menu(props) {
                 }
                 nodeId={index}
               >
-                {item.subitems.map((subitem, subindex) => (
-                  <TreeItem
-                    nodeId={subindex}
-                    label={
-                      <ListItem
-                        button
-                        key={index}
-                        disabled={
-                          item.adminOnly && currentUser?.category !== 'admin'
-                        }
-                        onClick={(e) => history.push(subitem.path)}
-                      >
-                        <ListItemText
-                          primary={subitem.model}
-                          secondary={
-                            item.disabled && 'Només per administradors'
-                          }
-                        />
-                      </ListItem>
-                    }
-                  />
-                ))}
+                {item.subitems && <div>{item.subitems}</div>}
               </TreeItem>
             </TreeView>
           ))}

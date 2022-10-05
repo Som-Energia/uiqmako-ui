@@ -6,6 +6,7 @@ import SingleTemplate from './SingleTemplate'
 import Modal from '@material-ui/core/Modal'
 import { useAlert } from 'context/alertDetails'
 import { useAuth } from 'context/currentUser'
+import { useParams, useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -34,10 +35,11 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function TemplateList(props) {
+  const { model } = useParams()
   const [data, setData] = useState([])
   const [filteredData, setFilteredData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const { search, searchModel, myEdits } = props
+  const { search, myEdits } = props
   const [openId, setOpenId] = useState(false)
   const [open, setOpen] = useState(false)
   const [sigleTemplate, setSingleTemplate] = useState({})
@@ -65,19 +67,20 @@ function TemplateList(props) {
           item.xml_id.toLowerCase().includes(search.toLowerCase())
       )
       setFilteredData(filtered)
+      console.log(filtered)
     } else {
       setFilteredData(data)
     }
   }, [search, data])
 
   useEffect(() => {
-    if (searchModel && searchModel !== '') {
+    if (model && model !== '') {
       const filtered = data.filter((item) =>
-        item.model.toLowerCase().includes(searchModel.toLowerCase())
+        item.model.toLowerCase().includes(model.toLowerCase())
       )
       setFilteredData(filtered)
     }
-  }, [searchModel, data])
+  }, [model, data])
 
   useEffect(() => {
     if (openId !== false) {

@@ -27,13 +27,7 @@ function Routes(props) {
   }
   const loadTemplatesByModel = () => {
     const TemplateList = lazy(() => import('./containers/TemplateList'))
-    return (
-      <TemplateList
-        {...props}
-        setSearchVisible={setSearchVisible}
-        searchModel="giscedata.switching"
-      />
-    )
+    return <TemplateList {...props} setSearchVisible={setSearchVisible} />
   }
   const loadNewTemplateForm = () => {
     const NewTemplateForm = lazy(() => import('./containers/NewTemplateForm'))
@@ -92,7 +86,7 @@ function Routes(props) {
               <Route exact path="/edits" render={loadEdits} />
               <Route
                 exact
-                path="/templatesByModel"
+                path="/templatesByModel/:model"
                 render={loadTemplatesByModel}
               />
               <Route exact path="/newTemplate" render={loadNewTemplateForm} />
