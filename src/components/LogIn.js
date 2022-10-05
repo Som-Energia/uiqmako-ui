@@ -72,12 +72,21 @@ function LogIn(props) {
       <NavBar />
       <Container component="main" maxWidth="xs" className={classes.container}>
         <div className={classes.logoContainer}>
-          <img
-            src="/cuca.png"
-            layout="fixed"
-            width={150}
-            className={classes.logo}
-          />
+          {process.env.REACT_APP_API_BASE_URL.includes('test') ? (
+            <img
+              src="/cuca_testing.png"
+              layout="fixed"
+              width={150}
+              className={classes.logo}
+            />
+          ) : (
+            <img
+              src="/cuca.png"
+              layout="fixed"
+              width={150}
+              className={classes.logo}
+            />
+          )}
         </div>
         {(isRegister && (
           <Register setToken={props.setToken} setIsRegister={setIsRegister} />
