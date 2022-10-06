@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
   singleItem: {
-    margin: '0.4rem 0',
+    margin: '0',
   },
 })
 
@@ -25,10 +25,10 @@ function TemplateModel(props) {
           <ListItem
             button
             className={classes.singleItem}
-            key={1}
-            onClick={(e) => history.push('/templatesByModel/' + item)}
+            key={id}
+            onClick={(e) => history.push('/templatesByModel/' + model)}
           >
-            <ListItemText primary={item} />
+            <ListItemText primary={model + ' (' + quantity + ')'} />
           </ListItem>
         }
       />

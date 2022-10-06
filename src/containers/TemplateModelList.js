@@ -32,9 +32,12 @@ function TemplateModelList() {
 
   return (
     <div>
-      {Object.entries(templateModelData)?.map(([item, index]) => (
+      {Object.entries(templateModelData)?.map(([model, quantity]) => (
         <div>
-          <TemplateModel key={index} item={item} />
+          <TemplateModel
+            key={model.indexOf(model)}
+            item={{ model: model, quantity: quantity }}
+          />
         </div>
       ))}
     </div>
