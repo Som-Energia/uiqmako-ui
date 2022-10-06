@@ -12,9 +12,18 @@ import { useHistory } from 'react-router-dom'
 import { useAuth } from 'context/currentUser'
 import BorderColorRoundedIcon from '@material-ui/icons/BorderColorRounded'
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded'
+import TreeView from '@material-ui/lab/TreeView'
+import TreeItem from '@material-ui/lab/TreeItem'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import TemplateModelList from './TemplateModelList'
 
 const menuItems = [
-  { title: 'Home', path: '/', icon: <HomeRoundedIcon /> },
+  {
+    title: 'Home',
+    path: '/',
+    icon: <HomeRoundedIcon />,
+    subitems: <TemplateModelList />,
+  },
   {
     title: 'Edicions en curs',
     path: '/edits',
@@ -69,19 +78,39 @@ function Menu(props) {
       <List className={classes.menuContent}>
         <div className={classes.topItems}>
           {menuItems.map((item, index) => (
-            <ListItem
-              button
-              className={classes.singleItem}
-              key={index}
-              disabled={item.adminOnly && currentUser?.category !== 'admin'}
-              onClick={(e) => history.push(item.path)}
+            <TreeView
+              aria-label="file system navigator"
+              defaultCollapseIcon={<ExpandMoreIcon />}
+              sx={{
+                height: 240,
+                flexGrow: 1,
+                maxWidth: 400,
+                overflowY: 'auto',
+              }}
             >
-              {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
-              <ListItemText
-                primary={item.title}
-                secondary={item.disabled && 'Només per administradors'}
-              />
-            </ListItem>
+              <TreeItem
+                label={
+                  <ListItem
+                    button
+                    className={classes.singleItem}
+                    key={index}
+                    disabled={
+                      item.adminOnly && currentUser?.category !== 'admin'
+                    }
+                    onClick={(e) => history.push(item.path)}
+                  >
+                    {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
+                    <ListItemText
+                      primary={item.title}
+                      secondary={item.disabled && 'Només per administradors'}
+                    />
+                  </ListItem>
+                }
+                nodeId={index}
+              >
+                {item.subitems && <div>{item.subitems}</div>}
+              </TreeItem>
+            </TreeView>
           ))}
         </div>
         <div className={classes.menuLogOut}>

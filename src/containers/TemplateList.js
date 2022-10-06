@@ -6,6 +6,7 @@ import SingleTemplate from './SingleTemplate'
 import Modal from '@material-ui/core/Modal'
 import { useAlert } from 'context/alertDetails'
 import { useAuth } from 'context/currentUser'
+import { useParams, useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -34,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function TemplateList(props) {
+  const { model } = useParams()
   const [data, setData] = useState([])
   const [filteredData, setFilteredData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -65,10 +67,21 @@ function TemplateList(props) {
           item.xml_id.toLowerCase().includes(search.toLowerCase())
       )
       setFilteredData(filtered)
+      console.log(filtered)
     } else {
       setFilteredData(data)
     }
   }, [search, data])
+
+  useEffect(() => {
+    if (model && model !== '') {
+      const filtered = data.filter((item) =>
+        item.model.toLowerCase().includes(model.toLowerCase())
+      )
+      setFilteredData(filtered)
+    }
+  }, [model, data])
+
   useEffect(() => {
     if (openId !== false) {
       getSingleTemplate(openId)
