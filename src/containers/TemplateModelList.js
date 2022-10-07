@@ -10,7 +10,7 @@ function TemplateModelList() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    getTemplateList(currentUser.id)
+    getTemplateList()
       .then((response) => {
         setData(response)
         setIsLoading(false)
@@ -18,7 +18,7 @@ function TemplateModelList() {
       .catch((error) => {
         setIsLoading(false)
       })
-  }, [currentUser])
+  }, [])
 
   useEffect(() => {
     let dict = {} // create an empty array
