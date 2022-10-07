@@ -1,16 +1,14 @@
 import { React, useEffect, useState } from 'react'
 import { getTemplateList } from 'services/api'
 import TemplateModel from 'components/TemplateModel'
-import { useAuth } from 'context/currentUser'
 
 function TemplateModelList() {
   const [data, setData] = useState([])
   const [templateModelData, setTemplateModelData] = useState([])
-  const { currentUser } = useAuth()
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    getTemplateList(currentUser.id)
+    getTemplateList()
       .then((response) => {
         setData(response)
         setIsLoading(false)
@@ -18,7 +16,7 @@ function TemplateModelList() {
       .catch((error) => {
         setIsLoading(false)
       })
-  }, [currentUser])
+  }, [])
 
   useEffect(() => {
     let dict = {} // create an empty array
