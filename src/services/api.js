@@ -330,7 +330,7 @@ export const updateUser = async (user_id, username, category, disabled) => {
   })
 }
 
-export const currentUser = async () => {
+export const getCurrentUser = async () => {
   const token = getToken()
 
   const url = `${process.env.REACT_APP_API_BASE_URL}/users/me`

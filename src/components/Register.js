@@ -3,9 +3,8 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
-import { register, currentUser } from 'services/api'
+import { register, getCurrentUser } from 'services/api'
 import { useAuth } from 'context/currentUser'
-import SimpleSnackbar from 'components/SimpleSnackbar'
 import Snackbar from '@material-ui/core/Snackbar'
 import Alert from '@material-ui/lab/Alert'
 
@@ -48,7 +47,7 @@ function Register(props) {
       register(username, password)
         .then((response) => {
           props.setToken(response)
-          currentUser()
+          getCurrentUser()
             .then((response) => {
               setCurrentUser(response)
             })

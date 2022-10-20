@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import { doLogin } from 'services/api'
-import { currentUser } from 'services/api'
+import { getCurrentUser } from 'services/api'
 import NavBar from './NavBar'
 import Register from 'components/Register'
 import { useAuth } from 'context/currentUser'
@@ -53,11 +53,10 @@ function LogIn(props) {
     doLogin(username, password)
       .then((response) => {
         props.setToken(response)
-        currentUser()
-          .then((response) => {
-            setCurrentUser(response)
-          })
-          .catch((error) => {})
+        return getCurrentUser()
+      })
+      .then((response) => {
+        setCurrentUser(response)
       })
       .catch((error) => {
         if (error?.response?.status === 401) {

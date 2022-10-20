@@ -5,10 +5,9 @@ import Routes from 'routes'
 import { useToken } from 'useToken'
 import Login from 'components/LogIn'
 import SimpleSnackbar from 'components/SimpleSnackbar'
-import { currentUser } from 'services/api'
 import theme from 'styles/theme'
 import { CurrentUserProvider } from 'context/currentUser'
-import { AlertInfoProvider, useAlert } from 'context/alertDetails'
+import { AlertInfoProvider } from 'context/alertDetails'
 
 function App(props) {
   const alertProps = {
@@ -17,36 +16,27 @@ function App(props) {
     severity: 'info',
   }
   const { token, setToken } = useToken()
-  const [initAlert, setInitAlert] = useState(alertProps)
-  const [user, setUser] = useState(false)
-
-  useEffect(() => {
-    currentUser()
-      .then((response) => {
-        setUser(response)
-      })
-      .catch((error) => {})
-  }, [])
+  const [initAlert] = useState(alertProps)
 
   useEffect(() => {
     const timeout = setInterval(() => {
       const date = localStorage.getItem('tokenDate')
       if (date > Date.now()) {
         setToken('')
-      } else {
       }
-    }, 3000000)
+    }, 10800000)
 
     return () => clearInterval(timeout)
-  }, false)
+  }, [setToken])
+
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <CurrentUserProvider user={user}>
+        <CurrentUserProvider>
           <AlertInfoProvider alertProps={{ ...initAlert }}>
             {(token && (
               <Suspense fallback={<></>}>
-                <Routes setToken={setToken} user={user} />
+                <Routes setToken={setToken} />
               </Suspense>
             )) || <Login setToken={setToken} />}
             <SimpleSnackbar alertProps={alertProps} />
