@@ -17,8 +17,8 @@ import Grow from '@material-ui/core/Grow'
 import MenuItem from '@material-ui/core/MenuItem'
 import EditIcon from '@material-ui/icons/Edit'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
-import { useAuth } from 'context/currentUser'
-import { useAlert } from 'context/alertDetails'
+//import { useAuth } from 'context/currentUser'
+import { useAuth } from 'context/sessionContext'
 
 const useStyles = makeStyles((theme) => ({
   editor: {

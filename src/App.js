@@ -2,11 +2,11 @@ import React, { Suspense, useEffect, useState } from 'react'
 import './i18n/i18n'
 import { ThemeProvider } from '@material-ui/styles'
 import Routes from 'routes'
-import { useToken } from 'useToken'
-import Login from 'components/LogIn'
+import { removeToken, getTokenInfo } from 'useToken'
 import SimpleSnackbar from 'components/SimpleSnackbar'
 import theme from 'styles/theme'
-import { CurrentUserProvider } from 'context/currentUser'
+// import { CurrentUserProvider } from 'context/currentUser'
+import { SessionProvider } from 'context/sessionContext'
 import { AlertInfoProvider } from 'context/alertDetails'
 
 function App(props) {
@@ -15,33 +15,31 @@ function App(props) {
     message: '',
     severity: 'info',
   }
-  const { token, setToken } = useToken()
+
   const [initAlert] = useState(alertProps)
 
   useEffect(() => {
     const timeout = setInterval(() => {
-      const date = localStorage.getItem('tokenDate')
-      if (date > Date.now()) {
-        setToken('')
+      const { tokenDate } = getTokenInfo()
+      if (tokenDate > Date.now()) {
+        removeToken()
       }
-    }, 10800000)
+    }, 3000000)
 
     return () => clearInterval(timeout)
-  }, [setToken])
+  }, [])
 
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <CurrentUserProvider>
+        <SessionProvider>
           <AlertInfoProvider alertProps={{ ...initAlert }}>
-            {(token && (
-              <Suspense fallback={<></>}>
-                <Routes setToken={setToken} />
-              </Suspense>
-            )) || <Login setToken={setToken} />}
+            <Suspense fallback={<></>}>
+              <Routes />
+            </Suspense>
             <SimpleSnackbar alertProps={alertProps} />
           </AlertInfoProvider>
-        </CurrentUserProvider>
+        </SessionProvider>
       </ThemeProvider>
     </div>
   )

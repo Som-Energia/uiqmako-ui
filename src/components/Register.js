@@ -4,7 +4,8 @@ import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import { register, getCurrentUser } from 'services/api'
-import { useAuth } from 'context/currentUser'
+// import { useAuth } from 'context/currentUser'
+import { useAuth } from 'context/sessionContext'
 import Snackbar from '@material-ui/core/Snackbar'
 import Alert from '@material-ui/lab/Alert'
 
@@ -38,7 +39,7 @@ function Register(props) {
   const [isInvalid, setisInvalid] = useState(false)
   const [msgError, setmsgError] = useState('')
   const [isPasswdInvalid, setPasswdInvalid] = useState(false)
-  const { setCurrentUser } = useAuth()
+  const { setCurrentUser, setSessionToken, removeSessionToken } = useAuth()
   const [showAlert, setShowAlert] = useState()
 
   const handleSubmit = (event) => {
@@ -46,12 +47,11 @@ function Register(props) {
     if (!isPasswdInvalid) {
       register(username, password)
         .then((response) => {
-          props.setToken(response)
-          getCurrentUser()
-            .then((response) => {
-              setCurrentUser(response)
-            })
-            .catch((error) => {})
+          setSessionToken(response)
+          return getCurrentUser()
+        })
+        .then((response) => {
+          setCurrentUser(response)
         })
         .catch((error) => {
           setShowAlert(true)
@@ -67,7 +67,7 @@ function Register(props) {
               setmsgError('Error desconegut')
           }
           setisInvalid(true)
-          props.setToken('')
+          removeSessionToken()
         })
     }
   }

@@ -7,14 +7,36 @@ import {
 } from 'react-router-dom'
 import NavBar from 'components/NavBar'
 import Menu from 'containers/Menu'
-import { useAuth } from 'context/currentUser'
+//import { useAuth } from 'context/currentUser'
+import { useAuth } from 'context/sessionContext'
 import { makeStyles } from '@material-ui/core/styles'
+import { saveToken } from './useToken'
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: '#f2f2f2',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'between',
+    minHeight: '100vh',
+    position: 'relative',
+  },
+  main: {
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  container: {
+    display: 'flex',
+  },
+}))
 
 function Routes(props) {
   const classes = useStyles()
   const [searchText, setSearchText] = useState('')
   const [searchVisible, setSearchVisible] = useState(false)
-
+  const { currentUser } = useAuth()
   const loadMainPage = () => {
     const MainPage = lazy(() => import('./containers/Main'))
     return (
@@ -69,86 +91,105 @@ function Routes(props) {
     )
   }
 
-  return (
-    <div className={classes.root}>
-      <Router>
+  const loadLogin = () => {
+    const Login = lazy(() => import('./components/LogIn'))
+    return <Login />
+  }
+
+  const BaseRoute = ({ children }) => {
+    return (
+      <>
         <header>
           <NavBar setSearchText={setSearchText} searchVisible={searchVisible} />
         </header>
         <div className={classes.container}>
-          <Menu setToken={props.setToken} />
-          <div className={classes.main}>
-            <Switch>
-              <Route exact path="/" render={loadMainPage} />
-              <ProtectedRoute exact path="/settings">
-                <Route render={loadUsers} />
-              </ProtectedRoute>
-              <Route exact path="/edits" render={loadEdits} />
-              <Route
-                exact
-                path="/templatesByModel/:model"
-                render={loadTemplatesByModel}
-              />
-              <Route exact path="/newTemplate" render={loadNewTemplateForm} />
-              <Route exact path="/templates/:id" render={LoadSingleTemplate} />
-              <Route exact path="/edit/:editor/:id" render={LoadEditor} />
-              <Route
-                exact
-                path="/validation/:template_id/:edit_id"
-                render={LoadResultStepper}
-              />
-              <Route
-                exact
-                path="/render/:editId/:caseId"
-                render={LoadRenderResult}
-              />
-            </Switch>
-          </div>
+          <Menu setToken={saveToken} />
+          <div className={classes.main}>{children}</div>
         </div>
+      </>
+    )
+  }
+
+  const ProtectedRoute = ({ children, ...rest }) => {
+    return (
+      <BaseRoute>
+        <Route
+          {...rest}
+          render={({ location }) =>
+            currentUser && currentUser?.category === 'admin' ? (
+              children
+            ) : (
+              <Redirect
+                to={{
+                  pathname: '/',
+                  state: { from: location },
+                }}
+              />
+            )
+          }
+        />
+      </BaseRoute>
+    )
+  }
+
+  const PrivateRoute = ({ children, ...rest }) => {
+    return (
+      <BaseRoute>
+        <Route
+          {...rest}
+          render={({ location }) =>
+            currentUser ? (
+              children
+            ) : (
+              <Redirect
+                to={{
+                  pathname: '/login',
+                  state: { from: location },
+                }}
+              />
+            )
+          }
+        />
+      </BaseRoute>
+    )
+  }
+
+  return (
+    <div className={classes.root}>
+      <Router>
+        <Switch>
+          <PrivateRoute exact path="/">
+            {loadMainPage()}
+          </PrivateRoute>
+          <ProtectedRoute exact path="/settings">
+            <PrivateRoute render={loadUsers} />
+          </ProtectedRoute>
+          <PrivateRoute exact path="/edits">
+            {loadEdits()}
+          </PrivateRoute>
+          <PrivateRoute exact path="/templatesByModel/:model">
+            {loadEdits()}
+          </PrivateRoute>
+          <PrivateRoute exact path="/newTemplate">
+            {loadNewTemplateForm()}
+          </PrivateRoute>
+          <PrivateRoute exact path="/templates/:id">
+            {LoadSingleTemplate()}
+          </PrivateRoute>
+          <PrivateRoute exact path="/edit/:editor/:id">
+            {LoadEditor()}
+          </PrivateRoute>
+          <PrivateRoute exact path="/validation/:template_id/:edit_id">
+            {LoadResultStepper()}
+          </PrivateRoute>
+          <PrivateRoute exact path="/render/:editId/:caseId">
+            {LoadRenderResult()}
+          </PrivateRoute>
+          <Route exact path="/login" render={loadLogin} />
+        </Switch>
       </Router>
     </div>
   )
 }
 
 export default Routes
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: '#f2f2f2',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'between',
-    minHeight: '100vh',
-    position: 'relative',
-  },
-  main: {
-    flexGrow: 1,
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  container: {
-    display: 'flex',
-  },
-}))
-
-const ProtectedRoute = ({ children, ...rest }) => {
-  const { currentUser } = useAuth()
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        currentUser ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/',
-              state: { from: location },
-            }}
-          />
-        )
-      }
-    />
-  )
-}

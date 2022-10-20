@@ -5,11 +5,19 @@ export const getToken = () => {
   //const userToken = JSON.parse(tokenString)
   return tokenString
 }
-export const removeToken = () => {
-  localStorage.removeItem('token')
+
+export const getTokenInfo = () => {
+  const token = localStorage.getItem('token')
+  const tokenDate = localStorage.getItem('tokenDate')
+  return { token: token, tokenData: tokenDate }
 }
 
-export const useToken = () => {
+export const removeToken = () => {
+  localStorage.removeItem('token')
+  localStorage.removeItem('tokenDate')
+}
+
+/* export const useToken = () => {
   const [uToken, setToken] = useState(getToken())
 
   const saveToken = (userToken) => {
@@ -31,5 +39,14 @@ export const useToken = () => {
   return {
     setToken: saveToken,
     token: uToken,
+  }
+} */
+
+export const saveToken = (userToken, tokenData) => {
+  localStorage.setItem('token', userToken)
+  if (userToken && userToken !== '') {
+    localStorage.setItem('tokenDate', tokenData)
+  } else {
+    localStorage.removeItem('tokenDate')
   }
 }

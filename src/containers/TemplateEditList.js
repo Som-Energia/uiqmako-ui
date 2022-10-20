@@ -5,7 +5,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import SingleTemplate from './SingleTemplate'
 import Modal from '@material-ui/core/Modal'
 import { useAlert } from 'context/alertDetails'
-import { useAuth } from 'context/currentUser'
+//import { useAuth } from 'context/currentUser'
+import { useAuth } from 'context/sessionContext'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
