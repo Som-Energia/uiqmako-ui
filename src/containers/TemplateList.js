@@ -101,7 +101,7 @@ function TemplateList(props) {
           })
         })
     }
-  }, [openId])
+  }, [openId, setAlertInfo])
 
   const handleClose = () => {
     setOpen(false)

@@ -6,7 +6,7 @@ import { removeToken, getTokenInfo } from 'useToken'
 import SimpleSnackbar from 'components/SimpleSnackbar'
 import theme from 'styles/theme'
 // import { CurrentUserProvider } from 'context/currentUser'
-import { SessionProvider } from 'context/sessionContext'
+import { SessionProvider, useAuth } from 'context/sessionContext'
 import { AlertInfoProvider } from 'context/alertDetails'
 
 function App(props) {

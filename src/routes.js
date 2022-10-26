@@ -11,6 +11,8 @@ import Menu from 'containers/Menu'
 import { useAuth } from 'context/sessionContext'
 import { makeStyles } from '@material-ui/core/styles'
 import { saveToken } from './useToken'
+import { Axios } from './services/axios'
+import Loader from './components/common/Loader'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,10 +35,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function Routes(props) {
+  const { removeSessionToken } = useAuth()
+  Axios.setAuthContextToAxios(removeSessionToken)
+
   const classes = useStyles()
   const [searchText, setSearchText] = useState('')
   const [searchVisible, setSearchVisible] = useState(false)
-  const { currentUser } = useAuth()
+  const { currentUser, loadedData } = useAuth()
   const loadMainPage = () => {
     const MainPage = lazy(() => import('./containers/Main'))
     return (
@@ -134,23 +139,55 @@ function Routes(props) {
 
   const PrivateRoute = ({ children, ...rest }) => {
     return (
-      <BaseRoute>
-        <Route
-          {...rest}
-          render={({ location }) =>
-            currentUser ? (
-              children
-            ) : (
-              <Redirect
-                to={{
-                  pathname: '/login',
-                  state: { from: location },
-                }}
-              />
-            )
-          }
-        />
-      </BaseRoute>
+      <>
+        {loadedData ? (
+          <BaseRoute>
+            <Route
+              {...rest}
+              render={({ location }) =>
+                currentUser ? (
+                  children
+                ) : (
+                  <Redirect
+                    to={{
+                      pathname: '/login',
+                      state: { from: location },
+                    }}
+                  />
+                )
+              }
+            />
+          </BaseRoute>
+        ) : (
+          <Loader />
+        )}
+      </>
+    )
+  }
+
+  const PublicRoute = ({ children, ...rest }) => {
+    return (
+      <>
+        {loadedData ? (
+          <Route
+            {...rest}
+            render={({ location }) =>
+              !currentUser ? (
+                children
+              ) : (
+                <Redirect
+                  to={{
+                    pathname: '/',
+                    state: { from: location },
+                  }}
+                />
+              )
+            }
+          />
+        ) : (
+          <Loader />
+        )}
+      </>
     )
   }
 
@@ -185,7 +222,9 @@ function Routes(props) {
           <PrivateRoute exact path="/render/:editId/:caseId">
             {LoadRenderResult()}
           </PrivateRoute>
-          <Route exact path="/login" render={loadLogin} />
+          <PublicRoute exact path="/login">
+            {loadLogin()}
+          </PublicRoute>
         </Switch>
       </Router>
     </div>
