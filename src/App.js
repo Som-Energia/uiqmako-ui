@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useState } from 'react'
 import './i18n/i18n'
 import { ThemeProvider } from '@material-ui/styles'
-import Routes from 'routes'
+import Routes from 'routes/index'
 import { removeToken, getTokenInfo } from 'useToken'
 import SimpleSnackbar from 'components/SimpleSnackbar'
 import theme from 'styles/theme'

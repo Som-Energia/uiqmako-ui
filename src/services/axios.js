@@ -9,7 +9,7 @@ Axios.axios.interceptors.response.use(
     return response
   },
   function (error) {
-    if (error.response.status === 401) {
+    if (error?.response?.status === 401) {
       Axios.removeSession()
     }
     return Promise.reject(error)

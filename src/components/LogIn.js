@@ -59,12 +59,10 @@ function LogIn(props) {
         return getCurrentUser()
       })
       .then((response) => {
-        console.log('CURRENT USER')
         setCurrentUser(response)
         history.push('/')
       })
       .catch((error) => {
-        console.log(error)
         if (error?.response?.status === 401) {
           setisInvalid(true)
         }
