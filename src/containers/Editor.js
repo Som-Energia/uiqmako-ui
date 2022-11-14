@@ -13,7 +13,8 @@ import SimpleEditor from '../components/SimpleEditor'
 import RichTextEditor from '../components/RichTextEditor'
 import CaseList from '../components/CaseList'
 
-import { useAuth } from 'context/currentUser'
+//import { useAuth } from 'context/currentUser'
+import { useAuth } from 'context/sessionContext'
 
 const useStyles = makeStyles((theme) => ({
   editor: {

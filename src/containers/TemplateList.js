@@ -5,7 +5,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import SingleTemplate from './SingleTemplate'
 import Modal from '@material-ui/core/Modal'
 import { useAlert } from 'context/alertDetails'
-import { useAuth } from 'context/currentUser'
+//import { useAuth } from 'context/currentUser'
+import { useAuth } from 'context/sessionContext'
 import { useParams, useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
@@ -100,7 +101,7 @@ function TemplateList(props) {
           })
         })
     }
-  }, [openId])
+  }, [openId, setAlertInfo])
 
   const handleClose = () => {
     setOpen(false)

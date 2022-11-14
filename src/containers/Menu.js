@@ -9,7 +9,8 @@ import HomeRoundedIcon from '@material-ui/icons/HomeRounded'
 import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded'
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded'
 import { useHistory } from 'react-router-dom'
-import { useAuth } from 'context/currentUser'
+//import { useAuth } from 'context/currentUser'
+import { useAuth } from 'context/sessionContext'
 import BorderColorRoundedIcon from '@material-ui/icons/BorderColorRounded'
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded'
 import TreeView from '@material-ui/lab/TreeView'
@@ -72,7 +73,7 @@ function Menu(props) {
   const classes = useStyles()
   const history = useHistory()
   const { setToken } = props
-  const { currentUser, setCurrentUser } = useAuth()
+  const { currentUser, setCurrentUser, removeSessionToken } = useAuth()
   return (
     <div className={classes.menu}>
       <List className={classes.menuContent}>
@@ -125,7 +126,7 @@ function Menu(props) {
           <ListItem
             button
             onClick={(e) => {
-              setToken('')
+              removeSessionToken()
               setCurrentUser(false)
             }}
           >

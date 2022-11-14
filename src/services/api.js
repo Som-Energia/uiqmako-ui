@@ -1,6 +1,8 @@
 import { CollectionsBookmarkOutlined } from '@material-ui/icons'
-import axios from 'axios'
+import { Axios } from './axios'
 import { getToken, removeToken } from 'useToken'
+
+const axios = Axios.axios
 
 export const getTemplateList = async (user_id) => {
   const token = getToken()
@@ -43,7 +45,7 @@ export const createTemplate = async (data) => {
     Authorization: `Bearer ${token}`,
   }
 
-  var bodyFormData = new FormData()
+  let bodyFormData = new FormData()
   bodyFormData.append('xml_id', data)
   return axios({ method: 'POST', url, headers, data: bodyFormData }).then(
     (response) => {
@@ -235,7 +237,7 @@ export const uploadEdit = async (editId, source_name) => {
 
 export const createCase = async (caseName, caseId, templateId) => {
   const token = getToken()
-  var bodyFormData = new FormData()
+  let bodyFormData = new FormData()
   bodyFormData.append('case_name', caseName)
   bodyFormData.append('case_id', caseId)
 
@@ -258,7 +260,7 @@ export const createCase = async (caseName, caseId, templateId) => {
 
 export const register = async (username, password) => {
   const url = `${process.env.REACT_APP_API_BASE_URL}/users`
-  var bodyFormData = new FormData()
+  let bodyFormData = new FormData()
   bodyFormData.append('username', username)
   bodyFormData.append('password', password)
   let headers = {
@@ -330,7 +332,7 @@ export const updateUser = async (user_id, username, category, disabled) => {
   })
 }
 
-export const currentUser = async () => {
+export const getCurrentUser = async () => {
   const token = getToken()
 
   const url = `${process.env.REACT_APP_API_BASE_URL}/users/me`
@@ -346,7 +348,7 @@ export const currentUser = async () => {
 
 export const doLogin = async (username, password) => {
   const url = `${process.env.REACT_APP_API_BASE_URL}/token`
-  var bodyFormData = new FormData()
+  let bodyFormData = new FormData()
   bodyFormData.append('username', username)
   bodyFormData.append('password', password)
   let headers = {

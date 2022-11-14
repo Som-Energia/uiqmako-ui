@@ -4,11 +4,12 @@ import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import { doLogin } from 'services/api'
-import { currentUser } from 'services/api'
+import { doLogin, getCurrentUser } from 'services/api'
 import NavBar from './NavBar'
 import Register from 'components/Register'
-import { useAuth } from 'context/currentUser'
+//import { useAuth } from 'context/currentUser'
+import { useAuth } from 'context/sessionContext'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -47,23 +48,25 @@ function LogIn(props) {
   const [password, setPassword] = useState()
   const [isInvalid, setisInvalid] = useState(false)
   const [isRegister, setIsRegister] = useState(false)
-  const { setCurrentUser } = useAuth()
+  const { setCurrentUser, setSessionToken, removeSessionToken } = useAuth()
+  const history = useHistory()
+
   const handleSubmit = (event) => {
     event.preventDefault()
     doLogin(username, password)
       .then((response) => {
-        props.setToken(response)
-        currentUser()
-          .then((response) => {
-            setCurrentUser(response)
-          })
-          .catch((error) => {})
+        setSessionToken(response)
+        return getCurrentUser()
+      })
+      .then((response) => {
+        setCurrentUser(response)
+        history.push('/')
       })
       .catch((error) => {
         if (error?.response?.status === 401) {
           setisInvalid(true)
         }
-        props.setToken('')
+        removeSessionToken()
       })
   }
 
