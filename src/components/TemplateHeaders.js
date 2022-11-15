@@ -79,6 +79,7 @@ function TemplateHeaders(props) {
 
   useEffect(() => {
     props.passChildData(modifiedFields)
+    console.log(props)
   }, [modifiedFields])
   return (
     <Accordion defaultExpanded>
@@ -91,30 +92,32 @@ function TemplateHeaders(props) {
       </AccordionSummary>
       <AccordionDetails>
         <div className={classes.container}>
-          {fields?.map((item, index) => (
-            <TextField
-              className={classes.textField}
-              label={t(item.label)}
-              id={item.key}
-              key={item.key}
-              fullWidth
-              margin="dense"
-              variant="outlined"
-              style={{
-                width: item.width,
-                marginRight: item.marginRight,
-                marginLeft: item.marginLeft,
-              }}
-              onChange={(event) => {
-                setFields((prevModifiedFields) => ({
-                  ...prevModifiedFields,
-                  [event.target.id]: event.target.value,
-                }))
-              }}
-              disabled={!enabledFields?.includes(item.key)}
-              value={modifiedFields?.[item.key] || ''}
-            />
-          ))}
+          {fields?.map((item, index) =>
+            item.key in headers ? (
+              <TextField
+                className={classes.textField}
+                label={t(item.label)}
+                id={item.key}
+                key={item.key}
+                fullWidth
+                margin="dense"
+                variant="outlined"
+                style={{
+                  width: item.width,
+                  marginRight: item.marginRight,
+                  marginLeft: item.marginLeft,
+                }}
+                onChange={(event) => {
+                  setFields((prevModifiedFields) => ({
+                    ...prevModifiedFields,
+                    [event.target.id]: event.target.value,
+                  }))
+                }}
+                disabled={!enabledFields?.includes(item.key)}
+                value={modifiedFields?.[item.key] || ''}
+              />
+            ) : null
+          )}
         </div>
       </AccordionDetails>
     </Accordion>
