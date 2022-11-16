@@ -4,32 +4,6 @@ import { TextareaAutosize } from '@material-ui/core'
 
 import { Editor } from '@tinymce/tinymce-react'
 
-let editorButtons = [
-  ['undo', 'redo'],
-  [
-    ':p-More Paragraph-default.more_paragraph',
-    'font',
-    'fontSize',
-    'formatBlock',
-    'paragraphStyle',
-    'blockquote',
-  ],
-  [
-    'bold',
-    'underline',
-    'italic',
-    'strike',
-    'subscript',
-    'superscript',
-    'removeFormat',
-  ],
-  ['fontColor', 'hiliteColor'],
-  ['outdent', 'indent'],
-  ['align', 'horizontalRule', 'list', 'lineHeight'],
-  ['table', 'link', 'image'],
-  ['preview', 'codeView'],
-]
-
 const useStyles = makeStyles((theme) => ({
   editorSimple: {
     width: '99.5%',
@@ -105,11 +79,10 @@ function RichTextEditor(props) {
                     'code',
                   ],
                   toolbar:
-                    'undo redo | blocks | ' +
-                    'bold italic backcolor forecolor | alignleft aligncenter ' +
-                    'alignright alignjustify | bullist numlist outdent indent | ' +
-                    'removeformat | help |' +
-                    'image code',
+                    'undo redo removeformat pastetext | styles  fontfamily fontsize | ' +
+                    'bold italic underline backcolor forecolor | alignleft aligncenter ' +
+                    'alignright alignjustify lineheight | bullist numlist outdent indent | ' +
+                    'image link table | charmap searchreplace | code help',
                   content_style:
                     'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
                 }}
