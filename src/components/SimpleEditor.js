@@ -19,13 +19,13 @@ function SimpleEditor(props) {
   useEffect(() => {
     setModifiedText(data?.text?.def_body_text)
   }, [data?.meta_data?.id])
-
+  console.log('eeoo', props.disabledField)
   return (
     <TextareaAutosize
       value={modifiedText}
       className={classes.editor}
       rowsMin={10}
-      //disabled={props.disabledField}
+      disabled={props.disabledField}
       onChange={(event) => {
         setModifiedText(event.target.value)
         setEditorText(event.target.value)
