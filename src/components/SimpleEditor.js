@@ -30,6 +30,9 @@ function SimpleEditor(props) {
         setModifiedText(event.target.value)
         setEditorText(event.target.value)
       }}
+      onKeyDown={(e) => {
+        if (e.key === 'Tab') e.preventDefault()
+      }}
     />
   )
 }

@@ -60,6 +60,9 @@ function RichTextEditor(props) {
                 onInit={(evt, editor) => (editorRef.current[index] = editor)}
                 value={item[1]}
                 onEditorChange={(e) => handleChange(e, index, 'tiny')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Tab') e.preventDefault()
+                }}
                 init={{
                   menubar: false,
                   plugins: [
@@ -101,6 +104,9 @@ function RichTextEditor(props) {
                 disabled={!data?.allowed_fields?.includes('python')}
                 rowsMax={10}
                 width="80%"
+                onKeyDown={(e) => {
+                  if (e.key === 'Tab') e.preventDefault()
+                }}
               />
             )
         )}
