@@ -35,12 +35,16 @@ function RichTextEditor(props) {
     setModifiedTexts(data?.text?.by_type)
   }, [data?.meta_data?.id])
 
-  const handleChange = (text, index) => {
+  const handleChange = (text, index, editorType) => {
     let modifiedTextsCopy = [...modifiedTexts]
-    modifiedTextsCopy[index][1] = editorRef.current[index].getContent()
+    if (editorType == 'tiny') {
+      modifiedTextsCopy[index][1] = editorRef.current[index].getContent()
+    } else {
+      modifiedTextsCopy[index][1] = text
+    }
+
     props.setEditorText(modifiedTextsCopy)
   }
-
   return (
     <div className={classes.editorsList}>
       {modifiedTexts?.length > 0 &&
@@ -55,7 +59,10 @@ function RichTextEditor(props) {
                 }
                 onInit={(evt, editor) => (editorRef.current[index] = editor)}
                 value={item[1]}
-                onEditorChange={(e) => handleChange(e, index)}
+                onEditorChange={(e) => handleChange(e, index, 'tiny')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Tab') e.preventDefault()
+                }}
                 init={{
                   menubar: false,
                   plugins: [
@@ -92,11 +99,14 @@ function RichTextEditor(props) {
                 id={index}
                 key={index}
                 value={(data && item[1]) || 'Text'}
-                onChange={(e) => handleChange(e.target.value, index)}
+                onChange={(e) => handleChange(e.target.value, index, 'simple')}
                 className={classes.editorSimple}
                 disabled={!data?.allowed_fields?.includes('python')}
                 rowsMax={10}
                 width="80%"
+                onKeyDown={(e) => {
+                  if (e.key === 'Tab') e.preventDefault()
+                }}
               />
             )
         )}

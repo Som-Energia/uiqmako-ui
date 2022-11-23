@@ -156,7 +156,7 @@ function Routes(props) {
             {loadMainPage()}
           </PrivateRoute>
           <ProtectedRoute exact path="/settings">
-            <PrivateRoute render={loadUsers} />
+            {loadUsers()}
           </ProtectedRoute>
           <PrivateRoute exact path="/edits">
             {loadEdits()}
