@@ -162,7 +162,7 @@ function Routes(props) {
             {loadEdits()}
           </PrivateRoute>
           <PrivateRoute exact path="/templatesByModel/:model">
-            {loadEdits()}
+            {loadTemplatesByModel()}
           </PrivateRoute>
           <PrivateRoute exact path="/newTemplate">
             {loadNewTemplateForm()}
