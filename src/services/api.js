@@ -258,6 +258,25 @@ export const createCase = async (caseName, caseId, templateId) => {
   })
 }
 
+export const deleteCase = async (caseId, templateId) => {
+  const token = getToken()
+
+  const url = `${process.env.REACT_APP_API_BASE_URL}/templates/${templateId}/cases/${caseId}`
+  let headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:*',
+    Authorization: `Bearer ${token}`,
+  }
+
+  return axios({
+    method: 'DELETE',
+    url,
+    headers,
+  }).then((response) => {
+    return response?.data
+  })
+}
+
 export const register = async (username, password) => {
   const url = `${process.env.REACT_APP_API_BASE_URL}/users`
   let bodyFormData = new FormData()
