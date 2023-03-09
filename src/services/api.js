@@ -3,13 +3,14 @@ import { Axios } from './axios'
 import { getToken, removeToken } from 'useToken'
 
 const axios = Axios.axios
+const ALLOW_ORIGINS = 'http://localhost:*'
 
 export const getTemplateList = async (user_id) => {
   const token = getToken()
   let url = `${process.env.REACT_APP_API_BASE_URL}/templates`
   const headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
 
@@ -27,7 +28,7 @@ export const getTemplatesEditsList = async (user_id) => {
   let url = `${process.env.REACT_APP_API_BASE_URL}/edits`
   const headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
 
@@ -41,7 +42,7 @@ export const createTemplate = async (data) => {
   const token = getToken()
   const headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
 
@@ -59,7 +60,7 @@ export const getSingleTemplate = async (template_id, userToken) => {
   const token = getToken()
   let headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
   return axios({ method: 'GET', url, headers }).then((response) => {
@@ -72,7 +73,7 @@ export const startEditing = async (template_id) => {
   const token = getToken()
   let headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
   return axios({
@@ -89,7 +90,7 @@ export const checkEdits = async (template_id) => {
   const token = getToken()
   let headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
   return axios({
@@ -118,7 +119,7 @@ export const saveEditChanges = async (
 
   let headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
   return axios({
@@ -141,7 +142,7 @@ export const transferUserEdit = async (templateId, new_user_id) => {
 
   let headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
   return axios({
@@ -161,7 +162,7 @@ export const discardEditChanges = async (templateId) => {
 
   let headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
   return axios({
@@ -179,7 +180,7 @@ export const getTemplateCases = async (templateId) => {
   const url = `${process.env.REACT_APP_API_BASE_URL}/templates/${templateId}/cases`
   let headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
   return axios({
@@ -200,7 +201,7 @@ export const getRenderResult = async (editId, caseId) => {
     `${process.env.REACT_APP_API_BASE_URL}/edits/${editId}/render?` + params
   let headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
 
@@ -222,7 +223,7 @@ export const uploadEdit = async (editId, source_name) => {
     `${process.env.REACT_APP_API_BASE_URL}/edits/${editId}/upload?` + params
   let headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
 
@@ -244,7 +245,7 @@ export const createCase = async (caseName, caseId, templateId) => {
   const url = `${process.env.REACT_APP_API_BASE_URL}/templates/${templateId}/cases`
   let headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
 
@@ -264,7 +265,7 @@ export const deleteCase = async (caseId, templateId) => {
   const url = `${process.env.REACT_APP_API_BASE_URL}/templates/${templateId}/cases/${caseId}`
   let headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
 
@@ -284,7 +285,7 @@ export const register = async (username, password) => {
   bodyFormData.append('password', password)
   let headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
   }
   return axios({ method: 'POST', url, headers, data: bodyFormData }).then(
     (response) => {
@@ -299,7 +300,7 @@ export const getSourcesList = async () => {
   const url = `${process.env.REACT_APP_API_BASE_URL}/sources`
   let headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
   return axios({
@@ -317,7 +318,7 @@ export const getUsers = async () => {
   const url = `${process.env.REACT_APP_API_BASE_URL}/users`
   let headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
 
@@ -332,7 +333,7 @@ export const updateUser = async (user_id, username, category, disabled) => {
   const url = `${process.env.REACT_APP_API_BASE_URL}/users`
   let headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
 
@@ -357,7 +358,7 @@ export const getCurrentUser = async () => {
   const url = `${process.env.REACT_APP_API_BASE_URL}/users/me`
   let headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
   return axios({ method: 'GET', url, headers }).then((response) => {
@@ -372,7 +373,7 @@ export const doLogin = async (username, password) => {
   bodyFormData.append('password', password)
   let headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
   }
   return axios({ method: 'POST', url, headers, data: bodyFormData }).then(
     (response) => {
@@ -387,7 +388,7 @@ export const importableTemplates = async (erp) => {
   const token = getToken()
   const headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:*',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
     Authorization: `Bearer ${token}`,
   }
   return axios({ url, headers }).then((response) => {
