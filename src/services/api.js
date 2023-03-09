@@ -3,7 +3,7 @@ import { Axios } from './axios'
 import { getToken, removeToken } from 'useToken'
 
 const axios = Axios.axios
-const ALLOW_ORIGINS = 'http://localhost:*'
+const ALLOW_ORIGINS = 'https://localhost:*'
 
 export const getTemplateList = async (user_id) => {
   const token = getToken()
