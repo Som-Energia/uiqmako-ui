@@ -129,12 +129,7 @@ function Menu(props) {
           target="_blank"
           href={process.env.REACT_APP_MANUAL_URL}
         >
-          <ListItem
-            button
-            onClick={(e) => {
-              console.log("anirem a l'infinit i més enllà")
-            }}
-          >
+          <ListItem button>
             <ListItemIcon>
               <InfoIcon />
             </ListItemIcon>
