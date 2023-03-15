@@ -8,6 +8,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded'
 import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded'
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded'
+import InfoIcon from '@material-ui/icons/Info'
 import { useHistory } from 'react-router-dom'
 //import { useAuth } from 'context/currentUser'
 import { useAuth } from 'context/sessionContext'
@@ -122,6 +123,19 @@ function Menu(props) {
             <ListItemText primary={currentUser?.username} />
           </ListItem>
         </div>
+        <a
+          className={classes.menuLogOut}
+          style={{ textDecoration: 'none', color: 'currentColor' }}
+          target="_blank"
+          href={process.env.REACT_APP_MANUAL_URL}
+        >
+          <ListItem button>
+            <ListItemIcon>
+              <InfoIcon />
+            </ListItemIcon>
+            <ListItemText primary="Manual UI-QMako" />
+          </ListItem>
+        </a>
         <div className={classes.menuLogOut}>
           <ListItem
             button

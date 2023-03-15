@@ -13,7 +13,8 @@ import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
 import CheckRoundedIcon from '@material-ui/icons/CheckRounded'
 import Close from '@material-ui/icons/Close'
-import { getTemplateCases, createCase } from 'services/api'
+import DeleteIcon from '@material-ui/icons/Delete'
+import { getTemplateCases, createCase, deleteCase } from 'services/api'
 
 const useStyles = makeStyles((theme) => ({
   editor: {
@@ -66,6 +67,13 @@ const useStyles = makeStyles((theme) => ({
     padding: '1rem',
     textAlign: 'left',
   },
+  deleteIcon: {
+    marginRight: '1rem',
+  },
+  caseRow: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 }))
 
 function CaseList(props) {
@@ -109,6 +117,13 @@ function CaseList(props) {
           setNewName('')
         })
     }
+  }
+
+  const handleDelete = async (event, item) => {
+    event.preventDefault()
+    deleteCase(item.id, item.template_id).then((response) => {
+      setHasChanges(true)
+    })
   }
 
   const catchReturn = (e) => {
@@ -175,17 +190,27 @@ function CaseList(props) {
         </DialogTitle>
         <List className={classes.caseList}>
           {data?.cases?.map((item, index) => (
-            <ListItem
-              className={classes.caseItem}
-              button
-              onClick={(e) => {
-                onClose(item.id)
-              }}
-              key={item.case_id}
-            >
-              <ListItemText primary={item.name} />
-              <ArrowForwardIosIcon className={classes.icon} />
-            </ListItem>
+            <div key={`div-${index}`} className={classes.caseRow}>
+              <IconButton
+                key={`ib-${index}`}
+                aria-label="delete"
+                className={classes.deleteIcon}
+                onClick={(e) => handleDelete(e, item)}
+              >
+                <DeleteIcon />
+              </IconButton>
+              <ListItem
+                key={`list-${index}`}
+                className={classes.caseItem}
+                button
+                onClick={(e) => {
+                  onClose(item.id)
+                }}
+              >
+                <ListItemText primary={item.name} />
+                <ArrowForwardIosIcon className={classes.icon} />
+              </ListItem>
+            </div>
           ))}
           <ListItem
             style={{ pointerEvents: 'none', marginTop: '1rem' }}
