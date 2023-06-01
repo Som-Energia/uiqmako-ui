@@ -147,7 +147,7 @@ function SingleTemplate(props) {
         <DialogContent>
           {editResponse?.current_edits && (
             <DialogContentText id="alert-dialog-description">
-              {`Ja n'hi ha una edició en curs de l'usuari ${editResponse?.current_edits[0]?.user?.username}`}
+              {`Ja existeix una edició en curs de l'usuari ${editResponse?.current_edits[0]?.user?.username}`}
             </DialogContentText>
           )}
         </DialogContent>
