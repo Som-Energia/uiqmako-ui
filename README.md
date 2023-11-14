@@ -4,6 +4,31 @@ Web UI to Som Energia UI-QMako API.
 
 UI-QMako allows for a user friendly editing of Mako Templates.
 
+## Setup project
+
+To setup the project, we should follow the next steps:
+
+```bash
+# Clone the repo
+git clone git@github.com:Som-Energia/uiqmako-ui.git
+
+# Go to the repo
+cd uiqmako-ui
+
+# Set the configuration to .env file
+cp .env.example .env
+vim .env
+
+# Install npm packages
+npm install
+
+# Run the postinstall script
+npm run postinstall
+
+# And that's it! Now we can can see everything ✨
+npm start
+```
+
 ## Getting Started
 
 Before running the server for the first time you should run the [npm postinstall script](#npm-postinstall) to set up TinyMCE editor.
