@@ -28,6 +28,14 @@ const theme = createMuiTheme({
     shape: {
       borderRadius: '0',
     },
+    source: {
+      prod: {
+        color: '#96b633',
+      },
+      test: {
+        color: '#f49900',
+      },
+    },
   },
 })
 
