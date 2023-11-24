@@ -33,8 +33,13 @@ const useStyles = makeStyles((theme) => ({
   info: {
     color: '#7c828e',
   },
-  icon: {
+  iconTest: {
     marginRight: '8px',
+    color: theme?.palette?.source?.test?.color,
+  },
+  iconProd: {
+    marginRight: '8px',
+    color: theme?.palette?.source?.prod?.color,
   },
   lastUpdated: {
     fontSize: '14px',
@@ -43,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 function TemplateInfo(props) {
   const { item, setClicked } = props
-  const { name, xml_id, model, id = '', last_updated } = item
+  const { name, xml_id, model, id = '', last_updated, from_server } = item
   const classes = useStyles()
 
   return (
@@ -56,12 +61,19 @@ function TemplateInfo(props) {
         mb={4}
       >
         <Typography variant="h4" className={classes.name}>
-          <MailOutlineRoundedIcon fontSize="large" className={classes.icon} />
+          <MailOutlineRoundedIcon
+            fontSize="large"
+            className={
+              from_server?.toUpperCase().includes('TEST')
+                ? classes.iconTest
+                : classes.iconProd
+            }
+          />
           {name}
         </Typography>
         <div>
           <Typography variant="subtitle1" className={classes.info}>
-            {model}
+            {'[' + from_server + '] ' + model}
           </Typography>
           <p className={classes.lastUpdated}>
             {last_updated &&
