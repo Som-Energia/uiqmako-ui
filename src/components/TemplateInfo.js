@@ -81,16 +81,18 @@ function TemplateInfo(props) {
             />
             {name}
           </Typography>
-          <IconButton
-            key={`${id}`}
-            aria-label="delete"
-            onClick={(e) => {
-              e.stopPropagation()
-              handleDelete(e, item)
-            }}
-          >
-            <DeleteIcon />
-          </IconButton>
+          {handleDelete && (
+            <IconButton
+              key={`${id}`}
+              aria-label="delete"
+              onClick={(e) => {
+                e.stopPropagation()
+                handleDelete(e, item)
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          )}
         </div>
         <div>
           <Typography variant="subtitle1" className={classes.info}>
