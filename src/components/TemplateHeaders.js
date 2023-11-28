@@ -46,6 +46,18 @@ const fields = [
     width: '96%',
   },
   {
+    label: 'TEMPLATE_HEADERS_LABEL_SUBJECT_EUSKERA',
+    key: 'def_subject_eu_ES',
+    marginLeft: '4%',
+    width: '96%',
+  },
+  {
+    label: 'TEMPLATE_HEADERS_LABEL_SUBJECT_GALLEGO',
+    key: 'def_subject_gl_ES',
+    marginLeft: '4%',
+    width: '96%',
+  },
+  {
     label: 'TEMPLATE_HEADERS_LABEL_RECIPIENT',
     key: 'def_to',
     width: '49%',
