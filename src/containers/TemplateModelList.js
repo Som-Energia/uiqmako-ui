@@ -16,7 +16,7 @@ function TemplateModelList() {
       .catch((error) => {
         setIsLoading(false)
       })
-  }, [])
+  }, [data])
 
   useEffect(() => {
     let dict = {} // create an empty array
