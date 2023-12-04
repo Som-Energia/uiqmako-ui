@@ -61,9 +61,9 @@ function TemplateEditList(props) {
     if (search && search !== '') {
       const filtered = data.filter(
         (item) =>
-          item.name.toLowerCase().includes(search.toLowerCase()) ||
-          item.model.toLowerCase().includes(search.toLowerCase()) ||
-          item.xml_id.toLowerCase().includes(search.toLowerCase())
+          item.template.name.toLowerCase().includes(search.toLowerCase()) ||
+          item.template.model.toLowerCase().includes(search.toLowerCase()) ||
+          item.template.xml_id.toLowerCase().includes(search.toLowerCase())
       )
       setFilteredData(filtered)
     } else {

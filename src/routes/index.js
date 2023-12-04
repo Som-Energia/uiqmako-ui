@@ -43,7 +43,11 @@ function Routes(props) {
     return (
       <>
         <header>
-          <NavBar setSearchText={setSearchText} searchVisible={searchVisible} />
+          <NavBar
+            searchText={searchText}
+            setSearchText={setSearchText}
+            searchVisible={searchVisible}
+          />
         </header>
         <div className={classes.container}>
           <Menu setToken={saveToken} />
@@ -90,7 +94,11 @@ function Routes(props) {
     )
     return (
       <BaseScreen>
-        <TemplateEditList {...props} setSearchVisible={setSearchVisible} />
+        <TemplateEditList
+          {...props}
+          search={searchText}
+          setSearchVisible={setSearchVisible}
+        />
       </BaseScreen>
     )
   }
