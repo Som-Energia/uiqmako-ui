@@ -8,17 +8,6 @@ function TemplateModelList() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    getTemplateList()
-      .then((response) => {
-        setData(response)
-        setIsLoading(false)
-      })
-      .catch((error) => {
-        setIsLoading(false)
-      })
-  }, [data])
-
-  useEffect(() => {
     let dict = {} // create an empty array
 
     for (let i = 0; i < data.length; i++) {
