@@ -77,6 +77,9 @@ function CaseStepper(props) {
             } else {
             }
           }
+          if (error.response?.status === 404) {
+            setOpenDialog(true)
+          }
           setSelectedSource('')
         })
     }
@@ -108,7 +111,7 @@ function CaseStepper(props) {
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Error en pujar els canvis: l'edició parteix d'una versió vella de la
-            plantilla
+            plantilla o no s'ha trobat l'XML ID
           </DialogContentText>
         </DialogContent>
         <DialogActions>
