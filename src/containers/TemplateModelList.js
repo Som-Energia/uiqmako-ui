@@ -7,26 +7,26 @@ function TemplateModelList() {
   const [templateModelData, setTemplateModelData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
+  const getTemplateModelData = (response) => {
+    let dict = {} // create an empty array
+    for (let i = 0; i < response.length; i++) {
+      dict[response[i].model] =
+        response[i].model in dict ? dict[response[i].model] + 1 : 1
+    }
+    setTemplateModelData(dict)
+  }
+
   useEffect(() => {
     getTemplateList()
       .then((response) => {
         setData(response)
         setIsLoading(false)
+        getTemplateModelData(response)
       })
       .catch((error) => {
         setIsLoading(false)
       })
-  }, [data])
-
-  useEffect(() => {
-    let dict = {} // create an empty array
-
-    for (let i = 0; i < data.length; i++) {
-      dict[data[i].model] = data[i].model in dict ? dict[data[i].model] + 1 : 1
-    }
-
-    setTemplateModelData(dict)
-  }, [data])
+  }, [])
 
   return (
     <div>
