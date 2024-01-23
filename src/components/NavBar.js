@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField'
 
 const NavBar = (props) => {
   const classes = useStyles()
-  const { setSearchText, searchVisible } = props
+  const { searchText, setSearchText, searchVisible } = props
 
   return (
     <AppBar position="static" color="inherit" elevation={0}>
@@ -24,6 +24,7 @@ const NavBar = (props) => {
           <TextField
             className={classes.searchField}
             onChange={(e) => setSearchText(e.target.value)}
+            value={searchText}
             label="Cerca"
             variant="outlined"
             margin="dense"

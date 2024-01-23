@@ -8,6 +8,7 @@ import { useAlert } from 'context/alertDetails'
 //import { useAuth } from 'context/currentUser'
 import { useAuth } from 'context/sessionContext'
 import { useParams, useHistory } from 'react-router-dom'
+import { deleteTemplate } from 'services/api'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -44,20 +45,24 @@ function TemplateList(props) {
   const [openId, setOpenId] = useState(false)
   const [open, setOpen] = useState(false)
   const [sigleTemplate, setSingleTemplate] = useState({})
+  const [refreshData, setRefreshData] = useState(true)
   const classes = useStyles()
   const { setAlertInfo } = useAlert()
   const { currentUser, setCurrentUser } = useAuth()
 
   useEffect(() => {
-    getTemplateList(myEdits && currentUser.id)
-      .then((response) => {
-        setData(response)
-        setIsLoading(false)
-      })
-      .catch((error) => {
-        setIsLoading(false)
-      })
-  }, [myEdits, currentUser])
+    if (refreshData) {
+      getTemplateList(myEdits && currentUser.id)
+        .then((response) => {
+          setData(response)
+          setIsLoading(false)
+        })
+        .catch((error) => {
+          setIsLoading(false)
+        })
+      setRefreshData(false)
+    }
+  }, [myEdits, currentUser, refreshData])
 
   useEffect(() => {
     if (search && search !== '') {
@@ -107,11 +112,29 @@ function TemplateList(props) {
     setOpen(false)
     setOpenId(false)
   }
+
+  const handleDelete = async (event, item) => {
+    event.preventDefault()
+    deleteTemplate(item.id).then((response) => {
+      setAlertInfo({
+        open: true,
+        message: response?.message,
+        severity: response?.deleted ? 'success' : 'error',
+      })
+    })
+    setRefreshData(true)
+  }
+
   return (
     <div style={{ paddingTop: '2em' }}>
       <div className={classes.templateList}>
         {filteredData?.map((item, index) => (
-          <TemplateInfo key={index} item={item} setClicked={setOpenId} />
+          <TemplateInfo
+            key={index}
+            item={item}
+            setClicked={setOpenId}
+            handleDelete={handleDelete}
+          />
         ))}
       </div>
       <div>

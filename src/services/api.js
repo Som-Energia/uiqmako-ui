@@ -278,6 +278,26 @@ export const deleteCase = async (caseId, templateId) => {
   })
 }
 
+export const deleteTemplate = async (templateId) => {
+  const token = getToken()
+
+  const url = `${process.env.REACT_APP_API_BASE_URL}/templates/${templateId}`
+  let headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': ALLOW_ORIGINS,
+    Authorization: `Bearer ${token}`,
+  }
+
+  const r = axios({
+    method: 'DELETE',
+    url,
+    headers,
+  }).then((response) => {
+    return response?.data
+  })
+  return r
+}
+
 export const register = async (username, password) => {
   const url = `${process.env.REACT_APP_API_BASE_URL}/users`
   let bodyFormData = new FormData()

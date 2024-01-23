@@ -2,6 +2,8 @@ import React from 'react'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
+import IconButton from '@material-ui/core/IconButton'
+import DeleteIcon from '@material-ui/icons/Delete'
 
 import MailOutlineRoundedIcon from '@material-ui/icons/MailOutlineRounded'
 
@@ -26,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Montserrat',
     fontSize: '1.8rem',
     fontWeight: '500',
-    paddingBottom: '1rem',
     color: '#282c34',
     textAlign: 'left',
   },
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function TemplateInfo(props) {
-  const { item, setClicked } = props
+  const { item, setClicked, handleDelete } = props
   const { name, xml_id, model, id = '', last_updated, from_server } = item
   const classes = useStyles()
 
@@ -55,22 +56,44 @@ function TemplateInfo(props) {
     <>
       <Paper
         className={classes.paper}
-        onClick={(e) => setClicked(id)}
+        onClick={(e) => {
+          setClicked(id)
+        }}
         elevation={1}
         id={id}
         mb={4}
       >
-        <Typography variant="h4" className={classes.name}>
-          <MailOutlineRoundedIcon
-            fontSize="large"
-            className={
-              from_server?.toUpperCase().includes('TEST')
-                ? classes.iconTest
-                : classes.iconProd
-            }
-          />
-          {name}
-        </Typography>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Typography variant="h4" className={classes.name}>
+            <MailOutlineRoundedIcon
+              fontSize="large"
+              className={
+                from_server?.toUpperCase().includes('TEST')
+                  ? classes.iconTest
+                  : classes.iconProd
+              }
+            />
+            {name}
+          </Typography>
+          {handleDelete && (
+            <IconButton
+              key={`${id}`}
+              aria-label="delete"
+              onClick={(e) => {
+                e.stopPropagation()
+                handleDelete(e, item)
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          )}
+        </div>
         <div>
           <Typography variant="subtitle1" className={classes.info}>
             {'[' + from_server + '] ' + model}
