@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useConfirm } from 'material-ui-confirm'
 import { makeStyles } from '@material-ui/core/styles'
 import { useParams, useHistory } from 'react-router-dom'
 import {
@@ -63,6 +64,8 @@ function Editor(props) {
 
   const { currentUser } = useAuth()
 
+  const confirm = useConfirm()
+
   useEffect(() => {
     startEditing(id)
       .then((response) => {
@@ -81,7 +84,7 @@ function Editor(props) {
   }, [selectedCase, editId])
 
   const handleEditError = (error) => {
-    let message = 'Hi ha hagut un error al guardar.'
+    let message = 'Hi ha hagut un error.'
     checkEdits(id)
       .then((response) => {
         if (response.current_edits[0].user_id !== currentUser.id) {
@@ -116,11 +119,18 @@ function Editor(props) {
       .catch(handleEditError)
   }
   const discardChanges = (e) => {
-    discardEditChanges(id)
-      .then((response) => {
-        history.push('/')
-      })
-      .catch(handleEditError)
+    confirm({
+      title: 'Confirmació',
+      description: "S'eliminarà l'edició permanentment, vols continuar?",
+      confirmationText: 'Continuar',
+      cancellationText: 'Cancel·lar',
+    }).then(() => {
+      discardEditChanges(id)
+        .then((response) => {
+          history.push('/')
+        })
+        .catch(handleEditError)
+    })
   }
 
   return (
@@ -161,7 +171,7 @@ function Editor(props) {
             variant="outlined"
             onClick={(e) => discardChanges(e)}
           >
-            Descartar l'edició
+            Eliminar l'edició
           </Button>
         )}
 

@@ -1,4 +1,5 @@
 import { React, useEffect, useState } from 'react'
+import { useConfirm } from 'material-ui-confirm'
 import TemplateInfo from 'components/TemplateInfo'
 import { getTemplateList, getSingleTemplate } from 'services/api'
 import { makeStyles } from '@material-ui/core/styles'
@@ -49,6 +50,7 @@ function TemplateList(props) {
   const classes = useStyles()
   const { setAlertInfo } = useAlert()
   const { currentUser, setCurrentUser } = useAuth()
+  const confirm = useConfirm()
 
   useEffect(() => {
     if (refreshData) {
@@ -114,15 +116,22 @@ function TemplateList(props) {
   }
 
   const handleDelete = async (event, item) => {
-    event.preventDefault()
-    deleteTemplate(item.id).then((response) => {
-      setAlertInfo({
-        open: true,
-        message: response?.message,
-        severity: response?.deleted ? 'success' : 'error',
+    confirm({
+      title: 'Confirmació',
+      description: "S'eliminarà la plantilla, vols continuar?",
+      confirmationText: 'Continuar',
+      cancellationText: 'Cancel·lar',
+    }).then(() => {
+      event.preventDefault()
+      deleteTemplate(item.id).then((response) => {
+        setAlertInfo({
+          open: true,
+          message: response?.message,
+          severity: response?.deleted ? 'success' : 'error',
+        })
       })
+      setRefreshData(true)
     })
-    setRefreshData(true)
   }
 
   return (
