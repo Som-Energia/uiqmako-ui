@@ -80,6 +80,28 @@ function Editor(props) {
     }
   }, [selectedCase, editId])
 
+  const handleEditError = (error) => {
+    let message = 'Hi ha hagut un error al guardar.'
+    checkEdits(id)
+      .then((response) => {
+        if (response.current_edits[0].user_id !== currentUser.id) {
+          message = `L'edició és propietat de ${response.current_edits[0].user.username}`
+        }
+        setAlertInfo({
+          open: true,
+          message: message,
+          severity: 'error',
+        })
+      })
+      .catch((error) => {
+        setAlertInfo({
+          open: true,
+          message: message,
+          severity: 'error',
+        })
+      })
+  }
+
   const saveChanges = (e) => {
     saveEditChanges(id, editorText, groupEditorText, headersData)
       .then((response) => {
@@ -91,54 +113,14 @@ function Editor(props) {
           severity: 'success',
         })
       })
-      .catch((error) => {
-        let message = 'Hi ha hagut un error al guardar.'
-        checkEdits(id)
-          .then((response) => {
-            if (response.current_edits[0].user_id !== currentUser.id) {
-              message = `L'edició és propietat de ${response.current_edits[0].user.username}`
-            }
-            setAlertInfo({
-              open: true,
-              message: message,
-              severity: 'error',
-            })
-          })
-          .catch((error) => {
-            setAlertInfo({
-              open: true,
-              message: message,
-              severity: 'error',
-            })
-          })
-      })
+      .catch(handleEditError)
   }
   const discardChanges = (e) => {
     discardEditChanges(id)
       .then((response) => {
         history.push('/')
       })
-      .catch((error) => {
-        let message = 'Hi ha hagut un error al guardar.'
-        checkEdits(id)
-          .then((response) => {
-            if (response.current_edits[0].user_id !== currentUser.id) {
-              message = `L'edició és propietat de ${response.current_edits[0].user.username}`
-            }
-            setAlertInfo({
-              open: true,
-              message: message,
-              severity: 'error',
-            })
-          })
-          .catch((error) => {
-            setAlertInfo({
-              open: true,
-              message: message,
-              severity: 'error',
-            })
-          })
-      })
+      .catch(handleEditError)
   }
 
   return (
