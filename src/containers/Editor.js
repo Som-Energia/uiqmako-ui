@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useParams, useHistory } from 'react-router-dom'
-import { startEditing, saveEditChanges, discardEditChanges } from 'services/api'
+import {
+  checkEdits,
+  startEditing,
+  saveEditChanges,
+  discardEditChanges,
+} from 'services/api'
 import TemplateHeaders from 'components/TemplateHeaders'
 import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
@@ -12,6 +17,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import SimpleEditor from '../components/SimpleEditor'
 import RichTextEditor from '../components/RichTextEditor'
 import CaseList from '../components/CaseList'
+import { useAlert } from 'context/alertDetails'
 
 //import { useAuth } from 'context/currentUser'
 import { useAuth } from 'context/sessionContext'
@@ -53,6 +59,7 @@ function Editor(props) {
   const [selectedCase, setSelectedCase] = useState(false)
   const [isNewEdit, setIsNewEdit] = useState(false)
   const history = useHistory()
+  const { setAlertInfo } = useAlert()
 
   const { currentUser } = useAuth()
 
@@ -78,15 +85,60 @@ function Editor(props) {
       .then((response) => {
         setSaveEditsResponse(response?.result)
         setIsNewEdit(false)
+        setAlertInfo({
+          open: true,
+          message: "L'edició s'ha guardat correctament.",
+          severity: 'success',
+        })
       })
-      .catch((error) => {})
+      .catch((error) => {
+        let message = 'Hi ha hagut un error al guardar.'
+        checkEdits(id)
+          .then((response) => {
+            if (response.current_edits[0].user_id !== currentUser.id) {
+              message = `L'edició és propietat de ${response.current_edits[0].user.username}`
+            }
+            setAlertInfo({
+              open: true,
+              message: message,
+              severity: 'error',
+            })
+          })
+          .catch((error) => {
+            setAlertInfo({
+              open: true,
+              message: message,
+              severity: 'error',
+            })
+          })
+      })
   }
   const discardChanges = (e) => {
     discardEditChanges(id)
       .then((response) => {
         history.push('/')
       })
-      .catch((error) => {})
+      .catch((error) => {
+        let message = 'Hi ha hagut un error al guardar.'
+        checkEdits(id)
+          .then((response) => {
+            if (response.current_edits[0].user_id !== currentUser.id) {
+              message = `L'edició és propietat de ${response.current_edits[0].user.username}`
+            }
+            setAlertInfo({
+              open: true,
+              message: message,
+              severity: 'error',
+            })
+          })
+          .catch((error) => {
+            setAlertInfo({
+              open: true,
+              message: message,
+              severity: 'error',
+            })
+          })
+      })
   }
 
   return (
