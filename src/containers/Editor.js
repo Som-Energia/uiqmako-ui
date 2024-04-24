@@ -138,6 +138,11 @@ function Editor(props) {
             setHeadersdData(
               Object.assign({}, response.headers, response.meta_data)
             )
+            if (editor === 'complex') {
+              /* When switching to the simple editor groupEditorText must be empty. Otherwise, the API will
+              always store this value (which the simple editor does not use) instead of the editorText value. */
+              setGroupEditorText([])
+            }
             history.push(
               `/edit/${editor === 'simple' ? 'complex' : 'simple'}/${id}`
             )
