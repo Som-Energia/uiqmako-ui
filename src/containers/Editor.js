@@ -227,7 +227,6 @@ function Editor(props) {
           <Button
             color="secundary"
             variant="contained"
-            disabled={true}
             onClick={(e) => {
               changeEditor(e)
             }}
@@ -238,8 +237,7 @@ function Editor(props) {
           <Button
             color="secundary"
             variant="contained"
-            disabled={true}
-            // disabled={!currentUser?.allowed_fields?.includes('python')}
+            disabled={!currentUser?.allowed_fields?.includes('python')}
             onClick={(e) => {
               changeEditor(e)
             }}
