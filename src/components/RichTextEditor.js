@@ -33,7 +33,7 @@ function RichTextEditor(props) {
 
   useEffect(() => {
     setModifiedTexts(data?.text?.by_type)
-  }, [data?.meta_data?.id])
+  }, [data?.meta_data?.id, data?.text?.by_type])
 
   const handleChange = (text, index, editorType) => {
     let modifiedTextsCopy = [...modifiedTexts]

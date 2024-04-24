@@ -118,6 +118,35 @@ function Editor(props) {
       })
       .catch(handleEditError)
   }
+
+  const changeEditor = (e) => {
+    saveEditChanges(id, editorText, groupEditorText, headersData)
+      .then((response) => {
+        setSaveEditsResponse(response?.result)
+        setIsNewEdit(false)
+        setAlertInfo({
+          open: true,
+          message: "L'edició s'ha guardat correctament.",
+          severity: 'success',
+        })
+        startEditing(id)
+          .then((response) => {
+            setData(response)
+            setIsNewEdit(response.created)
+            setEditId(response['edit_id'])
+            setText(response.text.def_body_text)
+            setHeadersdData(
+              Object.assign({}, response.headers, response.meta_data)
+            )
+            history.push(
+              `/edit/${editor === 'simple' ? 'complex' : 'simple'}/${id}`
+            )
+          })
+          .catch((error) => {})
+      })
+      .catch(handleEditError)
+  }
+
   const discardChanges = (e) => {
     confirm({
       title: 'Confirmació',
@@ -195,8 +224,7 @@ function Editor(props) {
             variant="contained"
             disabled={true}
             onClick={(e) => {
-              saveChanges(e)
-              history.push(`/edit/complex/${id}`)
+              changeEditor(e)
             }}
           >
             Editor HTML
@@ -208,8 +236,7 @@ function Editor(props) {
             disabled={true}
             // disabled={!currentUser?.allowed_fields?.includes('python')}
             onClick={(e) => {
-              saveChanges(e)
-              history.push(`/edit/simple/${id}`)
+              changeEditor(e)
             }}
           >
             Editor Simple
