@@ -87,7 +87,11 @@ function Editor(props) {
     let message = 'Hi ha hagut un error.'
     checkEdits(id)
       .then((response) => {
-        if (response.current_edits[0].user_id !== currentUser.id) {
+        if (
+          response?.current_edits &&
+          response?.current_edits.length > 0 &&
+          response.current_edits[0].user_id !== currentUser.id
+        ) {
           message = `L'edició és propietat de ${response.current_edits[0].user.username}`
         }
         setAlertInfo({
