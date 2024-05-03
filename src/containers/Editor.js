@@ -123,37 +123,41 @@ function Editor(props) {
       .catch(handleEditError)
   }
 
-  const changeEditor = (e) => {
-    saveEditChanges(id, editorText, groupEditorText, headersData)
-      .then((response) => {
-        setSaveEditsResponse(response?.result)
-        setIsNewEdit(false)
-        setAlertInfo({
-          open: true,
-          message: "L'edició s'ha guardat correctament.",
-          severity: 'success',
-        })
-        startEditing(id)
-          .then((response) => {
-            setData(response)
-            setIsNewEdit(response.created)
-            setEditId(response['edit_id'])
-            setText(response.text.def_body_text)
-            setHeadersdData(
-              Object.assign({}, response.headers, response.meta_data)
-            )
-            if (editor === 'complex') {
-              /* When switching to the simple editor groupEditorText must be empty. Otherwise, the API will
-              always store this value (which the simple editor does not use) instead of the editorText value. */
-              setGroupEditorText([])
-            }
-            history.push(
-              `/edit/${editor === 'simple' ? 'complex' : 'simple'}/${id}`
-            )
-          })
-          .catch((error) => {})
+  const changeEditor = async (e) => {
+    try {
+      const save_response = await saveEditChanges(
+        id,
+        editorText,
+        groupEditorText,
+        headersData
+      )
+      setSaveEditsResponse(save_response?.result)
+      setIsNewEdit(false)
+      setAlertInfo({
+        open: true,
+        message: "L'edició s'ha guardat correctament.",
+        severity: 'success',
       })
-      .catch(handleEditError)
+
+      const start_editing_response = await startEditing(id)
+      setData(start_editing_response)
+      setIsNewEdit(start_editing_response.created)
+      setEditId(start_editing_response['edit_id'])
+      setText(start_editing_response.text.def_body_text)
+      setHeadersdData(
+        Object.assign(
+          {},
+          start_editing_response.headers,
+          start_editing_response.meta_data
+        )
+      )
+      if (editor === 'complex') {
+        setGroupEditorText([])
+      }
+      history.push(`/edit/${editor === 'simple' ? 'complex' : 'simple'}/${id}`)
+    } catch (error) {
+      handleEditError(error)
+    }
   }
 
   const discardChanges = (e) => {
