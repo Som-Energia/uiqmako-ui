@@ -73,7 +73,10 @@ function Editor(props) {
         setIsNewEdit(response.created)
         setEditId(response['edit_id'])
         setText(response.text.def_body_text)
-        setHeadersdData(Object.assign({}, response.headers, response.meta_data))
+        setHeadersdData({
+          ...response.headers,
+          ...response.meta_data,
+        })
       })
       .catch((error) => {})
   }, [id])
@@ -144,13 +147,10 @@ function Editor(props) {
       setIsNewEdit(start_editing_response.created)
       setEditId(start_editing_response['edit_id'])
       setText(start_editing_response.text.def_body_text)
-      setHeadersdData(
-        Object.assign(
-          {},
-          start_editing_response.headers,
-          start_editing_response.meta_data
-        )
-      )
+      setHeadersdData({
+        ...start_editing_response.headers,
+        ...start_editing_response.meta_data,
+      })
       if (editor === 'complex') {
         setGroupEditorText([])
       }
