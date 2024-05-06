@@ -54,7 +54,7 @@ function Editor(props) {
   const [editorText, setText] = useState('')
   const [editId, setEditId] = useState('')
   const [groupEditorText, setGroupEditorText] = useState([])
-  const [headersData, setHeadersdData] = useState({})
+  const [headersData, setHeadersData] = useState({})
   const [saveEditsResponse, setSaveEditsResponse] = useState([])
   const [openCaseDialog, setOpenCaseDialog] = useState(false)
   const [selectedCase, setSelectedCase] = useState(false)
@@ -73,7 +73,7 @@ function Editor(props) {
         setIsNewEdit(response.created)
         setEditId(response['edit_id'])
         setText(response.text.def_body_text)
-        setHeadersdData({
+        setHeadersData({
           ...response.headers,
           ...response.meta_data,
         })
@@ -147,7 +147,7 @@ function Editor(props) {
       setIsNewEdit(start_editing_response.created)
       setEditId(start_editing_response['edit_id'])
       setText(start_editing_response.text.def_body_text)
-      setHeadersdData({
+      setHeadersData({
         ...start_editing_response.headers,
         ...start_editing_response.meta_data,
       })
@@ -181,7 +181,7 @@ function Editor(props) {
         {headersData.name}
       </Typography>
       <TemplateHeaders
-        passChildData={setHeadersdData}
+        passChildData={setHeadersData}
         enabledFields={data?.allowed_fields}
         headers={headersData}
       />
