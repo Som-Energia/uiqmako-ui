@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 import { makeStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles((theme) => ({
   editor: {
@@ -34,6 +35,15 @@ function SimpleEditor(props) {
       }}
     />
   )
+}
+
+SimpleEditor.propTypes = {
+  data: PropTypes.shape({
+    text: PropTypes.shape({ def_body_text: PropTypes.string }),
+    meta_data: PropTypes.shape({
+      id: PropTypes.number,
+    }),
+  }).isRequired,
 }
 
 export default SimpleEditor

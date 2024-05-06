@@ -1,6 +1,7 @@
 import { React, useState, useEffect, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { TextareaAutosize } from '@material-ui/core'
+import PropTypes from 'prop-types'
 
 import { Editor } from '@tinymce/tinymce-react'
 
@@ -112,6 +113,17 @@ function RichTextEditor(props) {
         )}
     </div>
   )
+}
+
+RichTextEditor.propTypes = {
+  data: PropTypes.shape({
+    text: PropTypes.shape({
+      by_type: PropTypes.array,
+    }),
+    meta_data: PropTypes.shape({
+      id: PropTypes.number,
+    }),
+  }).isRequired,
 }
 
 export default RichTextEditor

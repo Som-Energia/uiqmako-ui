@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 function Editor(props) {
   const classes = useStyles()
   const { editor, id } = useParams()
-  const [data, setData] = useState([])
+  const [data, setData] = useState({})
   const [editorText, setText] = useState('')
   const [editId, setEditId] = useState('')
   const [groupEditorText, setGroupEditorText] = useState([])
