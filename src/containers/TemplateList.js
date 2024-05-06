@@ -1,7 +1,11 @@
 import { React, useEffect, useState } from 'react'
 import { useConfirm } from 'material-ui-confirm'
 import TemplateInfo from 'components/TemplateInfo'
-import { getTemplateList, getSingleTemplate } from 'services/api'
+import {
+  getTemplateList,
+  getSingleTemplate,
+  deleteTemplate,
+} from 'services/api'
 import { makeStyles } from '@material-ui/core/styles'
 import SingleTemplate from './SingleTemplate'
 import Modal from '@material-ui/core/Modal'
@@ -9,7 +13,6 @@ import { useAlert } from 'context/alertDetails'
 //import { useAuth } from 'context/currentUser'
 import { useAuth } from 'context/sessionContext'
 import { useParams, useHistory } from 'react-router-dom'
-import { deleteTemplate } from 'services/api'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
