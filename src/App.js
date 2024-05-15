@@ -8,6 +8,7 @@ import theme from 'styles/theme'
 // import { CurrentUserProvider } from 'context/currentUser'
 import { SessionProvider, useAuth } from 'context/sessionContext'
 import { AlertInfoProvider } from 'context/alertDetails'
+import { ConfirmProvider } from 'material-ui-confirm'
 
 function App(props) {
   const alertProps = {
@@ -34,9 +35,11 @@ function App(props) {
       <ThemeProvider theme={theme}>
         <SessionProvider>
           <AlertInfoProvider alertProps={{ ...initAlert }}>
-            <Suspense fallback={<></>}>
-              <Routes />
-            </Suspense>
+            <ConfirmProvider>
+              <Suspense fallback={<></>}>
+                <Routes />
+              </Suspense>
+            </ConfirmProvider>
             <SimpleSnackbar alertProps={alertProps} />
           </AlertInfoProvider>
         </SessionProvider>

@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import { useConfirm } from 'material-ui-confirm'
 import { makeStyles } from '@material-ui/core/styles'
 import { useParams, useHistory } from 'react-router-dom'
-import { startEditing, saveEditChanges, discardEditChanges } from 'services/api'
+import {
+  checkEdits,
+  startEditing,
+  saveEditChanges,
+  discardEditChanges,
+} from 'services/api'
 import TemplateHeaders from 'components/TemplateHeaders'
 import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
@@ -12,6 +18,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import SimpleEditor from '../components/SimpleEditor'
 import RichTextEditor from '../components/RichTextEditor'
 import CaseList from '../components/CaseList'
+import { useAlert } from 'context/alertDetails'
 
 //import { useAuth } from 'context/currentUser'
 import { useAuth } from 'context/sessionContext'
@@ -43,18 +50,21 @@ const useStyles = makeStyles((theme) => ({
 function Editor(props) {
   const classes = useStyles()
   const { editor, id } = useParams()
-  const [data, setData] = useState([])
+  const [data, setData] = useState({})
   const [editorText, setText] = useState('')
   const [editId, setEditId] = useState('')
   const [groupEditorText, setGroupEditorText] = useState([])
-  const [headersData, setHeadersdData] = useState({})
+  const [headersData, setHeadersData] = useState({})
   const [saveEditsResponse, setSaveEditsResponse] = useState([])
   const [openCaseDialog, setOpenCaseDialog] = useState(false)
   const [selectedCase, setSelectedCase] = useState(false)
   const [isNewEdit, setIsNewEdit] = useState(false)
   const history = useHistory()
+  const { setAlertInfo } = useAlert()
 
   const { currentUser } = useAuth()
+
+  const confirm = useConfirm()
 
   useEffect(() => {
     startEditing(id)
@@ -63,7 +73,10 @@ function Editor(props) {
         setIsNewEdit(response.created)
         setEditId(response['edit_id'])
         setText(response.text.def_body_text)
-        setHeadersdData(Object.assign({}, response.headers, response.meta_data))
+        setHeadersData({
+          ...response.headers,
+          ...response.meta_data,
+        })
       })
       .catch((error) => {})
   }, [id])
@@ -73,20 +86,93 @@ function Editor(props) {
     }
   }, [selectedCase, editId])
 
+  const handleEditError = (error) => {
+    let message = 'Hi ha hagut un error.'
+    checkEdits(id)
+      .then((response) => {
+        if (
+          response?.current_edits &&
+          response?.current_edits.length > 0 &&
+          response.current_edits[0].user_id !== currentUser.id
+        ) {
+          message = `L'edició és propietat de ${response.current_edits[0].user.username}`
+        }
+        setAlertInfo({
+          open: true,
+          message: message,
+          severity: 'error',
+        })
+      })
+      .catch((error) => {
+        setAlertInfo({
+          open: true,
+          message: message,
+          severity: 'error',
+        })
+      })
+  }
+
   const saveChanges = (e) => {
     saveEditChanges(id, editorText, groupEditorText, headersData)
       .then((response) => {
         setSaveEditsResponse(response?.result)
         setIsNewEdit(false)
+        setAlertInfo({
+          open: true,
+          message: "L'edició s'ha guardat correctament.",
+          severity: 'success',
+        })
       })
-      .catch((error) => {})
+      .catch(handleEditError)
   }
-  const discardChanges = (e) => {
-    discardEditChanges(id)
-      .then((response) => {
-        history.push('/')
+
+  const changeEditor = async (e) => {
+    try {
+      const save_response = await saveEditChanges(
+        id,
+        editorText,
+        groupEditorText,
+        headersData
+      )
+      setSaveEditsResponse(save_response?.result)
+      setIsNewEdit(false)
+      setAlertInfo({
+        open: true,
+        message: "L'edició s'ha guardat correctament.",
+        severity: 'success',
       })
-      .catch((error) => {})
+
+      const start_editing_response = await startEditing(id)
+      setData(start_editing_response)
+      setIsNewEdit(start_editing_response.created)
+      setEditId(start_editing_response['edit_id'])
+      setText(start_editing_response.text.def_body_text)
+      setHeadersData({
+        ...start_editing_response.headers,
+        ...start_editing_response.meta_data,
+      })
+      if (editor === 'complex') {
+        setGroupEditorText([])
+      }
+      history.push(`/edit/${editor === 'simple' ? 'complex' : 'simple'}/${id}`)
+    } catch (error) {
+      handleEditError(error)
+    }
+  }
+
+  const discardChanges = (e) => {
+    confirm({
+      title: 'Confirmació',
+      description: "S'eliminarà l'edició permanentment, vols continuar?",
+      confirmationText: 'Continuar',
+      cancellationText: 'Cancel·lar',
+    }).then(() => {
+      discardEditChanges(id)
+        .then((response) => {
+          history.push('/')
+        })
+        .catch(handleEditError)
+    })
   }
 
   return (
@@ -95,7 +181,7 @@ function Editor(props) {
         {headersData.name}
       </Typography>
       <TemplateHeaders
-        passChildData={setHeadersdData}
+        passChildData={setHeadersData}
         enabledFields={data?.allowed_fields}
         headers={headersData}
       />
@@ -127,7 +213,7 @@ function Editor(props) {
             variant="outlined"
             onClick={(e) => discardChanges(e)}
           >
-            Descartar l'edició
+            Eliminar l'edició
           </Button>
         )}
 
@@ -150,8 +236,7 @@ function Editor(props) {
             color="secundary"
             variant="contained"
             onClick={(e) => {
-              saveChanges(e)
-              history.push(`/edit/complex/${id}`)
+              changeEditor(e)
             }}
           >
             Editor HTML
@@ -162,8 +247,7 @@ function Editor(props) {
             variant="contained"
             disabled={!currentUser?.allowed_fields?.includes('python')}
             onClick={(e) => {
-              saveChanges(e)
-              history.push(`/edit/simple/${id}`)
+              changeEditor(e)
             }}
           >
             Editor Simple

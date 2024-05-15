@@ -1,6 +1,11 @@
 import { React, useEffect, useState } from 'react'
+import { useConfirm } from 'material-ui-confirm'
 import TemplateInfo from 'components/TemplateInfo'
-import { getTemplateList, getSingleTemplate } from 'services/api'
+import {
+  getTemplateList,
+  getSingleTemplate,
+  deleteTemplate,
+} from 'services/api'
 import { makeStyles } from '@material-ui/core/styles'
 import SingleTemplate from './SingleTemplate'
 import Modal from '@material-ui/core/Modal'
@@ -8,7 +13,6 @@ import { useAlert } from 'context/alertDetails'
 //import { useAuth } from 'context/currentUser'
 import { useAuth } from 'context/sessionContext'
 import { useParams, useHistory } from 'react-router-dom'
-import { deleteTemplate } from 'services/api'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -49,6 +53,7 @@ function TemplateList(props) {
   const classes = useStyles()
   const { setAlertInfo } = useAlert()
   const { currentUser, setCurrentUser } = useAuth()
+  const confirm = useConfirm()
 
   useEffect(() => {
     if (refreshData) {
@@ -114,15 +119,22 @@ function TemplateList(props) {
   }
 
   const handleDelete = async (event, item) => {
-    event.preventDefault()
-    deleteTemplate(item.id).then((response) => {
-      setAlertInfo({
-        open: true,
-        message: response?.message,
-        severity: response?.deleted ? 'success' : 'error',
+    confirm({
+      title: 'Confirmació',
+      description: "S'eliminarà la plantilla, vols continuar?",
+      confirmationText: 'Continuar',
+      cancellationText: 'Cancel·lar',
+    }).then(() => {
+      event.preventDefault()
+      deleteTemplate(item.id).then((response) => {
+        setAlertInfo({
+          open: true,
+          message: response?.message,
+          severity: response?.deleted ? 'success' : 'error',
+        })
       })
+      setRefreshData(true)
     })
-    setRefreshData(true)
   }
 
   return (
