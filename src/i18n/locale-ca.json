@@ -5,6 +5,7 @@
   "TEMPLATE_HEADERS_LABEL_SUBJECT_CATALAN": "Asumpte (calalà)",
   "TEMPLATE_HEADERS_LABEL_SUBJECT_SPANISH": "Asumpte (castellà)",
   "TEMPLATE_HEADERS_LABEL_RECIPIENT": "Destinatari (TO)",
+  "TEMPLATE_HEADERS_LABEL_CC": "Destinatari en còpia (CC)",
   "TEMPLATE_HEADERS_LABEL_BCC": "Destinatari en còpia oculta (BCC)",
   "TEMPLATE_HEADERS_LABEL_LANGUAGE_SOURCE": "Font de l'idioma",
   "TEMPLATE_HEADERS_LABEL_MODEL_INTERNAL_NAME": "Nom intern del model",

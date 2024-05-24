@@ -5,6 +5,7 @@
   "TEMPLATE_HEADERS_LABEL_SUBJECT_CATALAN": "Asunto (calalán)",
   "TEMPLATE_HEADERS_LABEL_SUBJECT_SPANISH": "Asunto (castellano)",
   "TEMPLATE_HEADERS_LABEL_RECIPIENT": "Destinataria (TO)",
+  "TEMPLATE_HEADERS_LABEL_CC": "Destinataria en copia (CC)",
   "TEMPLATE_HEADERS_LABEL_BCC": "Destinataria en copia oculta (BCC)",
   "TEMPLATE_HEADERS_LABEL_LANGUAGE_SOURCE": "Fuente del idioma",
   "TEMPLATE_HEADERS_LABEL_MODEL_INTERNAL_NAME": "Nombre interno del modelo",
