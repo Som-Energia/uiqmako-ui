@@ -65,6 +65,7 @@ function RichTextEditor(props) {
                   if (e.key === 'Tab') e.preventDefault()
                 }}
                 init={{
+                  entity_encoding: 'raw',
                   menubar: false,
                   plugins: [
                     'advlist',
