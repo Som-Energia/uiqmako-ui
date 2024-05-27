@@ -48,6 +48,11 @@ const fields = [
   {
     label: 'TEMPLATE_HEADERS_LABEL_RECIPIENT',
     key: 'def_to',
+    width: '100%',
+  },
+  {
+    label: 'TEMPLATE_HEADERS_LABEL_CC',
+    key: 'def_cc',
     width: '49%',
     marginRight: '2%',
   },
