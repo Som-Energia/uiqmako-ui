@@ -16,12 +16,7 @@ import { List, ListItem, ListItemText, IconButton } from '@material-ui/core'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import TemplateInfo from 'components/TemplateInfo'
 
-// TODO: Download the list from api
-const sources = [
-  { key: 'PROD', description: 'Producció' },
-  { key: 'TESTING', description: 'Testing' },
-  { key: 'DUMMY', description: 'Simulat' },
-]
+const sources = [{ key: 'PROD', description: 'Producció' }]
 
 const useStyles = makeStyles((theme) => ({
   form_root: {},
