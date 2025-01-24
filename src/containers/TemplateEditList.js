@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react'
+import { React, useEffect, useState, useContext } from 'react'
 import TemplateEditInfo from 'components/TemplateEditInfo'
 import { getTemplatesEditsList, getSingleTemplate } from 'services/api'
 import { makeStyles } from '@material-ui/core/styles'
@@ -7,6 +7,7 @@ import Modal from '@material-ui/core/Modal'
 import { useAlert } from 'context/alertDetails'
 //import { useAuth } from 'context/currentUser'
 import { useAuth } from 'context/sessionContext'
+import SearchContext from 'context/searchContext'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -39,6 +40,7 @@ function TemplateEditList(props) {
   const [filteredData, setFilteredData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const { search } = props
+  const { searchText } = useContext(SearchContext)
   const [openId, setOpenId] = useState(false)
   const [open, setOpen] = useState(false)
   const [sigleTemplate, setSingleTemplate] = useState({})
@@ -58,12 +60,14 @@ function TemplateEditList(props) {
   }, [])
 
   useEffect(() => {
-    if (search && search !== '') {
+    if (searchText && searchText !== '') {
       const filtered = data.filter(
         (item) =>
-          item.template.name.toLowerCase().includes(search.toLowerCase()) ||
-          item.template.model.toLowerCase().includes(search.toLowerCase()) ||
-          item.template.xml_id.toLowerCase().includes(search.toLowerCase())
+          item.template.name.toLowerCase().includes(searchText.toLowerCase()) ||
+          item.template.model
+            .toLowerCase()
+            .includes(searchText.toLowerCase()) ||
+          item.template.xml_id.toLowerCase().includes(searchText.toLowerCase())
       )
       setFilteredData(filtered)
     } else {

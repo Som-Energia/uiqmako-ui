@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react'
+import { React, useContext, useEffect, useState } from 'react'
 import { getUsers, updateUser } from 'services/api'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
@@ -14,6 +14,7 @@ import RadioGroup from '@material-ui/core/RadioGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormControl from '@material-ui/core/FormControl'
 import SimpleSnackbar from 'components/SimpleSnackbar'
+import SearchContext from 'context/searchContext'
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 function TemplateList(props) {
   const [data, setData] = useState([])
   const [filteredData, setFilteredData] = useState([])
-  const { search } = props
+  const { searchText } = useContext(SearchContext)
   const [reload, setReload] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const classes = useStyles()
@@ -54,15 +55,15 @@ function TemplateList(props) {
   }, [reload])
 
   useEffect(() => {
-    if (search && search !== '') {
+    if (searchText && searchText !== '') {
       const filtered = data.filter((item) =>
-        item?.username?.toLowerCase().includes(search.toLowerCase())
+        item?.username?.toLowerCase().includes(searchText.toLowerCase())
       )
       setFilteredData(filtered)
     } else {
       setFilteredData(data)
     }
-  }, [search, data])
+  }, [searchText, data])
 
   useEffect(() => {
     if (changedUser && Object.keys(changedUser).length !== 0) {
