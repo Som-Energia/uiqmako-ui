@@ -73,7 +73,7 @@ function TemplateEditList(props) {
     } else {
       setFilteredData(data)
     }
-  }, [search, data])
+  }, [searchText, data])
   useEffect(() => {
     if (openId !== false) {
       getSingleTemplate(openId)
