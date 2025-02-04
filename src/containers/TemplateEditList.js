@@ -39,7 +39,6 @@ function TemplateEditList(props) {
   const [data, setData] = useState([])
   const [filteredData, setFilteredData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const { search } = props
   const { searchText } = useContext(SearchContext)
   const [openId, setOpenId] = useState(false)
   const [open, setOpen] = useState(false)
