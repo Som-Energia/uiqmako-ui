@@ -9,6 +9,7 @@ import { Axios } from '../services/axios'
 import PrivateRoute from './PrivateRoute'
 import ProtectedRoute from './ProtectedRoute'
 import LoginRoute from './LoginRoute'
+import { SearchContextProvider } from '../context/searchContext'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,18 +37,13 @@ function Routes(props) {
   Axios.setAuthContextToAxios(removeSessionToken)
 
   const classes = useStyles()
-  const [searchText, setSearchText] = useState('')
   const [searchVisible, setSearchVisible] = useState(false)
 
   const BaseScreen = ({ children }) => {
     return (
       <>
         <header>
-          <NavBar
-            searchText={searchText}
-            setSearchText={setSearchText}
-            searchVisible={searchVisible}
-          />
+          <NavBar searchVisible={searchVisible} />
         </header>
         <div className={classes.container}>
           <Menu setToken={saveToken} />
@@ -61,11 +57,7 @@ function Routes(props) {
     const MainPage = lazy(() => import('../containers/Main'))
     return (
       <BaseScreen>
-        <MainPage
-          {...props}
-          setSearchVisible={setSearchVisible}
-          search={searchText}
-        />
+        <MainPage {...props} setSearchVisible={setSearchVisible} />
       </BaseScreen>
     )
   }
@@ -94,11 +86,7 @@ function Routes(props) {
     )
     return (
       <BaseScreen>
-        <TemplateEditList
-          {...props}
-          search={searchText}
-          setSearchVisible={setSearchVisible}
-        />
+        <TemplateEditList {...props} setSearchVisible={setSearchVisible} />
       </BaseScreen>
     )
   }
@@ -142,11 +130,7 @@ function Routes(props) {
     const Users = lazy(() => import('../components/Users'))
     return (
       <BaseScreen>
-        <Users
-          {...props}
-          setSearchVisible={setSearchVisible}
-          search={searchText}
-        />
+        <Users {...props} setSearchVisible={setSearchVisible} />
       </BaseScreen>
     )
   }
@@ -160,36 +144,38 @@ function Routes(props) {
     <div className={classes.root}>
       <Router>
         <Switch>
-          <PrivateRoute exact path="/">
-            {loadMainPage()}
-          </PrivateRoute>
-          <ProtectedRoute exact path="/settings">
-            {loadUsers()}
-          </ProtectedRoute>
-          <PrivateRoute exact path="/edits">
-            {loadEdits()}
-          </PrivateRoute>
-          <PrivateRoute exact path="/templatesByModel/:model">
-            {loadTemplatesByModel()}
-          </PrivateRoute>
-          <PrivateRoute exact path="/newTemplate">
-            {loadNewTemplateForm()}
-          </PrivateRoute>
-          <PrivateRoute exact path="/templates/:id">
-            {LoadSingleTemplate()}
-          </PrivateRoute>
-          <PrivateRoute exact path="/edit/:editor/:id">
-            {LoadEditor()}
-          </PrivateRoute>
-          <PrivateRoute exact path="/validation/:template_id/:edit_id">
-            {LoadResultStepper()}
-          </PrivateRoute>
-          <PrivateRoute exact path="/render/:editId/:caseId">
-            {LoadRenderResult()}
-          </PrivateRoute>
-          <LoginRoute exact path="/login">
-            {loadLogin()}
-          </LoginRoute>
+          <SearchContextProvider>
+            <PrivateRoute exact path="/">
+              {loadMainPage()}
+            </PrivateRoute>
+            <ProtectedRoute exact path="/settings">
+              {loadUsers()}
+            </ProtectedRoute>
+            <PrivateRoute exact path="/edits">
+              {loadEdits()}
+            </PrivateRoute>
+            <PrivateRoute exact path="/templatesByModel/:model">
+              {loadTemplatesByModel()}
+            </PrivateRoute>
+            <PrivateRoute exact path="/newTemplate">
+              {loadNewTemplateForm()}
+            </PrivateRoute>
+            <PrivateRoute exact path="/templates/:id">
+              {LoadSingleTemplate()}
+            </PrivateRoute>
+            <PrivateRoute exact path="/edit/:editor/:id">
+              {LoadEditor()}
+            </PrivateRoute>
+            <PrivateRoute exact path="/validation/:template_id/:edit_id">
+              {LoadResultStepper()}
+            </PrivateRoute>
+            <PrivateRoute exact path="/render/:editId/:caseId">
+              {LoadRenderResult()}
+            </PrivateRoute>
+            <LoginRoute exact path="/login">
+              {loadLogin()}
+            </LoginRoute>
+          </SearchContextProvider>
         </Switch>
       </Router>
     </div>

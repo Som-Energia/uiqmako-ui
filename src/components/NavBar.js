@@ -4,10 +4,13 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
+import { useContext } from 'react'
+import SearchContext from 'context/searchContext'
 
 const NavBar = (props) => {
   const classes = useStyles()
-  const { searchText, setSearchText, searchVisible } = props
+  const { searchText, setSearchText } = useContext(SearchContext)
+  const { searchVisible } = props
 
   return (
     <AppBar position="static" color="inherit" elevation={0}>
