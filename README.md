@@ -19,7 +19,7 @@ cd uiqmako-ui
 cp .env.example .env
 vim .env
 
-# Install npm packages
+# Install npm packages. Warning! Need to use the 16.3 node version to be compatible with React v17.
 npm install
 
 # Run the postinstall script
