@@ -9,7 +9,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded'
 import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded'
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded'
-//import ExpandCircleDownRoundedIcon from '@material-ui/icons/ExpandCircleDownRounded'
+import MenuClosed from '@material-ui/icons/Menu'
+import MenuOpened from '@material-ui/icons/MenuOpen'
 import InfoIcon from '@material-ui/icons/Info'
 import { useHistory } from 'react-router-dom'
 //import { useAuth } from 'context/currentUser'
@@ -70,6 +71,10 @@ const useStyles = makeStyles({
   singleItem: {
     margin: '0.4rem 0',
   },
+  buttonItem: {
+    position: 'relative',
+    float: 'right',
+  },
 })
 
 function Menu(props) {
@@ -77,13 +82,18 @@ function Menu(props) {
   const history = useHistory()
   const { setToken } = props
   const { currentUser, setCurrentUser, removeSessionToken } = useAuth()
-  const [menuVisible, setMenuVisible] = useState(false)
+  const [menuVisible, setMenuVisible] = useState(true)
+  function toogleMenu() {
+    setMenuVisible((value) => !value)
+  }
   return (
     <div className={classes.menu}>
-      <IconButton>
-        <ExitToAppRoundedIcon
-          onClick={() => setMenuVisible((value) => !value)}
-        />
+      <IconButton className={classes.buttonItem}>
+        {menuVisible ? (
+          <MenuOpened onClick={() => toogleMenu()} />
+        ) : (
+          <MenuClosed onClick={() => toogleMenu()} />
+        )}
       </IconButton>
       {menuVisible ? (
         <List className={classes.menuContent}>
